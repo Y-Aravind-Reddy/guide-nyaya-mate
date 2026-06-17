@@ -83,7 +83,7 @@ function DashboardPage() {
                   : "text-muted-foreground hover:bg-muted hover:text-foreground"
               }`}
             >
-              <item.icon className="h-4.5 w-4.5" />
+              <item.icon className="h-5 w-5" />
               {item.label}
             </button>
           ))}
@@ -93,7 +93,7 @@ function DashboardPage() {
           to="/login"
           className="absolute inset-x-5 bottom-5 flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-medium text-destructive transition-colors hover:bg-destructive/10"
         >
-          <LogOut className="h-4.5 w-4.5" /> Logout
+          <LogOut className="h-5 w-5" /> Logout
         </Link>
       </aside>
 
@@ -116,7 +116,7 @@ function DashboardPage() {
             />
           </div>
           <button className="relative grid h-10 w-10 place-items-center rounded-xl border border-border bg-card text-muted-foreground hover:text-foreground" aria-label="Notifications">
-            <Bell className="h-4.5 w-4.5" />
+            <Bell className="h-5 w-5" />
             <span className="absolute right-2.5 top-2.5 h-2 w-2 rounded-full bg-accent" />
           </button>
           <div className="grid h-10 w-10 place-items-center rounded-full bg-primary text-sm font-bold text-primary-foreground">
