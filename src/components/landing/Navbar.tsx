@@ -59,7 +59,7 @@ export function Navbar() {
             <Link to="/login">Login</Link>
           </Button>
           <Button asChild className="bg-primary font-semibold text-primary-foreground shadow-soft hover:bg-primary/90">
-            <Link to="/login">Get Started</Link>
+            <Link to="/signup">Get Started</Link>
           </Button>
         </div>
 
@@ -91,7 +91,7 @@ export function Navbar() {
               <Link to="/login">Login</Link>
             </Button>
             <Button asChild className="w-full bg-primary text-primary-foreground">
-              <Link to="/login">Get Started</Link>
+              <Link to="/signup">Get Started</Link>
             </Button>
           </div>
         </div>
