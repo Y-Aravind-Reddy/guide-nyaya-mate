@@ -96,6 +96,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@NyayaMateAI" },
+      { property: "og:title", content: "NyayaMate AI — Your AI Guide for Legal Rights & Government Services" },
+      { name: "twitter:title", content: "NyayaMate AI — Your AI Guide for Legal Rights & Government Services" },
+      { name: "description", content: "NyayaMate AI provides AI-powered guidance for legal rights and government services." },
+      { property: "og:description", content: "NyayaMate AI provides AI-powered guidance for legal rights and government services." },
+      { name: "twitter:description", content: "NyayaMate AI provides AI-powered guidance for legal rights and government services." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/c5e8b9cf-30e0-47d2-836d-a0949b19a9de/id-preview-a4b7c0e0--13593b1a-b517-4c63-ae54-6cc839042331.lovable.app-1781696667521.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/c5e8b9cf-30e0-47d2-836d-a0949b19a9de/id-preview-a4b7c0e0--13593b1a-b517-4c63-ae54-6cc839042331.lovable.app-1781696667521.png" },
     ],
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
