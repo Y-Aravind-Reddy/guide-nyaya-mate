@@ -206,8 +206,11 @@ function LoginPage() {
               </a>
             </div>
 
-            <Button className="h-11 w-full bg-primary text-base font-semibold text-primary-foreground shadow-soft hover:bg-primary/90">
-              Login
+            <Button
+              asChild
+              className="h-11 w-full bg-primary text-base font-semibold text-primary-foreground shadow-soft hover:bg-primary/90"
+            >
+              <Link to="/dashboard">Login</Link>
             </Button>
           </form>
 
