@@ -220,23 +220,42 @@ function LoginPage() {
             <span className="h-px flex-1 bg-border" />
           </div>
 
-          <div className="grid grid-cols-3 gap-2.5">
-            <button className="flex flex-col items-center gap-1.5 rounded-xl border border-border bg-background py-3 text-xs font-semibold text-foreground transition-colors hover:bg-muted">
-              <GoogleIcon /> Google
+          <div className="space-y-2.5">
+            <button className="flex w-full items-center justify-center gap-2.5 rounded-xl border border-border bg-background py-2.5 text-sm font-semibold text-foreground transition-colors hover:bg-muted">
+              <GoogleIcon /> Continue with Google
             </button>
-            <button className="flex flex-col items-center gap-1.5 rounded-xl border border-border bg-background py-3 text-xs font-semibold text-foreground transition-colors hover:bg-muted">
-              <Smartphone className="h-5 w-5 text-primary" /> OTP
+            <button className="flex w-full items-center justify-center gap-2.5 rounded-xl border border-border bg-background py-2.5 text-sm font-semibold text-foreground transition-colors hover:bg-muted">
+              <ShieldCheck className="h-5 w-5 text-secondary" /> Continue with DigiLocker
             </button>
-            <button className="flex flex-col items-center gap-1.5 rounded-xl border border-border bg-background py-3 text-xs font-semibold text-foreground transition-colors hover:bg-muted">
-              <UserRound className="h-5 w-5 text-secondary" /> Guest
+            <button className="flex w-full items-center justify-center gap-2.5 rounded-xl border border-border bg-background py-2.5 text-sm font-semibold text-foreground transition-colors hover:bg-muted">
+              <Smartphone className="h-5 w-5 text-primary" /> Continue with OTP
             </button>
           </div>
 
-          <p className="mt-7 text-center text-sm text-muted-foreground">
-            Don't have an account?{" "}
-            <a href="#" className="font-semibold text-primary hover:underline">
-              Create Account
-            </a>
+          <div className="mt-6 grid grid-cols-2 gap-2.5">
+            <Button
+              asChild
+              variant="outline"
+              className="h-11 border-primary/30 text-sm font-semibold text-primary hover:bg-primary/5"
+            >
+              <Link to="/signup">Create Account</Link>
+            </Button>
+            <Button
+              asChild
+              variant="outline"
+              className="h-11 border-border text-sm font-semibold text-foreground"
+            >
+              <Link to="/dashboard">
+                <UserRound className="h-4 w-4" /> Guest Access
+              </Link>
+            </Button>
+          </div>
+
+          <p className="mt-6 text-center text-sm text-muted-foreground">
+            New to NyayaMate AI?{" "}
+            <Link to="/signup" className="font-semibold text-primary hover:underline">
+              Get started free
+            </Link>
           </p>
         </div>
 
