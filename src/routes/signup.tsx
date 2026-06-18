@@ -1,23 +1,27 @@
 import { useState } from "react";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import {
   ArrowLeft,
   CreditCard,
   Eye,
   EyeOff,
   Globe,
+  Loader2,
   Lock,
   Mail,
   Phone,
   Scale,
   ShieldCheck,
-  Smartphone,
   Sparkles,
   Home,
   UserRound,
 } from "lucide-react";
+import { z } from "zod";
+import { toast } from "sonner";
 import { Logo } from "@/components/Logo";
 import { Button } from "@/components/ui/button";
+import { supabase } from "@/integrations/supabase/client";
+import { lovable } from "@/integrations/lovable/index";
 
 export const Route = createFileRoute("/signup")({
   head: () => ({
@@ -83,11 +87,15 @@ function Field({
   icon: Icon,
   type = "text",
   placeholder,
+  value,
+  onChange,
 }: {
   label: string;
   icon: typeof Mail;
   type?: string;
   placeholder: string;
+  value?: string;
+  onChange?: (v: string) => void;
 }) {
   return (
     <div>
@@ -97,6 +105,8 @@ function Field({
         <input
           type={type}
           placeholder={placeholder}
+          value={value}
+          onChange={(e) => onChange?.(e.target.value)}
           className="flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground focus:outline-none"
         />
       </div>
@@ -104,9 +114,60 @@ function Field({
   );
 }
 
+const signupSchema = z.object({
+  full_name: z.string().trim().min(1, "Full name is required").max(100),
+  email: z.string().trim().email("Enter a valid email").max(255),
+  phone: z.string().trim().max(20).optional(),
+  password: z.string().min(8, "Password must be at least 8 characters"),
+});
+
 function SignupPage() {
+  const navigate = useNavigate();
   const [showPwd, setShowPwd] = useState(false);
   const [lang, setLang] = useState("English");
+  const [form, setForm] = useState({
+    full_name: "",
+    email: "",
+    phone: "",
+    password: "",
+    confirm: "",
+  });
+  const [accepted, setAccepted] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const set = (k: keyof typeof form, v: string) => setForm((f) => ({ ...f, [k]: v }));
+
+  const handleSignup = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const parsed = signupSchema.safeParse(form);
+    if (!parsed.success) return toast.error(parsed.error.issues[0].message);
+    if (form.password !== form.confirm) return toast.error("Passwords do not match.");
+    if (!accepted) return toast.error("Please accept the Terms and Privacy Policy.");
+
+    setLoading(true);
+    const { error } = await supabase.auth.signUp({
+      email: parsed.data.email,
+      password: parsed.data.password,
+      options: {
+        emailRedirectTo: window.location.origin,
+        data: { full_name: parsed.data.full_name, phone: parsed.data.phone ?? "" },
+      },
+    });
+    setLoading(false);
+    if (error) return toast.error(error.message);
+    toast.success("Account created! Welcome to NyayaMate AI.");
+    navigate({ to: "/dashboard" });
+  };
+
+  const handleGoogle = async () => {
+    const result = await lovable.auth.signInWithOAuth("google", {
+      redirect_uri: window.location.origin,
+    });
+    if (result.error) return toast.error("Google sign-in failed. Please try again.");
+    if (result.redirected) return;
+    navigate({ to: "/dashboard" });
+  };
+
 
   return (
     <div className="min-h-screen bg-background lg:grid lg:grid-cols-2">
@@ -190,10 +251,10 @@ function SignupPage() {
             Start your citizen journey in under a minute.
           </p>
 
-          <form className="mt-6 space-y-4" onSubmit={(e) => e.preventDefault()}>
-            <Field label="Full Name" icon={UserRound} placeholder="Your full name" />
-            <Field label="Email" icon={Mail} type="email" placeholder="you@example.com" />
-            <Field label="Phone" icon={Phone} type="tel" placeholder="+91 98765 43210" />
+          <form className="mt-6 space-y-4" onSubmit={handleSignup}>
+            <Field label="Full Name" icon={UserRound} placeholder="Your full name" value={form.full_name} onChange={(v) => set("full_name", v)} />
+            <Field label="Email" icon={Mail} type="email" placeholder="you@example.com" value={form.email} onChange={(v) => set("email", v)} />
+            <Field label="Phone" icon={Phone} type="tel" placeholder="+91 98765 43210" value={form.phone} onChange={(v) => set("phone", v)} />
 
             <div>
               <label className="mb-1.5 block text-sm font-medium text-foreground">Password</label>
@@ -202,6 +263,8 @@ function SignupPage() {
                 <input
                   type={showPwd ? "text" : "password"}
                   placeholder="••••••••"
+                  value={form.password}
+                  onChange={(e) => set("password", e.target.value)}
                   className="flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground focus:outline-none"
                 />
                 <button
@@ -215,10 +278,15 @@ function SignupPage() {
               </div>
             </div>
 
-            <Field label="Confirm Password" icon={Lock} type="password" placeholder="••••••••" />
+            <Field label="Confirm Password" icon={Lock} type="password" placeholder="••••••••" value={form.confirm} onChange={(v) => set("confirm", v)} />
 
             <label className="flex cursor-pointer items-start gap-2 text-sm text-muted-foreground">
-              <input type="checkbox" className="mt-0.5 h-4 w-4 rounded border-border accent-[var(--primary)]" />
+              <input
+                type="checkbox"
+                checked={accepted}
+                onChange={(e) => setAccepted(e.target.checked)}
+                className="mt-0.5 h-4 w-4 rounded border-border accent-[var(--primary)]"
+              />
               <span>
                 I accept the{" "}
                 <a href="#" className="font-medium text-primary hover:underline">
@@ -232,7 +300,8 @@ function SignupPage() {
               </span>
             </label>
 
-            <Button className="h-11 w-full bg-primary text-base font-semibold text-primary-foreground shadow-soft hover:bg-primary/90">
+            <Button type="submit" disabled={loading} className="h-11 w-full bg-primary text-base font-semibold text-primary-foreground shadow-soft hover:bg-primary/90">
+              {loading && <Loader2 className="h-4 w-4 animate-spin" />}
               Create Account
             </Button>
           </form>
@@ -243,14 +312,14 @@ function SignupPage() {
             <span className="h-px flex-1 bg-border" />
           </div>
 
-          <div className="grid grid-cols-2 gap-2.5">
-            <button className="flex items-center justify-center gap-2 rounded-xl border border-border bg-background py-3 text-sm font-semibold text-foreground transition-colors hover:bg-muted">
-              <GoogleIcon /> Google
-            </button>
-            <button className="flex items-center justify-center gap-2 rounded-xl border border-border bg-background py-3 text-sm font-semibold text-foreground transition-colors hover:bg-muted">
-              <Smartphone className="h-5 w-5 text-primary" /> OTP
-            </button>
-          </div>
+          <button
+            type="button"
+            onClick={handleGoogle}
+            className="flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-background py-3 text-sm font-semibold text-foreground transition-colors hover:bg-muted"
+          >
+            <GoogleIcon /> Continue with Google
+          </button>
+
 
           <p className="mt-7 text-center text-sm text-muted-foreground">
             Already have an account?{" "}
