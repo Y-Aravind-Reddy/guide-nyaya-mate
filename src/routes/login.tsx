@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import {
   ArrowLeft,
   CreditCard,
@@ -7,6 +7,7 @@ import {
   EyeOff,
   Globe,
   Home,
+  Loader2,
   Lock,
   Mail,
   Scale,
@@ -15,8 +16,12 @@ import {
   Sparkles,
   UserRound,
 } from "lucide-react";
+import { z } from "zod";
+import { toast } from "sonner";
 import { Logo } from "@/components/Logo";
 import { Button } from "@/components/ui/button";
+import { supabase } from "@/integrations/supabase/client";
+import { lovable } from "@/integrations/lovable/index";
 
 export const Route = createFileRoute("/login")({
   head: () => ({
@@ -77,8 +82,46 @@ function RobotIllustration() {
 }
 
 function LoginPage() {
+  const navigate = useNavigate();
   const [showPwd, setShowPwd] = useState(false);
   const [lang, setLang] = useState("English");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const parsed = z
+      .object({ email: z.string().trim().email(), password: z.string().min(1) })
+      .safeParse({ email, password });
+    if (!parsed.success) return toast.error("Enter a valid email and password.");
+    setLoading(true);
+    const { error } = await supabase.auth.signInWithPassword({ email: parsed.data.email, password });
+    setLoading(false);
+    if (error) return toast.error(error.message);
+    toast.success("Welcome back!");
+    navigate({ to: "/dashboard" });
+  };
+
+  const handleGoogle = async () => {
+    const result = await lovable.auth.signInWithOAuth("google", {
+      redirect_uri: window.location.origin,
+    });
+    if (result.error) return toast.error("Google sign-in failed. Please try again.");
+    if (result.redirected) return;
+    navigate({ to: "/dashboard" });
+  };
+
+  const handleForgot = async () => {
+    const parsed = z.string().trim().email().safeParse(email);
+    if (!parsed.success) return toast.error("Enter your email above first, then click Forgot Password.");
+    const { error } = await supabase.auth.resetPasswordForEmail(parsed.data, {
+      redirectTo: `${window.location.origin}/reset-password`,
+    });
+    if (error) return toast.error(error.message);
+    toast.success("Password reset link sent to your email.");
+  };
+
 
   return (
     <div className="min-h-screen bg-background lg:grid lg:grid-cols-2">
@@ -163,7 +206,7 @@ function LoginPage() {
             Sign in to continue your citizen journey.
           </p>
 
-          <form className="mt-7 space-y-4" onSubmit={(e) => e.preventDefault()}>
+          <form className="mt-7 space-y-4" onSubmit={handleLogin}>
             <div>
               <label className="mb-1.5 block text-sm font-medium text-foreground">Email</label>
               <div className="flex items-center gap-2 rounded-xl border border-border bg-background px-3.5 py-2.5 transition-colors focus-within:border-primary">
@@ -171,6 +214,8 @@ function LoginPage() {
                 <input
                   type="email"
                   placeholder="you@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground focus:outline-none"
                 />
               </div>
@@ -183,6 +228,8 @@ function LoginPage() {
                 <input
                   type={showPwd ? "text" : "password"}
                   placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   className="flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground focus:outline-none"
                 />
                 <button
@@ -201,16 +248,18 @@ function LoginPage() {
                 <input type="checkbox" className="h-4 w-4 rounded border-border accent-[var(--primary)]" />
                 Remember me
               </label>
-              <a href="#" className="text-sm font-medium text-primary hover:underline">
+              <button type="button" onClick={handleForgot} className="text-sm font-medium text-primary hover:underline">
                 Forgot Password?
-              </a>
+              </button>
             </div>
 
             <Button
-              asChild
+              type="submit"
+              disabled={loading}
               className="h-11 w-full bg-primary text-base font-semibold text-primary-foreground shadow-soft hover:bg-primary/90"
             >
-              <Link to="/dashboard">Login</Link>
+              {loading && <Loader2 className="h-4 w-4 animate-spin" />}
+              Login
             </Button>
           </form>
 
@@ -221,16 +270,23 @@ function LoginPage() {
           </div>
 
           <div className="space-y-2.5">
-            <button className="flex w-full items-center justify-center gap-2.5 rounded-xl border border-border bg-background py-2.5 text-sm font-semibold text-foreground transition-colors hover:bg-muted">
+            <button onClick={handleGoogle} className="flex w-full items-center justify-center gap-2.5 rounded-xl border border-border bg-background py-2.5 text-sm font-semibold text-foreground transition-colors hover:bg-muted">
               <GoogleIcon /> Continue with Google
             </button>
-            <button className="flex w-full items-center justify-center gap-2.5 rounded-xl border border-border bg-background py-2.5 text-sm font-semibold text-foreground transition-colors hover:bg-muted">
+            <button
+              onClick={() => toast.info("DigiLocker integration is coming soon.")}
+              className="flex w-full items-center justify-center gap-2.5 rounded-xl border border-border bg-background py-2.5 text-sm font-semibold text-foreground transition-colors hover:bg-muted"
+            >
               <ShieldCheck className="h-5 w-5 text-secondary" /> Continue with DigiLocker
             </button>
-            <button className="flex w-full items-center justify-center gap-2.5 rounded-xl border border-border bg-background py-2.5 text-sm font-semibold text-foreground transition-colors hover:bg-muted">
+            <button
+              onClick={() => toast.info("OTP login is coming soon.")}
+              className="flex w-full items-center justify-center gap-2.5 rounded-xl border border-border bg-background py-2.5 text-sm font-semibold text-foreground transition-colors hover:bg-muted"
+            >
               <Smartphone className="h-5 w-5 text-primary" /> Continue with OTP
             </button>
           </div>
+
 
           <div className="mt-6 grid grid-cols-2 gap-2.5">
             <Button
