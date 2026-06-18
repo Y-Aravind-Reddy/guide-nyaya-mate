@@ -6,7 +6,7 @@ import * as Icons from "lucide-react";
 import { PageShell } from "@/components/layouts/PageShell";
 import { servicesQuery } from "@/lib/queries";
 
-export const Route = createFileRoute("/government-services")({
+export const Route = createFileRoute("/government-services/")({
   head: () => ({
     meta: [
       { title: "Government Services — NyayaMate AI" },

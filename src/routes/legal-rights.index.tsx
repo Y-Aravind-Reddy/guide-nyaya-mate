@@ -6,7 +6,7 @@ import * as Icons from "lucide-react";
 import { PageShell } from "@/components/layouts/PageShell";
 import { legalTopicsQuery } from "@/lib/queries";
 
-export const Route = createFileRoute("/legal-rights")({
+export const Route = createFileRoute("/legal-rights/")({
   head: () => ({
     meta: [
       { title: "Legal Rights — NyayaMate AI" },
