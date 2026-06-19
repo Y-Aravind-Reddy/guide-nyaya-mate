@@ -11,9 +11,20 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SignupRouteImport } from './routes/signup'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as LoginRouteImport } from './routes/login'
-import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as LegalRightsIndexRouteImport } from './routes/legal-rights.index'
+import { Route as GovernmentServicesIndexRouteImport } from './routes/government-services.index'
+import { Route as LegalRightsSlugRouteImport } from './routes/legal-rights.$slug'
+import { Route as GovernmentServicesSlugRouteImport } from './routes/government-services.$slug'
+import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
+import { Route as AuthenticatedSavedRouteImport } from './routes/_authenticated/saved'
+import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
+import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -25,14 +36,28 @@ const SignupRoute = SignupRouteImport.update({
   path: '/signup',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DashboardRoute = DashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -40,43 +65,168 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LegalRightsIndexRoute = LegalRightsIndexRouteImport.update({
+  id: '/legal-rights/',
+  path: '/legal-rights/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GovernmentServicesIndexRoute = GovernmentServicesIndexRouteImport.update({
+  id: '/government-services/',
+  path: '/government-services/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalRightsSlugRoute = LegalRightsSlugRouteImport.update({
+  id: '/legal-rights/$slug',
+  path: '/legal-rights/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GovernmentServicesSlugRoute = GovernmentServicesSlugRouteImport.update({
+  id: '/government-services/$slug',
+  path: '/government-services/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedSavedRoute = AuthenticatedSavedRouteImport.update({
+  id: '/saved',
+  path: '/saved',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRoute
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
   '/login': typeof LoginRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/profile': typeof AuthenticatedProfileRoute
+  '/saved': typeof AuthenticatedSavedRoute
+  '/settings': typeof AuthenticatedSettingsRoute
+  '/government-services/$slug': typeof GovernmentServicesSlugRoute
+  '/legal-rights/$slug': typeof LegalRightsSlugRoute
+  '/government-services/': typeof GovernmentServicesIndexRoute
+  '/legal-rights/': typeof LegalRightsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRoute
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
   '/login': typeof LoginRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/profile': typeof AuthenticatedProfileRoute
+  '/saved': typeof AuthenticatedSavedRoute
+  '/settings': typeof AuthenticatedSettingsRoute
+  '/government-services/$slug': typeof GovernmentServicesSlugRoute
+  '/legal-rights/$slug': typeof LegalRightsSlugRoute
+  '/government-services': typeof GovernmentServicesIndexRoute
+  '/legal-rights': typeof LegalRightsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
   '/login': typeof LoginRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/profile': typeof AuthenticatedProfileRoute
+  '/_authenticated/saved': typeof AuthenticatedSavedRoute
+  '/_authenticated/settings': typeof AuthenticatedSettingsRoute
+  '/government-services/$slug': typeof GovernmentServicesSlugRoute
+  '/legal-rights/$slug': typeof LegalRightsSlugRoute
+  '/government-services/': typeof GovernmentServicesIndexRoute
+  '/legal-rights/': typeof LegalRightsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/dashboard' | '/login' | '/signup' | '/sitemap.xml'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/login'
+    | '/reset-password'
+    | '/signup'
+    | '/sitemap.xml'
+    | '/dashboard'
+    | '/profile'
+    | '/saved'
+    | '/settings'
+    | '/government-services/$slug'
+    | '/legal-rights/$slug'
+    | '/government-services/'
+    | '/legal-rights/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard' | '/login' | '/signup' | '/sitemap.xml'
-  id: '__root__' | '/' | '/dashboard' | '/login' | '/signup' | '/sitemap.xml'
+  to:
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/login'
+    | '/reset-password'
+    | '/signup'
+    | '/sitemap.xml'
+    | '/dashboard'
+    | '/profile'
+    | '/saved'
+    | '/settings'
+    | '/government-services/$slug'
+    | '/legal-rights/$slug'
+    | '/government-services'
+    | '/legal-rights'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/about'
+    | '/contact'
+    | '/login'
+    | '/reset-password'
+    | '/signup'
+    | '/sitemap.xml'
+    | '/_authenticated/dashboard'
+    | '/_authenticated/profile'
+    | '/_authenticated/saved'
+    | '/_authenticated/settings'
+    | '/government-services/$slug'
+    | '/legal-rights/$slug'
+    | '/government-services/'
+    | '/legal-rights/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  DashboardRoute: typeof DashboardRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AboutRoute: typeof AboutRoute
+  ContactRoute: typeof ContactRoute
   LoginRoute: typeof LoginRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   SignupRoute: typeof SignupRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  GovernmentServicesSlugRoute: typeof GovernmentServicesSlugRoute
+  LegalRightsSlugRoute: typeof LegalRightsSlugRoute
+  GovernmentServicesIndexRoute: typeof GovernmentServicesIndexRoute
+  LegalRightsIndexRoute: typeof LegalRightsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -95,6 +245,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SignupRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/login': {
       id: '/login'
       path: '/login'
@@ -102,11 +259,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/dashboard': {
-      id: '/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardRouteImport
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -116,26 +287,96 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/legal-rights/': {
+      id: '/legal-rights/'
+      path: '/legal-rights'
+      fullPath: '/legal-rights/'
+      preLoaderRoute: typeof LegalRightsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/government-services/': {
+      id: '/government-services/'
+      path: '/government-services'
+      fullPath: '/government-services/'
+      preLoaderRoute: typeof GovernmentServicesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legal-rights/$slug': {
+      id: '/legal-rights/$slug'
+      path: '/legal-rights/$slug'
+      fullPath: '/legal-rights/$slug'
+      preLoaderRoute: typeof LegalRightsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/government-services/$slug': {
+      id: '/government-services/$slug'
+      path: '/government-services/$slug'
+      fullPath: '/government-services/$slug'
+      preLoaderRoute: typeof GovernmentServicesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/settings': {
+      id: '/_authenticated/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AuthenticatedSettingsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/saved': {
+      id: '/_authenticated/saved'
+      path: '/saved'
+      fullPath: '/saved'
+      preLoaderRoute: typeof AuthenticatedSavedRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/profile': {
+      id: '/_authenticated/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof AuthenticatedProfileRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/dashboard': {
+      id: '/_authenticated/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AuthenticatedDashboardRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
+  AuthenticatedSavedRoute: typeof AuthenticatedSavedRoute
+  AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedProfileRoute: AuthenticatedProfileRoute,
+  AuthenticatedSavedRoute: AuthenticatedSavedRoute,
+  AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  DashboardRoute: DashboardRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AboutRoute: AboutRoute,
+  ContactRoute: ContactRoute,
   LoginRoute: LoginRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   SignupRoute: SignupRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  GovernmentServicesSlugRoute: GovernmentServicesSlugRoute,
+  LegalRightsSlugRoute: LegalRightsSlugRoute,
+  GovernmentServicesIndexRoute: GovernmentServicesIndexRoute,
+  LegalRightsIndexRoute: LegalRightsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
