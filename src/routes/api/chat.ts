@@ -58,14 +58,14 @@ export const Route = createFileRoute("/api/chat")({
             if (body.contextType === "government-service") {
               const { data: svc } = await authClient
                 .from("government_services")
-                .select("title, description, category, eligibility, fees, processing_time")
+                .select("id, title, description, category, eligibility, fees, processing_time")
                 .eq("slug", body.contextSlug)
                 .maybeSingle();
               if (svc) {
                 const { data: steps } = await authClient
                   .from("procedures")
                   .select("step_number, title, description")
-                  .eq("service_id", (svc as { id?: string }).id ?? "")
+                  .eq("service_id", svc.id)
                   .order("step_number");
                 const details = [
                   `Title: ${svc.title}`,

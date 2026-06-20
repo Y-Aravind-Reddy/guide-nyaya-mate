@@ -17,7 +17,6 @@ import { Button } from "@/components/ui/button";
 import { AiDisclaimer } from "@/components/ai/AiDisclaimer";
 import { useAuth } from "@/hooks/useAuth";
 import { submitFeedback } from "@/lib/conversations.functions";
-import { cn } from "@/lib/utils";
 
 function messageText(m: UIMessage): string {
   return m.parts.map((p) => (p.type === "text" ? p.text : "")).join("");
