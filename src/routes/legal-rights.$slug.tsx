@@ -173,6 +173,19 @@ function TopicDetail() {
             </div>
           </div>
         )}
+
+        <div className="mt-10">
+          <AskAi
+            contextType="legal-topic"
+            contextSlug={slug}
+            title={topic.title}
+            suggestions={[
+              "What are my rights here?",
+              "What should I do first?",
+              "Where can I file a complaint?",
+            ]}
+          />
+        </div>
       </section>
     </PageShell>
   );
