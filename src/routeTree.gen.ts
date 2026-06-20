@@ -26,6 +26,7 @@ import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedSavedRouteImport } from './routes/_authenticated/saved'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedChatHistoryRouteImport } from './routes/_authenticated/chat-history'
 import { Route as AuthenticatedAiChatRouteImport } from './routes/_authenticated/ai-chat'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -112,6 +113,12 @@ const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedChatHistoryRoute =
+  AuthenticatedChatHistoryRouteImport.update({
+    id: '/chat-history',
+    path: '/chat-history',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAiChatRoute = AuthenticatedAiChatRouteImport.update({
   id: '/ai-chat',
   path: '/ai-chat',
@@ -127,6 +134,7 @@ export interface FileRoutesByFullPath {
   '/signup': typeof SignupRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/ai-chat': typeof AuthenticatedAiChatRoute
+  '/chat-history': typeof AuthenticatedChatHistoryRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/saved': typeof AuthenticatedSavedRoute
@@ -146,6 +154,7 @@ export interface FileRoutesByTo {
   '/signup': typeof SignupRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/ai-chat': typeof AuthenticatedAiChatRoute
+  '/chat-history': typeof AuthenticatedChatHistoryRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/saved': typeof AuthenticatedSavedRoute
@@ -167,6 +176,7 @@ export interface FileRoutesById {
   '/signup': typeof SignupRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/_authenticated/ai-chat': typeof AuthenticatedAiChatRoute
+  '/_authenticated/chat-history': typeof AuthenticatedChatHistoryRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/saved': typeof AuthenticatedSavedRoute
@@ -188,6 +198,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/sitemap.xml'
     | '/ai-chat'
+    | '/chat-history'
     | '/dashboard'
     | '/profile'
     | '/saved'
@@ -207,6 +218,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/sitemap.xml'
     | '/ai-chat'
+    | '/chat-history'
     | '/dashboard'
     | '/profile'
     | '/saved'
@@ -227,6 +239,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/sitemap.xml'
     | '/_authenticated/ai-chat'
+    | '/_authenticated/chat-history'
     | '/_authenticated/dashboard'
     | '/_authenticated/profile'
     | '/_authenticated/saved'
@@ -375,6 +388,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/chat-history': {
+      id: '/_authenticated/chat-history'
+      path: '/chat-history'
+      fullPath: '/chat-history'
+      preLoaderRoute: typeof AuthenticatedChatHistoryRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/ai-chat': {
       id: '/_authenticated/ai-chat'
       path: '/ai-chat'
@@ -387,6 +407,7 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAiChatRoute: typeof AuthenticatedAiChatRoute
+  AuthenticatedChatHistoryRoute: typeof AuthenticatedChatHistoryRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
   AuthenticatedSavedRoute: typeof AuthenticatedSavedRoute
@@ -395,6 +416,7 @@ interface AuthenticatedRouteRouteChildren {
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAiChatRoute: AuthenticatedAiChatRoute,
+  AuthenticatedChatHistoryRoute: AuthenticatedChatHistoryRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
   AuthenticatedSavedRoute: AuthenticatedSavedRoute,
