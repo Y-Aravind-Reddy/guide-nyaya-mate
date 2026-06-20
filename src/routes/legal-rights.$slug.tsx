@@ -3,6 +3,7 @@ import { useQuery, useQueryClient, useSuspenseQuery } from "@tanstack/react-quer
 import { ArrowLeft, Bookmark, BookmarkCheck, FileText, HelpCircle, Link2 } from "lucide-react";
 import { toast } from "sonner";
 import { PageShell } from "@/components/layouts/PageShell";
+import { AskAi } from "@/components/ai/AskAi";
 import { Button } from "@/components/ui/button";
 import {
   Accordion,
@@ -172,6 +173,19 @@ function TopicDetail() {
             </div>
           </div>
         )}
+
+        <div className="mt-10">
+          <AskAi
+            contextType="legal-topic"
+            contextSlug={slug}
+            title={topic.title}
+            suggestions={[
+              "What are my rights here?",
+              "What should I do first?",
+              "Where can I file a complaint?",
+            ]}
+          />
+        </div>
       </section>
     </PageShell>
   );

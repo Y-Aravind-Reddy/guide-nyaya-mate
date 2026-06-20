@@ -2,8 +2,8 @@ import { useState, type ReactNode } from "react";
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import {
   Bell,
-  Bookmark,
   BookOpen,
+  History,
   LayoutDashboard,
   Landmark,
   LogOut,
@@ -11,6 +11,7 @@ import {
   Save,
   Search,
   Settings,
+  Sparkles,
   UserRound,
   X,
 } from "lucide-react";
@@ -20,6 +21,8 @@ import { useQueryClient } from "@tanstack/react-query";
 
 const NAV = [
   { icon: LayoutDashboard, label: "Dashboard", to: "/dashboard" },
+  { icon: Sparkles, label: "AI Chat", to: "/ai-chat" },
+  { icon: History, label: "Chat History", to: "/chat-history" },
   { icon: Landmark, label: "Government Services", to: "/government-services" },
   { icon: BookOpen, label: "Legal Topics", to: "/legal-rights" },
   { icon: Save, label: "Saved Items", to: "/saved" },

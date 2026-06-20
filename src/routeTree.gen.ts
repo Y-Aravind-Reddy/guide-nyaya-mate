@@ -21,10 +21,13 @@ import { Route as LegalRightsIndexRouteImport } from './routes/legal-rights.inde
 import { Route as GovernmentServicesIndexRouteImport } from './routes/government-services.index'
 import { Route as LegalRightsSlugRouteImport } from './routes/legal-rights.$slug'
 import { Route as GovernmentServicesSlugRouteImport } from './routes/government-services.$slug'
+import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
 import { Route as AuthenticatedSavedRouteImport } from './routes/_authenticated/saved'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedChatHistoryRouteImport } from './routes/_authenticated/chat-history'
+import { Route as AuthenticatedAiChatRouteImport } from './routes/_authenticated/ai-chat'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -85,6 +88,11 @@ const GovernmentServicesSlugRoute = GovernmentServicesSlugRouteImport.update({
   path: '/government-services/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiChatRoute = ApiChatRouteImport.update({
+  id: '/api/chat',
+  path: '/api/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
@@ -105,6 +113,17 @@ const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedChatHistoryRoute =
+  AuthenticatedChatHistoryRouteImport.update({
+    id: '/chat-history',
+    path: '/chat-history',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAiChatRoute = AuthenticatedAiChatRouteImport.update({
+  id: '/ai-chat',
+  path: '/ai-chat',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -114,10 +133,13 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/ai-chat': typeof AuthenticatedAiChatRoute
+  '/chat-history': typeof AuthenticatedChatHistoryRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/saved': typeof AuthenticatedSavedRoute
   '/settings': typeof AuthenticatedSettingsRoute
+  '/api/chat': typeof ApiChatRoute
   '/government-services/$slug': typeof GovernmentServicesSlugRoute
   '/legal-rights/$slug': typeof LegalRightsSlugRoute
   '/government-services/': typeof GovernmentServicesIndexRoute
@@ -131,10 +153,13 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/ai-chat': typeof AuthenticatedAiChatRoute
+  '/chat-history': typeof AuthenticatedChatHistoryRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/saved': typeof AuthenticatedSavedRoute
   '/settings': typeof AuthenticatedSettingsRoute
+  '/api/chat': typeof ApiChatRoute
   '/government-services/$slug': typeof GovernmentServicesSlugRoute
   '/legal-rights/$slug': typeof LegalRightsSlugRoute
   '/government-services': typeof GovernmentServicesIndexRoute
@@ -150,10 +175,13 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/_authenticated/ai-chat': typeof AuthenticatedAiChatRoute
+  '/_authenticated/chat-history': typeof AuthenticatedChatHistoryRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/saved': typeof AuthenticatedSavedRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
+  '/api/chat': typeof ApiChatRoute
   '/government-services/$slug': typeof GovernmentServicesSlugRoute
   '/legal-rights/$slug': typeof LegalRightsSlugRoute
   '/government-services/': typeof GovernmentServicesIndexRoute
@@ -169,10 +197,13 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/signup'
     | '/sitemap.xml'
+    | '/ai-chat'
+    | '/chat-history'
     | '/dashboard'
     | '/profile'
     | '/saved'
     | '/settings'
+    | '/api/chat'
     | '/government-services/$slug'
     | '/legal-rights/$slug'
     | '/government-services/'
@@ -186,10 +217,13 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/signup'
     | '/sitemap.xml'
+    | '/ai-chat'
+    | '/chat-history'
     | '/dashboard'
     | '/profile'
     | '/saved'
     | '/settings'
+    | '/api/chat'
     | '/government-services/$slug'
     | '/legal-rights/$slug'
     | '/government-services'
@@ -204,10 +238,13 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/signup'
     | '/sitemap.xml'
+    | '/_authenticated/ai-chat'
+    | '/_authenticated/chat-history'
     | '/_authenticated/dashboard'
     | '/_authenticated/profile'
     | '/_authenticated/saved'
     | '/_authenticated/settings'
+    | '/api/chat'
     | '/government-services/$slug'
     | '/legal-rights/$slug'
     | '/government-services/'
@@ -223,6 +260,7 @@ export interface RootRouteChildren {
   ResetPasswordRoute: typeof ResetPasswordRoute
   SignupRoute: typeof SignupRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  ApiChatRoute: typeof ApiChatRoute
   GovernmentServicesSlugRoute: typeof GovernmentServicesSlugRoute
   LegalRightsSlugRoute: typeof LegalRightsSlugRoute
   GovernmentServicesIndexRoute: typeof GovernmentServicesIndexRoute
@@ -315,6 +353,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GovernmentServicesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/chat': {
+      id: '/api/chat'
+      path: '/api/chat'
+      fullPath: '/api/chat'
+      preLoaderRoute: typeof ApiChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/settings': {
       id: '/_authenticated/settings'
       path: '/settings'
@@ -343,10 +388,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/chat-history': {
+      id: '/_authenticated/chat-history'
+      path: '/chat-history'
+      fullPath: '/chat-history'
+      preLoaderRoute: typeof AuthenticatedChatHistoryRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/ai-chat': {
+      id: '/_authenticated/ai-chat'
+      path: '/ai-chat'
+      fullPath: '/ai-chat'
+      preLoaderRoute: typeof AuthenticatedAiChatRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAiChatRoute: typeof AuthenticatedAiChatRoute
+  AuthenticatedChatHistoryRoute: typeof AuthenticatedChatHistoryRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
   AuthenticatedSavedRoute: typeof AuthenticatedSavedRoute
@@ -354,6 +415,8 @@ interface AuthenticatedRouteRouteChildren {
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAiChatRoute: AuthenticatedAiChatRoute,
+  AuthenticatedChatHistoryRoute: AuthenticatedChatHistoryRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
   AuthenticatedSavedRoute: AuthenticatedSavedRoute,
@@ -372,6 +435,7 @@ const rootRouteChildren: RootRouteChildren = {
   ResetPasswordRoute: ResetPasswordRoute,
   SignupRoute: SignupRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  ApiChatRoute: ApiChatRoute,
   GovernmentServicesSlugRoute: GovernmentServicesSlugRoute,
   LegalRightsSlugRoute: LegalRightsSlugRoute,
   GovernmentServicesIndexRoute: GovernmentServicesIndexRoute,
@@ -380,13 +444,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

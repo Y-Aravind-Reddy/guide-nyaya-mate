@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { PageShell } from "@/components/layouts/PageShell";
+import { AskAi } from "@/components/ai/AskAi";
 import { Button } from "@/components/ui/button";
 import { serviceDetailQuery } from "@/lib/queries";
 import { useAuth } from "@/hooks/useAuth";
@@ -166,6 +167,19 @@ function ServiceDetail() {
               ))}
             </ul>
           </div>
+        </div>
+
+        <div className="mt-10">
+          <AskAi
+            contextType="government-service"
+            contextSlug={slug}
+            title={service.title}
+            suggestions={[
+              "What documents do I need?",
+              "Am I eligible to apply?",
+              "How long does it take?",
+            ]}
+          />
         </div>
       </section>
     </PageShell>
