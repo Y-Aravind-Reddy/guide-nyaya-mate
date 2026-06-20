@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { PageShell } from "@/components/layouts/PageShell";
+import { AskAi } from "@/components/ai/AskAi";
 import { Button } from "@/components/ui/button";
 import { serviceDetailQuery } from "@/lib/queries";
 import { useAuth } from "@/hooks/useAuth";

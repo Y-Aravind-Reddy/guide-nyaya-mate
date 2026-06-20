@@ -3,6 +3,7 @@ import { useQuery, useQueryClient, useSuspenseQuery } from "@tanstack/react-quer
 import { ArrowLeft, Bookmark, BookmarkCheck, FileText, HelpCircle, Link2 } from "lucide-react";
 import { toast } from "sonner";
 import { PageShell } from "@/components/layouts/PageShell";
+import { AskAi } from "@/components/ai/AskAi";
 import { Button } from "@/components/ui/button";
 import {
   Accordion,
