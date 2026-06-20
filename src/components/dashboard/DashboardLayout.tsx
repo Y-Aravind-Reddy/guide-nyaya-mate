@@ -8,7 +8,6 @@ import {
   Landmark,
   LogOut,
   Menu,
-  MessagesSquare,
   Save,
   Search,
   Settings,
