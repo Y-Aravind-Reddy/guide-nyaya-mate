@@ -3,6 +3,7 @@ import { CloudUpload, FileText, Loader2, CheckCircle2, XCircle } from "lucide-re
 import { cn } from "@/lib/utils";
 
 export type UploadItem = {
+  id: string;
   name: string;
   progress: number;
   status: "uploading" | "processing" | "done" | "error";
