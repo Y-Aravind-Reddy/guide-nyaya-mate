@@ -97,7 +97,34 @@ export function DashboardLayout({
               </Link>
             );
           })}
+
+          {isAdmin && (
+            <>
+              <p className="px-3.5 pb-1 pt-4 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                Admin
+              </p>
+              {ADMIN_NAV.map((item) => {
+                const active = pathname === item.to;
+                return (
+                  <Link
+                    key={item.label}
+                    to={item.to}
+                    onClick={() => setOpen(false)}
+                    className={`flex w-full items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-medium transition-colors ${
+                      active
+                        ? "bg-primary text-primary-foreground shadow-soft"
+                        : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                    }`}
+                  >
+                    <item.icon className="h-5 w-5" />
+                    {item.label}
+                  </Link>
+                );
+              })}
+            </>
+          )}
         </nav>
+
 
         <button
           onClick={handleSignOut}
