@@ -255,6 +255,33 @@ export const listChunks = createServerFn({ method: "GET" })
     return rows ?? [];
   });
 
+export const reEmbedChunk = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) => z.object({ id: z.string().uuid() }).parse(d))
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context);
+    const { data: chunk, error } = await context.supabase
+      .from("rag_chunks")
+      .select("id, chunk_text, embedding_model")
+      .eq("id", data.id)
+      .maybeSingle();
+    if (error) throw new Error(error.message);
+    if (!chunk) throw new Error("Chunk not found");
+    const model = chunk.embedding_model ?? "google/gemini-embedding-001";
+    const [embedding] = await embedTexts([chunk.chunk_text], model);
+    const { error: upErr } = await context.supabase
+      .from("rag_chunks")
+      .update({
+        embedding: embedding ? toVectorLiteral(embedding) : null,
+        embedding_status: embedding ? "embedded" : "pending",
+        embedding_model: model,
+        model_version: model,
+      })
+      .eq("id", data.id);
+    if (upErr) throw new Error(upErr.message);
+    return { ok: true };
+  });
+
 export const deleteChunk = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) =>
