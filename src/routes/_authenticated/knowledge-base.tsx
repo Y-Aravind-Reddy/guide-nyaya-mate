@@ -152,7 +152,7 @@ function KnowledgeBasePage() {
 
   // ---- mutations
   const saveMeta = useMutation({
-    mutationFn: (form: MetaForm) => {
+    mutationFn: async (form: MetaForm) => {
       const payload = {
         ...form,
         slug: form.slug || null,
