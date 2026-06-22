@@ -161,9 +161,8 @@ function KnowledgeBasePage() {
         model_version: form.model_version || null,
         tags: form.tags.split(",").map((t) => t.trim()).filter(Boolean),
       };
-      return editDoc
-        ? updateFn({ data: { id: editDoc.id, ...payload } })
-        : createFn({ data: payload });
+      if (editDoc) await updateFn({ data: { id: editDoc.id, ...payload } });
+      else await createFn({ data: payload });
     },
     onSuccess: () => {
       toast.success(editDoc ? "Metadata updated" : "Document created");
