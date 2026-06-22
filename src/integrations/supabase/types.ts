@@ -201,6 +201,164 @@ export type Database = {
         }
         Relationships: []
       }
+      ingestion_jobs: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          document_id: string
+          error_message: string | null
+          id: string
+          started_at: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          document_id: string
+          error_message?: string | null
+          id?: string
+          started_at?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          document_id?: string
+          error_message?: string | null
+          id?: string
+          started_at?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ingestion_jobs_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "knowledge_documents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      knowledge_categories: {
+        Row: {
+          color: string | null
+          created_at: string
+          description: string | null
+          icon: string | null
+          id: string
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          color?: string | null
+          created_at?: string
+          description?: string | null
+          icon?: string | null
+          id?: string
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          color?: string | null
+          created_at?: string
+          description?: string | null
+          icon?: string | null
+          id?: string
+          name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      knowledge_documents: {
+        Row: {
+          author: string | null
+          category: string | null
+          chunk_count: number
+          created_at: string
+          description: string | null
+          embedding_model: string
+          file_path: string | null
+          file_size: number | null
+          file_type: string | null
+          id: string
+          jurisdiction: string | null
+          language: string
+          last_processed_at: string | null
+          last_verified_date: string | null
+          model_version: string | null
+          slug: string | null
+          source: string
+          source_url: string | null
+          state: string | null
+          status: string
+          tags: string[]
+          title: string
+          updated_at: string
+          uploaded_by: string | null
+          version: string
+          visibility: string
+        }
+        Insert: {
+          author?: string | null
+          category?: string | null
+          chunk_count?: number
+          created_at?: string
+          description?: string | null
+          embedding_model?: string
+          file_path?: string | null
+          file_size?: number | null
+          file_type?: string | null
+          id?: string
+          jurisdiction?: string | null
+          language?: string
+          last_processed_at?: string | null
+          last_verified_date?: string | null
+          model_version?: string | null
+          slug?: string | null
+          source?: string
+          source_url?: string | null
+          state?: string | null
+          status?: string
+          tags?: string[]
+          title: string
+          updated_at?: string
+          uploaded_by?: string | null
+          version?: string
+          visibility?: string
+        }
+        Update: {
+          author?: string | null
+          category?: string | null
+          chunk_count?: number
+          created_at?: string
+          description?: string | null
+          embedding_model?: string
+          file_path?: string | null
+          file_size?: number | null
+          file_type?: string | null
+          id?: string
+          jurisdiction?: string | null
+          language?: string
+          last_processed_at?: string | null
+          last_verified_date?: string | null
+          model_version?: string | null
+          slug?: string | null
+          source?: string
+          source_url?: string | null
+          state?: string | null
+          status?: string
+          tags?: string[]
+          title?: string
+          updated_at?: string
+          uploaded_by?: string | null
+          version?: string
+          visibility?: string
+        }
+        Relationships: []
+      }
       legal_topics: {
         Row: {
           category: string
@@ -348,6 +506,65 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      rag_chunks: {
+        Row: {
+          chunk_index: number
+          chunk_text: string
+          chunk_title: string | null
+          created_at: string
+          document_id: string
+          embedding: string | null
+          embedding_model: string | null
+          embedding_status: string
+          id: string
+          metadata: Json
+          model_version: string | null
+          source_section: string | null
+          token_count: number | null
+          updated_at: string
+        }
+        Insert: {
+          chunk_index?: number
+          chunk_text: string
+          chunk_title?: string | null
+          created_at?: string
+          document_id: string
+          embedding?: string | null
+          embedding_model?: string | null
+          embedding_status?: string
+          id?: string
+          metadata?: Json
+          model_version?: string | null
+          source_section?: string | null
+          token_count?: number | null
+          updated_at?: string
+        }
+        Update: {
+          chunk_index?: number
+          chunk_text?: string
+          chunk_title?: string | null
+          created_at?: string
+          document_id?: string
+          embedding?: string | null
+          embedding_model?: string | null
+          embedding_status?: string
+          id?: string
+          metadata?: Json
+          model_version?: string | null
+          source_section?: string | null
+          token_count?: number | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rag_chunks_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "knowledge_documents"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       required_documents: {
         Row: {
