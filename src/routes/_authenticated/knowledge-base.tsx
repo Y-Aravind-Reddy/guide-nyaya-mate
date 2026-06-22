@@ -214,11 +214,11 @@ function KnowledgeBasePage() {
       const ext = fileExt(file.name);
       const folder = FOLDER[category === "all" ? "" : category] ?? "custom";
       const path = `${folder}/${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.\-_]/g, "_")}`;
-      setUploads((u) => [...u, { name: file.name, progress: 10, status: "uploading" }]);
-      const idx = uploads.length;
+      const uid = `${path}`;
+      setUploads((u) => [...u, { name: file.name, progress: 10, status: "uploading", id: uid } as UploadItem]);
 
       const upd = (patch: Partial<UploadItem>) =>
-        setUploads((u) => u.map((it, i) => (i === idx ? { ...it, ...patch } : it)));
+        setUploads((u) => u.map((it) => (it.id === uid ? { ...it, ...patch } : it)));
 
       try {
         const { error: upErr } = await supabase.storage
