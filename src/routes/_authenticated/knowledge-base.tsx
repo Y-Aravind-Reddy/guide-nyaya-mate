@@ -97,7 +97,7 @@ function KnowledgeBasePage() {
   const [previewOpen, setPreviewOpen] = useState(false);
 
   // debounce search
-  useMemo(() => {
+  useEffect(() => {
     const t = setTimeout(() => {
       setDebounced(search);
       setPage(1);
