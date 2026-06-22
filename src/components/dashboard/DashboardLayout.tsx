@@ -3,6 +3,7 @@ import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import {
   Bell,
   BookOpen,
+  Database,
   History,
   LayoutDashboard,
   Landmark,
@@ -17,6 +18,7 @@ import {
 } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { useAuth } from "@/hooks/useAuth";
+import { useIsAdmin } from "@/hooks/useIsAdmin";
 import { useQueryClient } from "@tanstack/react-query";
 
 const NAV = [
@@ -28,6 +30,10 @@ const NAV = [
   { icon: Save, label: "Saved Items", to: "/saved" },
   { icon: UserRound, label: "Profile", to: "/profile" },
   { icon: Settings, label: "Settings", to: "/settings" },
+] as const;
+
+const ADMIN_NAV = [
+  { icon: Database, label: "Knowledge Base", to: "/knowledge-base" },
 ] as const;
 
 export function DashboardLayout({
