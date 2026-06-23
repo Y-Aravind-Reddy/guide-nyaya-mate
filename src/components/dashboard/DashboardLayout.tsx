@@ -1,9 +1,11 @@
 import { useState, type ReactNode } from "react";
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import {
+  Activity,
   Bell,
   BookOpen,
   Database,
+  Gauge,
   History,
   LayoutDashboard,
   Landmark,
@@ -34,6 +36,8 @@ const NAV = [
 
 const ADMIN_NAV = [
   { icon: Database, label: "Knowledge Base", to: "/knowledge-base" },
+  { icon: Activity, label: "Retrieval Analytics", to: "/retrieval-analytics" },
+  { icon: Gauge, label: "Knowledge Health", to: "/knowledge-health" },
 ] as const;
 
 export function DashboardLayout({

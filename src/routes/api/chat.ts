@@ -2,10 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { convertToModelMessages, streamText, type UIMessage } from "ai";
 import { createClient } from "@supabase/supabase-js";
 import { createLovableAiGatewayProvider } from "@/lib/ai-gateway.server";
-import {
-  BASE_SYSTEM_PROMPT,
-  contextSystemPrompt,
-} from "@/lib/ai-prompts";
+import { embedTexts, toVectorLiteral } from "@/lib/kb.server";
+import { BASE_SYSTEM_PROMPT, contextSystemPrompt } from "@/lib/ai-prompts";
 
 type Body = {
   messages?: unknown;
@@ -14,12 +12,38 @@ type Body = {
   contextSlug?: string;
 };
 
+// Indian states/UTs used to detect jurisdiction in a query and prioritise chunks.
+const STATES = [
+  "Andhra Pradesh", "Telangana", "Karnataka", "Tamil Nadu", "Kerala", "Maharashtra",
+  "Gujarat", "Rajasthan", "Punjab", "Haryana", "Uttar Pradesh", "Madhya Pradesh",
+  "Bihar", "West Bengal", "Odisha", "Assam", "Jharkhand", "Chhattisgarh",
+  "Uttarakhand", "Himachal Pradesh", "Goa", "Delhi",
+];
+
+function detectState(text: string): string | null {
+  const lower = text.toLowerCase();
+  for (const s of STATES) if (lower.includes(s.toLowerCase())) return s;
+  return null;
+}
+
 function partsToText(m: UIMessage): string {
   return m.parts
     .map((p) => (p.type === "text" ? p.text : ""))
     .join("")
-    .slice(0, 8000); // cap to limit prompt-injection payload size
+    .slice(0, 8000);
 }
+
+type RetrievedChunk = {
+  chunk_id: string;
+  chunk_text: string;
+  similarity: number;
+  doc_title: string;
+  source: string | null;
+  source_url: string | null;
+  content_trust_level: string;
+  last_verified_date: string | null;
+  confidence_score: number | null;
+};
 
 export const Route = createFileRoute("/api/chat")({
   server: {
@@ -28,7 +52,6 @@ export const Route = createFileRoute("/api/chat")({
         const key = process.env.LOVABLE_API_KEY;
         if (!key) return new Response("AI not configured", { status: 500 });
 
-        // ---- Auth: verify the bearer token ----
         const authHeader = request.headers.get("Authorization") ?? "";
         const token = authHeader.replace(/^Bearer\s+/i, "").trim();
         if (!token) return new Response("Unauthorized", { status: 401 });
@@ -51,7 +74,7 @@ export const Route = createFileRoute("/api/chat")({
         }
         const messages = body.messages as UIMessage[];
 
-        // ---- Build system prompt (optionally page-scoped) ----
+        // ---- Base / page-scoped system prompt ----
         let system = BASE_SYSTEM_PROMPT;
         if (body.contextType && body.contextSlug) {
           try {
@@ -110,12 +133,89 @@ export const Route = createFileRoute("/api/chat")({
               }
             }
           } catch {
-            // fall back to base prompt
+            /* fall back to base prompt */
           }
+        }
+
+        // ---- RAG retrieval over the Knowledge Base ----
+        const lastUser = [...messages].reverse().find((m) => m.role === "user");
+        const query = lastUser ? partsToText(lastUser) : "";
+        let retrieved: RetrievedChunk[] = [];
+        let retrievalMs = 0;
+        let retrievalSucceeded = false;
+        const filterState = detectState(query);
+
+        if (query.trim()) {
+          const tStart = Date.now();
+          try {
+            const [embedding] = await embedTexts([query]);
+            if (embedding) {
+              const { data: chunks, error } = await authClient.rpc("match_chunks", {
+                query_embedding: toVectorLiteral(embedding),
+                match_count: 6,
+                filter_state: filterState,
+              });
+              if (!error && Array.isArray(chunks)) {
+                retrieved = chunks as RetrievedChunk[];
+                retrievalSucceeded = retrieved.length > 0;
+              }
+            }
+          } catch (e) {
+            console.error("RAG retrieval error", e);
+          }
+          retrievalMs = Date.now() - tStart;
+        }
+
+        if (retrieved.length) {
+          const sourcesBlock = retrieved
+            .map((c, i) => {
+              const verified = c.last_verified_date
+                ? new Date(c.last_verified_date).toLocaleDateString("en-IN", {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric",
+                  })
+                : "Not specified";
+              return [
+                `--- KB Source [${i + 1}] ---`,
+                `Document: ${c.doc_title}`,
+                `Authority/Source: ${c.source ?? "Internal"}`,
+                c.source_url ? `URL: ${c.source_url}` : "",
+                `Trust Level: ${c.content_trust_level}`,
+                `Last Verified: ${verified}`,
+                `Content: ${c.chunk_text}`,
+              ]
+                .filter(Boolean)
+                .join("\n");
+            })
+            .join("\n\n");
+
+          system = `${system}
+
+=== RETRIEVED KNOWLEDGE BASE CONTEXT (grounding) ===
+Use ONLY the verified context below as your primary source of truth. Prefer higher trust levels (official > verified > reviewed). ${
+            filterState ? `The user is asking about ${filterState}; prioritise ${filterState}-specific guidance.` : ""
+          }
+If the context does not answer the question, say so clearly and advise verifying with the official authority — do not invent facts.
+
+At the END of every answer that uses this context, append a "Sources" section listing the Document title, Authority, URL (if any), and Last Verified date for each source you used.
+
+${sourcesBlock}
+=== END CONTEXT ===`;
         }
 
         const gateway = createLovableAiGatewayProvider(key);
         const model = gateway("google/gemini-3-flash-preview");
+        const modelName = "google/gemini-3-flash-preview";
+        const responseStart = Date.now();
+
+        const avgConfidence = retrieved.length
+          ? Number(
+              (
+                retrieved.reduce((s, c) => s + (c.similarity ?? 0), 0) / retrieved.length
+              ).toFixed(3),
+            )
+          : null;
 
         const result = streamText({
           model,
@@ -128,12 +228,27 @@ export const Route = createFileRoute("/api/chat")({
           originalMessages: messages,
           onFinish: async ({ responseMessage }) => {
             try {
+              // ---- Retrieval log (RLS: user inserts own) ----
+              await authClient.from("retrieval_logs").insert({
+                user_id: userId,
+                query: query.slice(0, 2000),
+                retrieved_chunk_ids: retrieved.map((c) => c.chunk_id),
+                retrieval_time_ms: retrievalMs,
+                response_time_ms: Date.now() - responseStart,
+                model_used: modelName,
+                confidence_score: avgConfidence,
+                succeeded: retrievalSucceeded,
+              });
+            } catch (e) {
+              console.error("retrieval log error", e);
+            }
+
+            try {
               const { supabaseAdmin } = await import(
                 "@/integrations/supabase/client.server"
               );
               let conversationId = body.conversationId;
 
-              // Create conversation if needed
               if (!conversationId) {
                 const firstUser = messages.find((m) => m.role === "user");
                 const title = firstUser
@@ -160,7 +275,6 @@ export const Route = createFileRoute("/api/chat")({
 
               if (!conversationId) return;
 
-              const lastUser = [...messages].reverse().find((m) => m.role === "user");
               const rows = [];
               if (lastUser) {
                 rows.push({

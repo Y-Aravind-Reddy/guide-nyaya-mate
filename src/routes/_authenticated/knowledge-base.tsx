@@ -38,6 +38,8 @@ import {
 import { Button } from "@/components/ui/button";
 import {
   kbStats,
+  kbAnalytics,
+  reviewQueue,
   listDocuments,
   listKbCategories,
   createDocument,
@@ -119,6 +121,18 @@ function KnowledgeBasePage() {
     queryFn: () => statsFn(),
     enabled: isAdmin,
   });
+  const analyticsFn = useServerFn(kbAnalytics);
+  const reviewFn = useServerFn(reviewQueue);
+  const { data: analytics } = useQuery({
+    queryKey: ["kb_analytics"],
+    queryFn: () => analyticsFn(),
+    enabled: isAdmin,
+  });
+  const { data: review } = useQuery({
+    queryKey: ["kb_review"],
+    queryFn: () => reviewFn(),
+    enabled: isAdmin,
+  });
   const { data: cats = [] } = useQuery({
     queryKey: ["kb_categories"],
     queryFn: () => catsFn(),
@@ -148,6 +162,8 @@ function KnowledgeBasePage() {
   const refreshAll = () => {
     qc.invalidateQueries({ queryKey: ["kb_documents"] });
     qc.invalidateQueries({ queryKey: ["kb_stats"] });
+    qc.invalidateQueries({ queryKey: ["kb_analytics"] });
+    qc.invalidateQueries({ queryKey: ["kb_review"] });
   };
 
   // ---- mutations
@@ -158,7 +174,13 @@ function KnowledgeBasePage() {
         slug: form.slug || null,
         source_url: form.source_url || null,
         last_verified_date: form.last_verified_date || null,
+        next_review_date: form.next_review_date || null,
         model_version: form.model_version || null,
+        change_log: form.change_log || null,
+        content_trust_level: form.content_trust_level as
+          | "official" | "verified" | "reviewed" | "draft" | "community" | "imported",
+        review_status: form.review_status as
+          | "up_to_date" | "needs_review" | "expired" | "archived",
         tags: form.tags.split(",").map((t) => t.trim()).filter(Boolean),
       };
       if (editDoc) await updateFn({ data: { id: editDoc.id, ...payload } });
@@ -327,6 +349,45 @@ function KnowledgeBasePage() {
           </div>
         ))}
       </div>
+
+      {/* Extended analytics */}
+      <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {[
+          { label: "Official Sources", value: analytics?.officialSources ?? 0 },
+          { label: "Verified Sources", value: analytics?.verifiedSources ?? 0 },
+          { label: "Avg Confidence", value: `${Math.round((analytics?.avgConfidence ?? 0) * 100)}%` },
+          {
+            label: "Avg Feedback",
+            value: analytics?.feedbackCount
+              ? `${Math.round((analytics?.avgFeedback ?? 0) * 100)}%`
+              : "—",
+          },
+        ].map((a) => (
+          <div key={a.label} className="rounded-[20px] border border-border bg-card p-4 shadow-card">
+            <p className="text-2xl font-extrabold text-foreground">{a.value}</p>
+            <p className="text-xs text-muted-foreground">{a.label}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Review alert */}
+      {(review?.count ?? 0) > 0 && (
+        <div className="mt-4 flex items-center gap-3 rounded-[20px] border border-accent/40 bg-accent/10 p-4">
+          <span className="grid h-10 w-10 place-items-center rounded-2xl bg-accent/20 text-accent">
+            <Clock className="h-5 w-5" />
+          </span>
+          <div>
+            <p className="text-sm font-bold text-foreground">
+              ⚠️ {review?.count} document{(review?.count ?? 0) === 1 ? "" : "s"} require verification
+            </p>
+            <p className="text-xs text-muted-foreground">
+              Review documents flagged as needs-review, expired, or past their next review date.
+            </p>
+          </div>
+        </div>
+      )}
+
+
 
       {/* Upload */}
       <div className="mt-6">

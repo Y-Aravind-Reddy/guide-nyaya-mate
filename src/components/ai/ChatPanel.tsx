@@ -102,9 +102,16 @@ export function ChatPanel({
     toast.success("Copied to clipboard");
   };
 
-  const feedback = async (rating: "up" | "down") => {
+  const feedback = async (rating: "up" | "down", response: string) => {
+    const lastUser = [...messages].reverse().find((m) => m.role === "user");
     try {
-      await submitFeedback({ data: { rating } });
+      await submitFeedback({
+        data: {
+          rating,
+          query: lastUser ? messageText(lastUser).slice(0, 4000) : undefined,
+          response: response.slice(0, 8000),
+        },
+      });
       toast.success("Thanks for your feedback!");
     } catch {
       toast.error("Could not save feedback");
@@ -159,14 +166,14 @@ export function ChatPanel({
                     <RefreshCw className="h-3.5 w-3.5" />
                   </button>
                   <button
-                    onClick={() => feedback("up")}
+                    onClick={() => feedback("up", text)}
                     className="rounded-md p-1.5 hover:bg-muted"
                     title="Helpful"
                   >
                     <ThumbsUp className="h-3.5 w-3.5" />
                   </button>
                   <button
-                    onClick={() => feedback("down")}
+                    onClick={() => feedback("down", text)}
                     className="rounded-md p-1.5 hover:bg-muted"
                     title="Not helpful"
                   >
