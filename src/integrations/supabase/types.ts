@@ -42,25 +42,34 @@ export type Database = {
         Row: {
           comment: string | null
           created_at: string
+          feedback_comment: string | null
           id: string
           message_id: string
+          query: string | null
           rating: string
+          response: string | null
           user_id: string
         }
         Insert: {
           comment?: string | null
           created_at?: string
+          feedback_comment?: string | null
           id?: string
           message_id: string
+          query?: string | null
           rating: string
+          response?: string | null
           user_id: string
         }
         Update: {
           comment?: string | null
           created_at?: string
+          feedback_comment?: string | null
           id?: string
           message_id?: string
+          query?: string | null
           rating?: string
+          response?: string | null
           user_id?: string
         }
         Relationships: [
@@ -161,6 +170,53 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      document_versions: {
+        Row: {
+          change_log: string | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          document_id: string
+          id: string
+          published_at: string | null
+          snapshot: Json | null
+          title: string | null
+          version: string
+        }
+        Insert: {
+          change_log?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          document_id: string
+          id?: string
+          published_at?: string | null
+          snapshot?: Json | null
+          title?: string | null
+          version: string
+        }
+        Update: {
+          change_log?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          document_id?: string
+          id?: string
+          published_at?: string | null
+          snapshot?: Json | null
+          title?: string | null
+          version?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "document_versions_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "knowledge_documents"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       government_services: {
         Row: {
@@ -276,19 +332,33 @@ export type Database = {
         Row: {
           author: string | null
           category: string | null
+          change_log: string | null
           chunk_count: number
+          content_trust_level: Database["public"]["Enums"]["content_trust_level"]
+          country: string | null
           created_at: string
           description: string | null
+          district: string | null
           embedding_model: string
+          file_hash: string | null
           file_path: string | null
           file_size: number | null
           file_type: string | null
           id: string
+          is_latest: boolean
           jurisdiction: string | null
+          jurisdiction_type: string | null
           language: string
           last_processed_at: string | null
           last_verified_date: string | null
           model_version: string | null
+          next_review_date: string | null
+          previous_document_id: string | null
+          published_at: string | null
+          review_frequency: string | null
+          review_status: Database["public"]["Enums"]["doc_review_status"]
+          reviewed_by: string | null
+          sha256: string | null
           slug: string | null
           source: string
           source_url: string | null
@@ -304,19 +374,33 @@ export type Database = {
         Insert: {
           author?: string | null
           category?: string | null
+          change_log?: string | null
           chunk_count?: number
+          content_trust_level?: Database["public"]["Enums"]["content_trust_level"]
+          country?: string | null
           created_at?: string
           description?: string | null
+          district?: string | null
           embedding_model?: string
+          file_hash?: string | null
           file_path?: string | null
           file_size?: number | null
           file_type?: string | null
           id?: string
+          is_latest?: boolean
           jurisdiction?: string | null
+          jurisdiction_type?: string | null
           language?: string
           last_processed_at?: string | null
           last_verified_date?: string | null
           model_version?: string | null
+          next_review_date?: string | null
+          previous_document_id?: string | null
+          published_at?: string | null
+          review_frequency?: string | null
+          review_status?: Database["public"]["Enums"]["doc_review_status"]
+          reviewed_by?: string | null
+          sha256?: string | null
           slug?: string | null
           source?: string
           source_url?: string | null
@@ -332,19 +416,33 @@ export type Database = {
         Update: {
           author?: string | null
           category?: string | null
+          change_log?: string | null
           chunk_count?: number
+          content_trust_level?: Database["public"]["Enums"]["content_trust_level"]
+          country?: string | null
           created_at?: string
           description?: string | null
+          district?: string | null
           embedding_model?: string
+          file_hash?: string | null
           file_path?: string | null
           file_size?: number | null
           file_type?: string | null
           id?: string
+          is_latest?: boolean
           jurisdiction?: string | null
+          jurisdiction_type?: string | null
           language?: string
           last_processed_at?: string | null
           last_verified_date?: string | null
           model_version?: string | null
+          next_review_date?: string | null
+          previous_document_id?: string | null
+          published_at?: string | null
+          review_frequency?: string | null
+          review_status?: Database["public"]["Enums"]["doc_review_status"]
+          reviewed_by?: string | null
+          sha256?: string | null
           slug?: string | null
           source?: string
           source_url?: string | null
@@ -357,7 +455,89 @@ export type Database = {
           version?: string
           visibility?: string
         }
+        Relationships: [
+          {
+            foreignKeyName: "knowledge_documents_previous_document_id_fkey"
+            columns: ["previous_document_id"]
+            isOneToOne: false
+            referencedRelation: "knowledge_documents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      knowledge_health_metrics: {
+        Row: {
+          captured_at: string
+          details: Json | null
+          id: string
+          metric_key: string
+          metric_value: number | null
+        }
+        Insert: {
+          captured_at?: string
+          details?: Json | null
+          id?: string
+          metric_key: string
+          metric_value?: number | null
+        }
+        Update: {
+          captured_at?: string
+          details?: Json | null
+          id?: string
+          metric_key?: string
+          metric_value?: number | null
+        }
         Relationships: []
+      }
+      knowledge_sources: {
+        Row: {
+          citation_text: string | null
+          created_at: string
+          created_by: string | null
+          document_id: string | null
+          id: string
+          last_verified_at: string | null
+          official_authority: string | null
+          source_title: string
+          source_type: Database["public"]["Enums"]["knowledge_source_type"]
+          source_url: string | null
+          updated_at: string
+        }
+        Insert: {
+          citation_text?: string | null
+          created_at?: string
+          created_by?: string | null
+          document_id?: string | null
+          id?: string
+          last_verified_at?: string | null
+          official_authority?: string | null
+          source_title: string
+          source_type?: Database["public"]["Enums"]["knowledge_source_type"]
+          source_url?: string | null
+          updated_at?: string
+        }
+        Update: {
+          citation_text?: string | null
+          created_at?: string
+          created_by?: string | null
+          document_id?: string | null
+          id?: string
+          last_verified_at?: string | null
+          official_authority?: string | null
+          source_title?: string
+          source_type?: Database["public"]["Enums"]["knowledge_source_type"]
+          source_url?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "knowledge_sources_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "knowledge_documents"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       legal_topics: {
         Row: {
@@ -510,8 +690,11 @@ export type Database = {
       rag_chunks: {
         Row: {
           chunk_index: number
+          chunk_status: string
           chunk_text: string
           chunk_title: string | null
+          chunk_type: Database["public"]["Enums"]["chunk_type"] | null
+          confidence_score: number | null
           created_at: string
           document_id: string
           embedding: string | null
@@ -520,14 +703,18 @@ export type Database = {
           id: string
           metadata: Json
           model_version: string | null
+          quality_score: number | null
           source_section: string | null
           token_count: number | null
           updated_at: string
         }
         Insert: {
           chunk_index?: number
+          chunk_status?: string
           chunk_text: string
           chunk_title?: string | null
+          chunk_type?: Database["public"]["Enums"]["chunk_type"] | null
+          confidence_score?: number | null
           created_at?: string
           document_id: string
           embedding?: string | null
@@ -536,14 +723,18 @@ export type Database = {
           id?: string
           metadata?: Json
           model_version?: string | null
+          quality_score?: number | null
           source_section?: string | null
           token_count?: number | null
           updated_at?: string
         }
         Update: {
           chunk_index?: number
+          chunk_status?: string
           chunk_text?: string
           chunk_title?: string | null
+          chunk_type?: Database["public"]["Enums"]["chunk_type"] | null
+          confidence_score?: number | null
           created_at?: string
           document_id?: string
           embedding?: string | null
@@ -552,6 +743,7 @@ export type Database = {
           id?: string
           metadata?: Json
           model_version?: string | null
+          quality_score?: number | null
           source_section?: string | null
           token_count?: number | null
           updated_at?: string
@@ -588,6 +780,89 @@ export type Database = {
             columns: ["service_id"]
             isOneToOne: false
             referencedRelation: "government_services"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      retrieval_logs: {
+        Row: {
+          confidence_score: number | null
+          created_at: string
+          id: string
+          model_used: string | null
+          query: string
+          response_time_ms: number | null
+          retrieval_time_ms: number | null
+          retrieved_chunk_ids: string[] | null
+          succeeded: boolean
+          user_id: string | null
+        }
+        Insert: {
+          confidence_score?: number | null
+          created_at?: string
+          id?: string
+          model_used?: string | null
+          query: string
+          response_time_ms?: number | null
+          retrieval_time_ms?: number | null
+          retrieved_chunk_ids?: string[] | null
+          succeeded?: boolean
+          user_id?: string | null
+        }
+        Update: {
+          confidence_score?: number | null
+          created_at?: string
+          id?: string
+          model_used?: string | null
+          query?: string
+          response_time_ms?: number | null
+          retrieval_time_ms?: number | null
+          retrieved_chunk_ids?: string[] | null
+          succeeded?: boolean
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      review_tasks: {
+        Row: {
+          assigned_to: string | null
+          created_at: string
+          document_id: string
+          due_date: string | null
+          id: string
+          notes: string | null
+          reviewed_by: string | null
+          status: Database["public"]["Enums"]["doc_review_status"]
+          updated_at: string
+        }
+        Insert: {
+          assigned_to?: string | null
+          created_at?: string
+          document_id: string
+          due_date?: string | null
+          id?: string
+          notes?: string | null
+          reviewed_by?: string | null
+          status?: Database["public"]["Enums"]["doc_review_status"]
+          updated_at?: string
+        }
+        Update: {
+          assigned_to?: string | null
+          created_at?: string
+          document_id?: string
+          due_date?: string | null
+          id?: string
+          notes?: string | null
+          reviewed_by?: string | null
+          status?: Database["public"]["Enums"]["doc_review_status"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "review_tasks_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "knowledge_documents"
             referencedColumns: ["id"]
           },
         ]
@@ -654,9 +929,54 @@ export type Database = {
         }
         Returns: boolean
       }
+      match_chunks: {
+        Args: {
+          filter_state?: string
+          match_count?: number
+          query_embedding: string
+        }
+        Returns: {
+          chunk_id: string
+          chunk_text: string
+          confidence_score: number
+          content_trust_level: string
+          doc_title: string
+          document_id: string
+          last_verified_date: string
+          rank_score: number
+          similarity: number
+          source: string
+          source_section: string
+          source_url: string
+          state: string
+        }[]
+      }
     }
     Enums: {
       app_role: "admin" | "user"
+      chunk_type:
+        | "procedure"
+        | "faq"
+        | "document"
+        | "legal_topic"
+        | "scheme"
+        | "glossary"
+        | "template"
+      content_trust_level:
+        | "official"
+        | "verified"
+        | "reviewed"
+        | "draft"
+        | "community"
+        | "imported"
+      doc_review_status: "up_to_date" | "needs_review" | "expired" | "archived"
+      knowledge_source_type:
+        | "official_government"
+        | "government_portal"
+        | "legal_authority"
+        | "court"
+        | "verified_source"
+        | "internal_content"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -785,6 +1105,32 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "user"],
+      chunk_type: [
+        "procedure",
+        "faq",
+        "document",
+        "legal_topic",
+        "scheme",
+        "glossary",
+        "template",
+      ],
+      content_trust_level: [
+        "official",
+        "verified",
+        "reviewed",
+        "draft",
+        "community",
+        "imported",
+      ],
+      doc_review_status: ["up_to_date", "needs_review", "expired", "archived"],
+      knowledge_source_type: [
+        "official_government",
+        "government_portal",
+        "legal_authority",
+        "court",
+        "verified_source",
+        "internal_content",
+      ],
     },
   },
 } as const

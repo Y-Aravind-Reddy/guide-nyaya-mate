@@ -91,17 +91,22 @@ export const submitFeedback = createServerFn({ method: "POST" })
         messageId: z.string().uuid().optional(),
         rating: z.enum(["up", "down"]),
         comment: z.string().max(1000).optional(),
+        query: z.string().max(4000).optional(),
+        response: z.string().max(8000).optional(),
       })
       .parse(d),
   )
   .handler(async ({ data, context }) => {
-    if (!data.messageId) return { ok: true };
     const { error } = await context.supabase.from("ai_feedback").insert({
-      message_id: data.messageId,
+      message_id: data.messageId ?? undefined,
       user_id: context.userId,
       rating: data.rating,
       comment: data.comment ?? null,
-    });
+      query: data.query ?? null,
+      response: data.response ?? null,
+      feedback_comment: data.comment ?? null,
+    } as never);
     if (error) throw new Error(error.message);
     return { ok: true };
   });
+

@@ -36,6 +36,14 @@ export type MetaForm = {
   version: string;
   model_version: string;
   embedding_model: string;
+  content_trust_level: string;
+  country: string;
+  district: string;
+  jurisdiction_type: string;
+  review_frequency: string;
+  next_review_date: string;
+  review_status: string;
+  change_log: string;
 };
 
 const EMPTY: MetaForm = {
@@ -55,6 +63,14 @@ const EMPTY: MetaForm = {
   version: "1.0",
   model_version: "",
   embedding_model: "google/gemini-embedding-001",
+  content_trust_level: "draft",
+  country: "India",
+  district: "",
+  jurisdiction_type: "",
+  review_frequency: "",
+  next_review_date: "",
+  review_status: "up_to_date",
+  change_log: "",
 };
 
 export function MetadataDialog({
@@ -94,6 +110,14 @@ export function MetadataDialog({
         version: doc.version ?? "1.0",
         model_version: doc.model_version ?? "",
         embedding_model: doc.embedding_model ?? "google/gemini-embedding-001",
+        content_trust_level: doc.content_trust_level ?? "draft",
+        country: doc.country ?? "India",
+        district: doc.district ?? "",
+        jurisdiction_type: doc.jurisdiction_type ?? "",
+        review_frequency: doc.review_frequency ?? "",
+        next_review_date: doc.next_review_date ?? "",
+        review_status: doc.review_status ?? "up_to_date",
+        change_log: "",
       });
     } else {
       setForm(EMPTY);
@@ -172,9 +196,53 @@ export function MetadataDialog({
               </SelectContent>
             </Select>
           </Field>
+          <Field label="Content Trust Level">
+            <Select value={form.content_trust_level} onValueChange={(v) => set("content_trust_level", v)}>
+              <SelectTrigger><SelectValue /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="official">Official</SelectItem>
+                <SelectItem value="verified">Verified</SelectItem>
+                <SelectItem value="reviewed">Reviewed</SelectItem>
+                <SelectItem value="draft">Draft</SelectItem>
+                <SelectItem value="community">Community</SelectItem>
+                <SelectItem value="imported">Imported</SelectItem>
+              </SelectContent>
+            </Select>
+          </Field>
+          <Field label="Review Status">
+            <Select value={form.review_status} onValueChange={(v) => set("review_status", v)}>
+              <SelectTrigger><SelectValue /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="up_to_date">Up To Date</SelectItem>
+                <SelectItem value="needs_review">Needs Review</SelectItem>
+                <SelectItem value="expired">Expired</SelectItem>
+                <SelectItem value="archived">Archived</SelectItem>
+              </SelectContent>
+            </Select>
+          </Field>
+          <Field label="Country">
+            <Input value={form.country} onChange={(e) => set("country", e.target.value)} />
+          </Field>
+          <Field label="District">
+            <Input value={form.district} onChange={(e) => set("district", e.target.value)} />
+          </Field>
+          <Field label="Jurisdiction Type">
+            <Input value={form.jurisdiction_type} onChange={(e) => set("jurisdiction_type", e.target.value)} placeholder="state / central / district" />
+          </Field>
+          <Field label="Review Frequency">
+            <Input value={form.review_frequency} onChange={(e) => set("review_frequency", e.target.value)} placeholder="quarterly / yearly" />
+          </Field>
+          <Field label="Next Review Date">
+            <Input type="date" value={form.next_review_date} onChange={(e) => set("next_review_date", e.target.value)} />
+          </Field>
           <Field className="sm:col-span-2" label="Tags (comma separated)">
             <Input value={form.tags} onChange={(e) => set("tags", e.target.value)} placeholder="passport, travel, psk" />
           </Field>
+          {doc && (
+            <Field className="sm:col-span-2" label="Change Log (creates a version snapshot)">
+              <Input value={form.change_log} onChange={(e) => set("change_log", e.target.value)} placeholder="What changed in this update?" />
+            </Field>
+          )}
         </div>
 
         <DialogFooter>

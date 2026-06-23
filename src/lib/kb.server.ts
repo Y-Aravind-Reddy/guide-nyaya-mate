@@ -127,3 +127,39 @@ export async function embedTexts(
 export function toVectorLiteral(embedding: number[]): string {
   return `[${embedding.join(",")}]`;
 }
+
+/** SHA-256 hex digest of a buffer or string — used for duplicate detection. */
+export async function sha256Hex(input: ArrayBuffer | string): Promise<string> {
+  const data =
+    typeof input === "string" ? new TextEncoder().encode(input) : new Uint8Array(input);
+  const digest = await crypto.subtle.digest("SHA-256", data);
+  return Array.from(new Uint8Array(digest))
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
+}
+
+/**
+ * Heuristic chunk quality score (0-1): rewards well-sized, sectioned chunks and
+ * penalises very short or very long fragments.
+ */
+export function scoreChunk(text: string, tokenCount: number, hasSection: boolean): number {
+  let score = 0.5;
+  if (tokenCount >= 80 && tokenCount <= 400) score += 0.25;
+  if (tokenCount < 30) score -= 0.25;
+  if (tokenCount > 600) score -= 0.15;
+  if (hasSection) score += 0.1;
+  if (/\d/.test(text)) score += 0.05; // contains concrete facts/figures
+  return Math.max(0, Math.min(1, Number(score.toFixed(2))));
+}
+
+/** Map a knowledge category to a RAG chunk_type enum value. */
+export function chunkTypeForCategory(category: string | null | undefined): string | null {
+  const c = (category ?? "").toLowerCase();
+  if (c.includes("procedure") || c.includes("service")) return "procedure";
+  if (c.includes("faq")) return "faq";
+  if (c.includes("legal") || c.includes("right") || c.includes("topic")) return "legal_topic";
+  if (c.includes("scheme")) return "scheme";
+  if (c.includes("glossary")) return "glossary";
+  if (c.includes("template")) return "template";
+  return "document";
+}
