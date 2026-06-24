@@ -23,6 +23,7 @@ import { Route as LegalRightsSlugRouteImport } from './routes/legal-rights.$slug
 import { Route as GovernmentServicesSlugRouteImport } from './routes/government-services.$slug'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
+import { Route as AuthenticatedSchemesRouteImport } from './routes/_authenticated/schemes'
 import { Route as AuthenticatedSavedRouteImport } from './routes/_authenticated/saved'
 import { Route as AuthenticatedRetrievalAnalyticsRouteImport } from './routes/_authenticated/retrieval-analytics'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
@@ -101,6 +102,11 @@ const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedSchemesRoute = AuthenticatedSchemesRouteImport.update({
+  id: '/schemes',
+  path: '/schemes',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedSavedRoute = AuthenticatedSavedRouteImport.update({
   id: '/saved',
   path: '/saved',
@@ -162,6 +168,7 @@ export interface FileRoutesByFullPath {
   '/profile': typeof AuthenticatedProfileRoute
   '/retrieval-analytics': typeof AuthenticatedRetrievalAnalyticsRoute
   '/saved': typeof AuthenticatedSavedRoute
+  '/schemes': typeof AuthenticatedSchemesRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/api/chat': typeof ApiChatRoute
   '/government-services/$slug': typeof GovernmentServicesSlugRoute
@@ -185,6 +192,7 @@ export interface FileRoutesByTo {
   '/profile': typeof AuthenticatedProfileRoute
   '/retrieval-analytics': typeof AuthenticatedRetrievalAnalyticsRoute
   '/saved': typeof AuthenticatedSavedRoute
+  '/schemes': typeof AuthenticatedSchemesRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/api/chat': typeof ApiChatRoute
   '/government-services/$slug': typeof GovernmentServicesSlugRoute
@@ -210,6 +218,7 @@ export interface FileRoutesById {
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/retrieval-analytics': typeof AuthenticatedRetrievalAnalyticsRoute
   '/_authenticated/saved': typeof AuthenticatedSavedRoute
+  '/_authenticated/schemes': typeof AuthenticatedSchemesRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/api/chat': typeof ApiChatRoute
   '/government-services/$slug': typeof GovernmentServicesSlugRoute
@@ -235,6 +244,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/retrieval-analytics'
     | '/saved'
+    | '/schemes'
     | '/settings'
     | '/api/chat'
     | '/government-services/$slug'
@@ -258,6 +268,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/retrieval-analytics'
     | '/saved'
+    | '/schemes'
     | '/settings'
     | '/api/chat'
     | '/government-services/$slug'
@@ -282,6 +293,7 @@ export interface FileRouteTypes {
     | '/_authenticated/profile'
     | '/_authenticated/retrieval-analytics'
     | '/_authenticated/saved'
+    | '/_authenticated/schemes'
     | '/_authenticated/settings'
     | '/api/chat'
     | '/government-services/$slug'
@@ -406,6 +418,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSettingsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/schemes': {
+      id: '/_authenticated/schemes'
+      path: '/schemes'
+      fullPath: '/schemes'
+      preLoaderRoute: typeof AuthenticatedSchemesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/saved': {
       id: '/_authenticated/saved'
       path: '/saved'
@@ -474,6 +493,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
   AuthenticatedRetrievalAnalyticsRoute: typeof AuthenticatedRetrievalAnalyticsRoute
   AuthenticatedSavedRoute: typeof AuthenticatedSavedRoute
+  AuthenticatedSchemesRoute: typeof AuthenticatedSchemesRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
 }
 
@@ -486,6 +506,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
   AuthenticatedRetrievalAnalyticsRoute: AuthenticatedRetrievalAnalyticsRoute,
   AuthenticatedSavedRoute: AuthenticatedSavedRoute,
+  AuthenticatedSchemesRoute: AuthenticatedSchemesRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
 }
 
