@@ -24,7 +24,9 @@ import { Route as GovernmentServicesSlugRouteImport } from './routes/government-
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
 import { Route as AuthenticatedSavedRouteImport } from './routes/_authenticated/saved'
+import { Route as AuthenticatedRetrievalAnalyticsRouteImport } from './routes/_authenticated/retrieval-analytics'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
+import { Route as AuthenticatedKnowledgeHealthRouteImport } from './routes/_authenticated/knowledge-health'
 import { Route as AuthenticatedKnowledgeBaseRouteImport } from './routes/_authenticated/knowledge-base'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedChatHistoryRouteImport } from './routes/_authenticated/chat-history'
@@ -104,11 +106,23 @@ const AuthenticatedSavedRoute = AuthenticatedSavedRouteImport.update({
   path: '/saved',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedRetrievalAnalyticsRoute =
+  AuthenticatedRetrievalAnalyticsRouteImport.update({
+    id: '/retrieval-analytics',
+    path: '/retrieval-analytics',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedKnowledgeHealthRoute =
+  AuthenticatedKnowledgeHealthRouteImport.update({
+    id: '/knowledge-health',
+    path: '/knowledge-health',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedKnowledgeBaseRoute =
   AuthenticatedKnowledgeBaseRouteImport.update({
     id: '/knowledge-base',
@@ -144,7 +158,9 @@ export interface FileRoutesByFullPath {
   '/chat-history': typeof AuthenticatedChatHistoryRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/knowledge-base': typeof AuthenticatedKnowledgeBaseRoute
+  '/knowledge-health': typeof AuthenticatedKnowledgeHealthRoute
   '/profile': typeof AuthenticatedProfileRoute
+  '/retrieval-analytics': typeof AuthenticatedRetrievalAnalyticsRoute
   '/saved': typeof AuthenticatedSavedRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/api/chat': typeof ApiChatRoute
@@ -165,7 +181,9 @@ export interface FileRoutesByTo {
   '/chat-history': typeof AuthenticatedChatHistoryRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/knowledge-base': typeof AuthenticatedKnowledgeBaseRoute
+  '/knowledge-health': typeof AuthenticatedKnowledgeHealthRoute
   '/profile': typeof AuthenticatedProfileRoute
+  '/retrieval-analytics': typeof AuthenticatedRetrievalAnalyticsRoute
   '/saved': typeof AuthenticatedSavedRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/api/chat': typeof ApiChatRoute
@@ -188,7 +206,9 @@ export interface FileRoutesById {
   '/_authenticated/chat-history': typeof AuthenticatedChatHistoryRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/knowledge-base': typeof AuthenticatedKnowledgeBaseRoute
+  '/_authenticated/knowledge-health': typeof AuthenticatedKnowledgeHealthRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
+  '/_authenticated/retrieval-analytics': typeof AuthenticatedRetrievalAnalyticsRoute
   '/_authenticated/saved': typeof AuthenticatedSavedRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/api/chat': typeof ApiChatRoute
@@ -211,7 +231,9 @@ export interface FileRouteTypes {
     | '/chat-history'
     | '/dashboard'
     | '/knowledge-base'
+    | '/knowledge-health'
     | '/profile'
+    | '/retrieval-analytics'
     | '/saved'
     | '/settings'
     | '/api/chat'
@@ -232,7 +254,9 @@ export interface FileRouteTypes {
     | '/chat-history'
     | '/dashboard'
     | '/knowledge-base'
+    | '/knowledge-health'
     | '/profile'
+    | '/retrieval-analytics'
     | '/saved'
     | '/settings'
     | '/api/chat'
@@ -254,7 +278,9 @@ export interface FileRouteTypes {
     | '/_authenticated/chat-history'
     | '/_authenticated/dashboard'
     | '/_authenticated/knowledge-base'
+    | '/_authenticated/knowledge-health'
     | '/_authenticated/profile'
+    | '/_authenticated/retrieval-analytics'
     | '/_authenticated/saved'
     | '/_authenticated/settings'
     | '/api/chat'
@@ -387,11 +413,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSavedRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/retrieval-analytics': {
+      id: '/_authenticated/retrieval-analytics'
+      path: '/retrieval-analytics'
+      fullPath: '/retrieval-analytics'
+      preLoaderRoute: typeof AuthenticatedRetrievalAnalyticsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/profile': {
       id: '/_authenticated/profile'
       path: '/profile'
       fullPath: '/profile'
       preLoaderRoute: typeof AuthenticatedProfileRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/knowledge-health': {
+      id: '/_authenticated/knowledge-health'
+      path: '/knowledge-health'
+      fullPath: '/knowledge-health'
+      preLoaderRoute: typeof AuthenticatedKnowledgeHealthRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/knowledge-base': {
@@ -430,7 +470,9 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedChatHistoryRoute: typeof AuthenticatedChatHistoryRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedKnowledgeBaseRoute: typeof AuthenticatedKnowledgeBaseRoute
+  AuthenticatedKnowledgeHealthRoute: typeof AuthenticatedKnowledgeHealthRoute
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
+  AuthenticatedRetrievalAnalyticsRoute: typeof AuthenticatedRetrievalAnalyticsRoute
   AuthenticatedSavedRoute: typeof AuthenticatedSavedRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
 }
@@ -440,7 +482,9 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedChatHistoryRoute: AuthenticatedChatHistoryRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedKnowledgeBaseRoute: AuthenticatedKnowledgeBaseRoute,
+  AuthenticatedKnowledgeHealthRoute: AuthenticatedKnowledgeHealthRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
+  AuthenticatedRetrievalAnalyticsRoute: AuthenticatedRetrievalAnalyticsRoute,
   AuthenticatedSavedRoute: AuthenticatedSavedRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
 }
