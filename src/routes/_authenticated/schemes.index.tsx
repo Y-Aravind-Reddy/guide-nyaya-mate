@@ -6,7 +6,7 @@ import { Search, ArrowRight, Landmark } from "lucide-react";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { listSchemes } from "@/lib/content.functions";
 
-export const Route = createFileRoute("/_authenticated/schemes")({
+export const Route = createFileRoute("/_authenticated/schemes/")({
   head: () => ({
     meta: [
       { title: "Government Schemes — NyayaMate AI" },
