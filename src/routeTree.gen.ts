@@ -26,6 +26,7 @@ import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedSavedRouteImport } from './routes/_authenticated/saved'
 import { Route as AuthenticatedRetrievalAnalyticsRouteImport } from './routes/_authenticated/retrieval-analytics'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
+import { Route as AuthenticatedOfficialSourcesRouteImport } from './routes/_authenticated/official-sources'
 import { Route as AuthenticatedKnowledgeHealthRouteImport } from './routes/_authenticated/knowledge-health'
 import { Route as AuthenticatedKnowledgeBaseRouteImport } from './routes/_authenticated/knowledge-base'
 import { Route as AuthenticatedGlossaryRouteImport } from './routes/_authenticated/glossary'
@@ -120,6 +121,12 @@ const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
   path: '/profile',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedOfficialSourcesRoute =
+  AuthenticatedOfficialSourcesRouteImport.update({
+    id: '/official-sources',
+    path: '/official-sources',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedKnowledgeHealthRoute =
   AuthenticatedKnowledgeHealthRouteImport.update({
     id: '/knowledge-health',
@@ -180,6 +187,7 @@ export interface FileRoutesByFullPath {
   '/glossary': typeof AuthenticatedGlossaryRoute
   '/knowledge-base': typeof AuthenticatedKnowledgeBaseRoute
   '/knowledge-health': typeof AuthenticatedKnowledgeHealthRoute
+  '/official-sources': typeof AuthenticatedOfficialSourcesRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/retrieval-analytics': typeof AuthenticatedRetrievalAnalyticsRoute
   '/saved': typeof AuthenticatedSavedRoute
@@ -206,6 +214,7 @@ export interface FileRoutesByTo {
   '/glossary': typeof AuthenticatedGlossaryRoute
   '/knowledge-base': typeof AuthenticatedKnowledgeBaseRoute
   '/knowledge-health': typeof AuthenticatedKnowledgeHealthRoute
+  '/official-sources': typeof AuthenticatedOfficialSourcesRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/retrieval-analytics': typeof AuthenticatedRetrievalAnalyticsRoute
   '/saved': typeof AuthenticatedSavedRoute
@@ -234,6 +243,7 @@ export interface FileRoutesById {
   '/_authenticated/glossary': typeof AuthenticatedGlossaryRoute
   '/_authenticated/knowledge-base': typeof AuthenticatedKnowledgeBaseRoute
   '/_authenticated/knowledge-health': typeof AuthenticatedKnowledgeHealthRoute
+  '/_authenticated/official-sources': typeof AuthenticatedOfficialSourcesRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/retrieval-analytics': typeof AuthenticatedRetrievalAnalyticsRoute
   '/_authenticated/saved': typeof AuthenticatedSavedRoute
@@ -262,6 +272,7 @@ export interface FileRouteTypes {
     | '/glossary'
     | '/knowledge-base'
     | '/knowledge-health'
+    | '/official-sources'
     | '/profile'
     | '/retrieval-analytics'
     | '/saved'
@@ -288,6 +299,7 @@ export interface FileRouteTypes {
     | '/glossary'
     | '/knowledge-base'
     | '/knowledge-health'
+    | '/official-sources'
     | '/profile'
     | '/retrieval-analytics'
     | '/saved'
@@ -315,6 +327,7 @@ export interface FileRouteTypes {
     | '/_authenticated/glossary'
     | '/_authenticated/knowledge-base'
     | '/_authenticated/knowledge-health'
+    | '/_authenticated/official-sources'
     | '/_authenticated/profile'
     | '/_authenticated/retrieval-analytics'
     | '/_authenticated/saved'
@@ -465,6 +478,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedProfileRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/official-sources': {
+      id: '/_authenticated/official-sources'
+      path: '/official-sources'
+      fullPath: '/official-sources'
+      preLoaderRoute: typeof AuthenticatedOfficialSourcesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/knowledge-health': {
       id: '/_authenticated/knowledge-health'
       path: '/knowledge-health'
@@ -531,6 +551,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedGlossaryRoute: typeof AuthenticatedGlossaryRoute
   AuthenticatedKnowledgeBaseRoute: typeof AuthenticatedKnowledgeBaseRoute
   AuthenticatedKnowledgeHealthRoute: typeof AuthenticatedKnowledgeHealthRoute
+  AuthenticatedOfficialSourcesRoute: typeof AuthenticatedOfficialSourcesRoute
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
   AuthenticatedRetrievalAnalyticsRoute: typeof AuthenticatedRetrievalAnalyticsRoute
   AuthenticatedSavedRoute: typeof AuthenticatedSavedRoute
@@ -546,6 +567,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedGlossaryRoute: AuthenticatedGlossaryRoute,
   AuthenticatedKnowledgeBaseRoute: AuthenticatedKnowledgeBaseRoute,
   AuthenticatedKnowledgeHealthRoute: AuthenticatedKnowledgeHealthRoute,
+  AuthenticatedOfficialSourcesRoute: AuthenticatedOfficialSourcesRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
   AuthenticatedRetrievalAnalyticsRoute: AuthenticatedRetrievalAnalyticsRoute,
   AuthenticatedSavedRoute: AuthenticatedSavedRoute,
