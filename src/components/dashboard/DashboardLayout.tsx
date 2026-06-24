@@ -3,9 +3,12 @@ import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import {
   Activity,
   Bell,
+  BookA,
   BookOpen,
   Database,
+  FileText,
   Gauge,
+  HelpCircle,
   History,
   LayoutDashboard,
   Landmark,
@@ -14,7 +17,9 @@ import {
   Save,
   Search,
   Settings,
+  ShieldCheck,
   Sparkles,
+  Trophy,
   UserRound,
   X,
 } from "lucide-react";
@@ -29,6 +34,9 @@ const NAV = [
   { icon: History, label: "Chat History", to: "/chat-history" },
   { icon: Landmark, label: "Government Services", to: "/government-services" },
   { icon: BookOpen, label: "Legal Topics", to: "/legal-rights" },
+  { icon: Trophy, label: "Schemes", to: "/schemes" },
+  { icon: HelpCircle, label: "FAQs", to: "/faqs" },
+  { icon: BookA, label: "Glossary", to: "/glossary" },
   { icon: Save, label: "Saved Items", to: "/saved" },
   { icon: UserRound, label: "Profile", to: "/profile" },
   { icon: Settings, label: "Settings", to: "/settings" },
@@ -36,6 +44,7 @@ const NAV = [
 
 const ADMIN_NAV = [
   { icon: Database, label: "Knowledge Base", to: "/knowledge-base" },
+  { icon: ShieldCheck, label: "Official Sources", to: "/official-sources" },
   { icon: Activity, label: "Retrieval Analytics", to: "/retrieval-analytics" },
   { icon: Gauge, label: "Knowledge Health", to: "/knowledge-health" },
 ] as const;

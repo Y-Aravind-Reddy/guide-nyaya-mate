@@ -30,6 +30,7 @@ import { Route as AuthenticatedOfficialSourcesRouteImport } from './routes/_auth
 import { Route as AuthenticatedKnowledgeHealthRouteImport } from './routes/_authenticated/knowledge-health'
 import { Route as AuthenticatedKnowledgeBaseRouteImport } from './routes/_authenticated/knowledge-base'
 import { Route as AuthenticatedGlossaryRouteImport } from './routes/_authenticated/glossary'
+import { Route as AuthenticatedFaqsRouteImport } from './routes/_authenticated/faqs'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedChatHistoryRouteImport } from './routes/_authenticated/chat-history'
 import { Route as AuthenticatedAiChatRouteImport } from './routes/_authenticated/ai-chat'
@@ -144,6 +145,11 @@ const AuthenticatedGlossaryRoute = AuthenticatedGlossaryRouteImport.update({
   path: '/glossary',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedFaqsRoute = AuthenticatedFaqsRouteImport.update({
+  id: '/faqs',
+  path: '/faqs',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -184,6 +190,7 @@ export interface FileRoutesByFullPath {
   '/ai-chat': typeof AuthenticatedAiChatRoute
   '/chat-history': typeof AuthenticatedChatHistoryRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/faqs': typeof AuthenticatedFaqsRoute
   '/glossary': typeof AuthenticatedGlossaryRoute
   '/knowledge-base': typeof AuthenticatedKnowledgeBaseRoute
   '/knowledge-health': typeof AuthenticatedKnowledgeHealthRoute
@@ -211,6 +218,7 @@ export interface FileRoutesByTo {
   '/ai-chat': typeof AuthenticatedAiChatRoute
   '/chat-history': typeof AuthenticatedChatHistoryRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/faqs': typeof AuthenticatedFaqsRoute
   '/glossary': typeof AuthenticatedGlossaryRoute
   '/knowledge-base': typeof AuthenticatedKnowledgeBaseRoute
   '/knowledge-health': typeof AuthenticatedKnowledgeHealthRoute
@@ -240,6 +248,7 @@ export interface FileRoutesById {
   '/_authenticated/ai-chat': typeof AuthenticatedAiChatRoute
   '/_authenticated/chat-history': typeof AuthenticatedChatHistoryRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/faqs': typeof AuthenticatedFaqsRoute
   '/_authenticated/glossary': typeof AuthenticatedGlossaryRoute
   '/_authenticated/knowledge-base': typeof AuthenticatedKnowledgeBaseRoute
   '/_authenticated/knowledge-health': typeof AuthenticatedKnowledgeHealthRoute
@@ -269,6 +278,7 @@ export interface FileRouteTypes {
     | '/ai-chat'
     | '/chat-history'
     | '/dashboard'
+    | '/faqs'
     | '/glossary'
     | '/knowledge-base'
     | '/knowledge-health'
@@ -296,6 +306,7 @@ export interface FileRouteTypes {
     | '/ai-chat'
     | '/chat-history'
     | '/dashboard'
+    | '/faqs'
     | '/glossary'
     | '/knowledge-base'
     | '/knowledge-health'
@@ -324,6 +335,7 @@ export interface FileRouteTypes {
     | '/_authenticated/ai-chat'
     | '/_authenticated/chat-history'
     | '/_authenticated/dashboard'
+    | '/_authenticated/faqs'
     | '/_authenticated/glossary'
     | '/_authenticated/knowledge-base'
     | '/_authenticated/knowledge-health'
@@ -506,6 +518,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedGlossaryRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/faqs': {
+      id: '/_authenticated/faqs'
+      path: '/faqs'
+      fullPath: '/faqs'
+      preLoaderRoute: typeof AuthenticatedFaqsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/dashboard': {
       id: '/_authenticated/dashboard'
       path: '/dashboard'
@@ -548,6 +567,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAiChatRoute: typeof AuthenticatedAiChatRoute
   AuthenticatedChatHistoryRoute: typeof AuthenticatedChatHistoryRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedFaqsRoute: typeof AuthenticatedFaqsRoute
   AuthenticatedGlossaryRoute: typeof AuthenticatedGlossaryRoute
   AuthenticatedKnowledgeBaseRoute: typeof AuthenticatedKnowledgeBaseRoute
   AuthenticatedKnowledgeHealthRoute: typeof AuthenticatedKnowledgeHealthRoute
@@ -564,6 +584,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAiChatRoute: AuthenticatedAiChatRoute,
   AuthenticatedChatHistoryRoute: AuthenticatedChatHistoryRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedFaqsRoute: AuthenticatedFaqsRoute,
   AuthenticatedGlossaryRoute: AuthenticatedGlossaryRoute,
   AuthenticatedKnowledgeBaseRoute: AuthenticatedKnowledgeBaseRoute,
   AuthenticatedKnowledgeHealthRoute: AuthenticatedKnowledgeHealthRoute,
