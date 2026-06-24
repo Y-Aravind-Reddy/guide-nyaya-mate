@@ -32,6 +32,7 @@ import { Route as AuthenticatedDashboardRouteImport } from './routes/_authentica
 import { Route as AuthenticatedChatHistoryRouteImport } from './routes/_authenticated/chat-history'
 import { Route as AuthenticatedAiChatRouteImport } from './routes/_authenticated/ai-chat'
 import { Route as AuthenticatedSchemesIndexRouteImport } from './routes/_authenticated/schemes.index'
+import { Route as AuthenticatedSchemesSlugRouteImport } from './routes/_authenticated/schemes.$slug'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -152,6 +153,12 @@ const AuthenticatedSchemesIndexRoute =
     path: '/schemes/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedSchemesSlugRoute =
+  AuthenticatedSchemesSlugRouteImport.update({
+    id: '/schemes/$slug',
+    path: '/schemes/$slug',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -175,6 +182,7 @@ export interface FileRoutesByFullPath {
   '/legal-rights/$slug': typeof LegalRightsSlugRoute
   '/government-services/': typeof GovernmentServicesIndexRoute
   '/legal-rights/': typeof LegalRightsIndexRoute
+  '/schemes/$slug': typeof AuthenticatedSchemesSlugRoute
   '/schemes/': typeof AuthenticatedSchemesIndexRoute
 }
 export interface FileRoutesByTo {
@@ -199,6 +207,7 @@ export interface FileRoutesByTo {
   '/legal-rights/$slug': typeof LegalRightsSlugRoute
   '/government-services': typeof GovernmentServicesIndexRoute
   '/legal-rights': typeof LegalRightsIndexRoute
+  '/schemes/$slug': typeof AuthenticatedSchemesSlugRoute
   '/schemes': typeof AuthenticatedSchemesIndexRoute
 }
 export interface FileRoutesById {
@@ -225,6 +234,7 @@ export interface FileRoutesById {
   '/legal-rights/$slug': typeof LegalRightsSlugRoute
   '/government-services/': typeof GovernmentServicesIndexRoute
   '/legal-rights/': typeof LegalRightsIndexRoute
+  '/_authenticated/schemes/$slug': typeof AuthenticatedSchemesSlugRoute
   '/_authenticated/schemes/': typeof AuthenticatedSchemesIndexRoute
 }
 export interface FileRouteTypes {
@@ -251,6 +261,7 @@ export interface FileRouteTypes {
     | '/legal-rights/$slug'
     | '/government-services/'
     | '/legal-rights/'
+    | '/schemes/$slug'
     | '/schemes/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -275,6 +286,7 @@ export interface FileRouteTypes {
     | '/legal-rights/$slug'
     | '/government-services'
     | '/legal-rights'
+    | '/schemes/$slug'
     | '/schemes'
   id:
     | '__root__'
@@ -300,6 +312,7 @@ export interface FileRouteTypes {
     | '/legal-rights/$slug'
     | '/government-services/'
     | '/legal-rights/'
+    | '/_authenticated/schemes/$slug'
     | '/_authenticated/schemes/'
   fileRoutesById: FileRoutesById
 }
@@ -482,6 +495,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSchemesIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/schemes/$slug': {
+      id: '/_authenticated/schemes/$slug'
+      path: '/schemes/$slug'
+      fullPath: '/schemes/$slug'
+      preLoaderRoute: typeof AuthenticatedSchemesSlugRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
@@ -495,6 +515,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedRetrievalAnalyticsRoute: typeof AuthenticatedRetrievalAnalyticsRoute
   AuthenticatedSavedRoute: typeof AuthenticatedSavedRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
+  AuthenticatedSchemesSlugRoute: typeof AuthenticatedSchemesSlugRoute
   AuthenticatedSchemesIndexRoute: typeof AuthenticatedSchemesIndexRoute
 }
 
@@ -508,6 +529,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedRetrievalAnalyticsRoute: AuthenticatedRetrievalAnalyticsRoute,
   AuthenticatedSavedRoute: AuthenticatedSavedRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
+  AuthenticatedSchemesSlugRoute: AuthenticatedSchemesSlugRoute,
   AuthenticatedSchemesIndexRoute: AuthenticatedSchemesIndexRoute,
 }
 
