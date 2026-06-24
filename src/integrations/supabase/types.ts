@@ -111,6 +111,42 @@ export type Database = {
           },
         ]
       }
+      complaint_templates: {
+        Row: {
+          created_at: string
+          description: string | null
+          fields: Json | null
+          id: string
+          jurisdiction: string | null
+          template_body: string
+          title: string
+          type: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          fields?: Json | null
+          id?: string
+          jurisdiction?: string | null
+          template_body: string
+          title: string
+          type: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          fields?: Json | null
+          id?: string
+          jurisdiction?: string | null
+          template_body?: string
+          title?: string
+          type?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       contact_messages: {
         Row: {
           created_at: string
@@ -217,6 +253,74 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      faqs: {
+        Row: {
+          answer: string
+          category: string | null
+          created_at: string
+          id: string
+          jurisdiction: string | null
+          question: string
+          source_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          answer: string
+          category?: string | null
+          created_at?: string
+          id?: string
+          jurisdiction?: string | null
+          question: string
+          source_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          answer?: string
+          category?: string | null
+          created_at?: string
+          id?: string
+          jurisdiction?: string | null
+          question?: string
+          source_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "faqs_source_id_fkey"
+            columns: ["source_id"]
+            isOneToOne: false
+            referencedRelation: "official_sources"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      glossary: {
+        Row: {
+          category: string | null
+          created_at: string
+          definition: string
+          id: string
+          term: string
+          updated_at: string
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string
+          definition: string
+          id?: string
+          term: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string | null
+          created_at?: string
+          definition?: string
+          id?: string
+          term?: string
+          updated_at?: string
+        }
+        Relationships: []
       }
       government_services: {
         Row: {
@@ -619,6 +723,48 @@ export type Database = {
           },
         ]
       }
+      official_sources: {
+        Row: {
+          authority: string
+          category: string | null
+          created_at: string
+          created_by: string | null
+          id: string
+          jurisdiction: string | null
+          last_verified_at: string | null
+          source_url: string
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          authority: string
+          category?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          jurisdiction?: string | null
+          last_verified_at?: string | null
+          source_url: string
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          authority?: string
+          category?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          jurisdiction?: string | null
+          last_verified_at?: string | null
+          source_url?: string
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       procedures: {
         Row: {
           description: string
@@ -892,6 +1038,59 @@ export type Database = {
             columns: ["service_id"]
             isOneToOne: false
             referencedRelation: "government_services"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      schemes: {
+        Row: {
+          application_process: string | null
+          benefits: string | null
+          category: string | null
+          created_at: string
+          description: string | null
+          eligibility: string | null
+          id: string
+          jurisdiction: string | null
+          slug: string
+          source_id: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          application_process?: string | null
+          benefits?: string | null
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          eligibility?: string | null
+          id?: string
+          jurisdiction?: string | null
+          slug: string
+          source_id?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          application_process?: string | null
+          benefits?: string | null
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          eligibility?: string | null
+          id?: string
+          jurisdiction?: string | null
+          slug?: string
+          source_id?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "schemes_source_id_fkey"
+            columns: ["source_id"]
+            isOneToOne: false
+            referencedRelation: "official_sources"
             referencedColumns: ["id"]
           },
         ]
