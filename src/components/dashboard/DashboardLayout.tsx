@@ -6,7 +6,6 @@ import {
   BookA,
   BookOpen,
   Database,
-  FileText,
   Gauge,
   HelpCircle,
   History,
