@@ -36,6 +36,7 @@ import { Route as AuthenticatedChatHistoryRouteImport } from './routes/_authenti
 import { Route as AuthenticatedAiChatRouteImport } from './routes/_authenticated/ai-chat'
 import { Route as AuthenticatedSchemesIndexRouteImport } from './routes/_authenticated/schemes.index'
 import { Route as AuthenticatedSchemesSlugRouteImport } from './routes/_authenticated/schemes.$slug'
+import { Route as AuthenticatedAdminKbSyncRouteImport } from './routes/_authenticated/admin/kb-sync'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -178,6 +179,12 @@ const AuthenticatedSchemesSlugRoute =
     path: '/schemes/$slug',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAdminKbSyncRoute =
+  AuthenticatedAdminKbSyncRouteImport.update({
+    id: '/admin/kb-sync',
+    path: '/admin/kb-sync',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -204,6 +211,7 @@ export interface FileRoutesByFullPath {
   '/legal-rights/$slug': typeof LegalRightsSlugRoute
   '/government-services/': typeof GovernmentServicesIndexRoute
   '/legal-rights/': typeof LegalRightsIndexRoute
+  '/admin/kb-sync': typeof AuthenticatedAdminKbSyncRoute
   '/schemes/$slug': typeof AuthenticatedSchemesSlugRoute
   '/schemes/': typeof AuthenticatedSchemesIndexRoute
 }
@@ -232,6 +240,7 @@ export interface FileRoutesByTo {
   '/legal-rights/$slug': typeof LegalRightsSlugRoute
   '/government-services': typeof GovernmentServicesIndexRoute
   '/legal-rights': typeof LegalRightsIndexRoute
+  '/admin/kb-sync': typeof AuthenticatedAdminKbSyncRoute
   '/schemes/$slug': typeof AuthenticatedSchemesSlugRoute
   '/schemes': typeof AuthenticatedSchemesIndexRoute
 }
@@ -262,6 +271,7 @@ export interface FileRoutesById {
   '/legal-rights/$slug': typeof LegalRightsSlugRoute
   '/government-services/': typeof GovernmentServicesIndexRoute
   '/legal-rights/': typeof LegalRightsIndexRoute
+  '/_authenticated/admin/kb-sync': typeof AuthenticatedAdminKbSyncRoute
   '/_authenticated/schemes/$slug': typeof AuthenticatedSchemesSlugRoute
   '/_authenticated/schemes/': typeof AuthenticatedSchemesIndexRoute
 }
@@ -292,6 +302,7 @@ export interface FileRouteTypes {
     | '/legal-rights/$slug'
     | '/government-services/'
     | '/legal-rights/'
+    | '/admin/kb-sync'
     | '/schemes/$slug'
     | '/schemes/'
   fileRoutesByTo: FileRoutesByTo
@@ -320,6 +331,7 @@ export interface FileRouteTypes {
     | '/legal-rights/$slug'
     | '/government-services'
     | '/legal-rights'
+    | '/admin/kb-sync'
     | '/schemes/$slug'
     | '/schemes'
   id:
@@ -349,6 +361,7 @@ export interface FileRouteTypes {
     | '/legal-rights/$slug'
     | '/government-services/'
     | '/legal-rights/'
+    | '/_authenticated/admin/kb-sync'
     | '/_authenticated/schemes/$slug'
     | '/_authenticated/schemes/'
   fileRoutesById: FileRoutesById
@@ -560,6 +573,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSchemesSlugRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/kb-sync': {
+      id: '/_authenticated/admin/kb-sync'
+      path: '/admin/kb-sync'
+      fullPath: '/admin/kb-sync'
+      preLoaderRoute: typeof AuthenticatedAdminKbSyncRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
@@ -576,6 +596,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedRetrievalAnalyticsRoute: typeof AuthenticatedRetrievalAnalyticsRoute
   AuthenticatedSavedRoute: typeof AuthenticatedSavedRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
+  AuthenticatedAdminKbSyncRoute: typeof AuthenticatedAdminKbSyncRoute
   AuthenticatedSchemesSlugRoute: typeof AuthenticatedSchemesSlugRoute
   AuthenticatedSchemesIndexRoute: typeof AuthenticatedSchemesIndexRoute
 }
@@ -593,6 +614,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedRetrievalAnalyticsRoute: AuthenticatedRetrievalAnalyticsRoute,
   AuthenticatedSavedRoute: AuthenticatedSavedRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
+  AuthenticatedAdminKbSyncRoute: AuthenticatedAdminKbSyncRoute,
   AuthenticatedSchemesSlugRoute: AuthenticatedSchemesSlugRoute,
   AuthenticatedSchemesIndexRoute: AuthenticatedSchemesIndexRoute,
 }
