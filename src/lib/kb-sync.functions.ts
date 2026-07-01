@@ -206,7 +206,7 @@ export const kbSyncOverview = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     await assertAdmin(context);
-    const sb = context.supabase;
+    const sb = context.supabase as any;
 
     const results = await Promise.all(
       SYNC_TYPES.map(async (cfg) => {
@@ -252,7 +252,7 @@ export const listSyncTargets = createServerFn({ method: "GET" })
   .inputValidator((d: unknown) => z.object({ type: syncTypeSchema }).parse(d))
   .handler(async ({ data, context }) => {
     await assertAdmin(context);
-    const sb = context.supabase;
+    const sb = context.supabase as any;
     const cfg = SYNC_TYPES.find((t) => t.type === data.type)!;
 
     const cols =
@@ -296,7 +296,7 @@ export const syncRecord = createServerFn({ method: "POST" })
   )
   .handler(async ({ data, context }) => {
     await assertAdmin(context);
-    const sb = context.supabase;
+    const sb = context.supabase as any;
     const slug = docSlug(data.type, data.id);
 
     const composed = await composeDoc(sb, data.type, data.id);
@@ -433,7 +433,7 @@ export const rebuildEmbeddings = createServerFn({ method: "POST" })
   .inputValidator((d: unknown) => z.object({ documentId: z.string().uuid() }).parse(d))
   .handler(async ({ data, context }) => {
     await assertAdmin(context);
-    const sb = context.supabase;
+    const sb = context.supabase as any;
 
     const { data: chunks, error } = await sb
       .from("rag_chunks")
@@ -478,7 +478,7 @@ export const deleteSyncedDocument = createServerFn({ method: "POST" })
   .inputValidator((d: unknown) => z.object({ documentId: z.string().uuid() }).parse(d))
   .handler(async ({ data, context }) => {
     await assertAdmin(context);
-    const sb = context.supabase;
+    const sb = context.supabase as any;
     await sb.from("rag_chunks").delete().eq("document_id", data.documentId);
     const { error } = await sb.from("knowledge_documents").delete().eq("id", data.documentId);
     if (error) throw new Error(error.message);
