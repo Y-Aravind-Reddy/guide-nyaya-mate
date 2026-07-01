@@ -42,6 +42,7 @@ const NAV = [
 ] as const;
 
 const ADMIN_NAV = [
+  { icon: RefreshCw, label: "KB Sync", to: "/admin/kb-sync" },
   { icon: Database, label: "Knowledge Base", to: "/knowledge-base" },
   { icon: ShieldCheck, label: "Official Sources", to: "/official-sources" },
   { icon: Activity, label: "Retrieval Analytics", to: "/retrieval-analytics" },
