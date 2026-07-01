@@ -13,6 +13,7 @@ import {
   Landmark,
   LogOut,
   Menu,
+  RefreshCw,
   Save,
   Search,
   Settings,
