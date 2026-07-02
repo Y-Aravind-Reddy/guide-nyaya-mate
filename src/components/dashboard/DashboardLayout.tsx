@@ -79,11 +79,11 @@ export function DashboardLayout({
   return (
     <div className="min-h-screen bg-background">
       <aside
-        className={`fixed inset-y-0 left-0 z-50 w-64 transform border-r border-border bg-card p-5 transition-transform duration-300 lg:translate-x-0 ${
+        className={`fixed inset-y-0 left-0 z-50 flex w-64 transform flex-col border-r border-border bg-card transition-transform duration-300 lg:translate-x-0 ${
           open ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <div className="flex items-center justify-between">
+        <div className="flex shrink-0 items-center justify-between p-5">
           <Link to="/">
             <Logo />
           </Link>
@@ -92,7 +92,7 @@ export function DashboardLayout({
           </button>
         </div>
 
-        <nav className="mt-8 space-y-1">
+        <nav className="flex-1 space-y-1 overflow-y-auto px-5 pb-4">
           {NAV.map((item) => {
             const active = pathname === item.to;
             return (
@@ -106,8 +106,8 @@ export function DashboardLayout({
                     : "text-muted-foreground hover:bg-muted hover:text-foreground"
                 }`}
               >
-                <item.icon className="h-5 w-5" />
-                {item.label}
+                <item.icon className="h-5 w-5 shrink-0" />
+                <span className="truncate">{item.label}</span>
               </Link>
             );
           })}
@@ -130,8 +130,8 @@ export function DashboardLayout({
                         : "text-muted-foreground hover:bg-muted hover:text-foreground"
                     }`}
                   >
-                    <item.icon className="h-5 w-5" />
-                    {item.label}
+                    <item.icon className="h-5 w-5 shrink-0" />
+                    <span className="truncate">{item.label}</span>
                   </Link>
                 );
               })}
@@ -139,14 +139,16 @@ export function DashboardLayout({
           )}
         </nav>
 
-
-        <button
-          onClick={handleSignOut}
-          className="absolute inset-x-5 bottom-5 flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-medium text-destructive transition-colors hover:bg-destructive/10"
-        >
-          <LogOut className="h-5 w-5" /> Logout
-        </button>
+        <div className="shrink-0 border-t border-border p-5">
+          <button
+            onClick={handleSignOut}
+            className="flex w-full items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-medium text-destructive transition-colors hover:bg-destructive/10"
+          >
+            <LogOut className="h-5 w-5 shrink-0" /> Logout
+          </button>
+        </div>
       </aside>
+
 
       {open && (
         <div className="fixed inset-0 z-40 bg-black/40 lg:hidden" onClick={() => setOpen(false)} />
