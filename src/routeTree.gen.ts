@@ -17,6 +17,7 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as SchemesIndexRouteImport } from './routes/schemes.index'
 import { Route as LegalRightsIndexRouteImport } from './routes/legal-rights.index'
 import { Route as GovernmentServicesIndexRouteImport } from './routes/government-services.index'
 import { Route as LegalRightsSlugRouteImport } from './routes/legal-rights.$slug'
@@ -71,6 +72,11 @@ const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SchemesIndexRoute = SchemesIndexRouteImport.update({
+  id: '/schemes/',
+  path: '/schemes/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LegalRightsIndexRoute = LegalRightsIndexRouteImport.update({
@@ -183,6 +189,7 @@ export interface FileRoutesByFullPath {
   '/legal-rights/$slug': typeof LegalRightsSlugRoute
   '/government-services/': typeof GovernmentServicesIndexRoute
   '/legal-rights/': typeof LegalRightsIndexRoute
+  '/schemes/': typeof SchemesIndexRoute
   '/admin/kb-sync': typeof AuthenticatedAdminKbSyncRoute
 }
 export interface FileRoutesByTo {
@@ -208,6 +215,7 @@ export interface FileRoutesByTo {
   '/legal-rights/$slug': typeof LegalRightsSlugRoute
   '/government-services': typeof GovernmentServicesIndexRoute
   '/legal-rights': typeof LegalRightsIndexRoute
+  '/schemes': typeof SchemesIndexRoute
   '/admin/kb-sync': typeof AuthenticatedAdminKbSyncRoute
 }
 export interface FileRoutesById {
@@ -235,6 +243,7 @@ export interface FileRoutesById {
   '/legal-rights/$slug': typeof LegalRightsSlugRoute
   '/government-services/': typeof GovernmentServicesIndexRoute
   '/legal-rights/': typeof LegalRightsIndexRoute
+  '/schemes/': typeof SchemesIndexRoute
   '/_authenticated/admin/kb-sync': typeof AuthenticatedAdminKbSyncRoute
 }
 export interface FileRouteTypes {
@@ -262,6 +271,7 @@ export interface FileRouteTypes {
     | '/legal-rights/$slug'
     | '/government-services/'
     | '/legal-rights/'
+    | '/schemes/'
     | '/admin/kb-sync'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -287,6 +297,7 @@ export interface FileRouteTypes {
     | '/legal-rights/$slug'
     | '/government-services'
     | '/legal-rights'
+    | '/schemes'
     | '/admin/kb-sync'
   id:
     | '__root__'
@@ -313,6 +324,7 @@ export interface FileRouteTypes {
     | '/legal-rights/$slug'
     | '/government-services/'
     | '/legal-rights/'
+    | '/schemes/'
     | '/_authenticated/admin/kb-sync'
   fileRoutesById: FileRoutesById
 }
@@ -330,6 +342,7 @@ export interface RootRouteChildren {
   LegalRightsSlugRoute: typeof LegalRightsSlugRoute
   GovernmentServicesIndexRoute: typeof GovernmentServicesIndexRoute
   LegalRightsIndexRoute: typeof LegalRightsIndexRoute
+  SchemesIndexRoute: typeof SchemesIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -388,6 +401,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/schemes/': {
+      id: '/schemes/'
+      path: '/schemes'
+      fullPath: '/schemes/'
+      preLoaderRoute: typeof SchemesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/legal-rights/': {
@@ -550,6 +570,7 @@ const rootRouteChildren: RootRouteChildren = {
   LegalRightsSlugRoute: LegalRightsSlugRoute,
   GovernmentServicesIndexRoute: GovernmentServicesIndexRoute,
   LegalRightsIndexRoute: LegalRightsIndexRoute,
+  SchemesIndexRoute: SchemesIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
