@@ -20,6 +20,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as SchemesIndexRouteImport } from './routes/schemes.index'
 import { Route as LegalRightsIndexRouteImport } from './routes/legal-rights.index'
 import { Route as GovernmentServicesIndexRouteImport } from './routes/government-services.index'
+import { Route as SchemesSlugRouteImport } from './routes/schemes.$slug'
 import { Route as LegalRightsSlugRouteImport } from './routes/legal-rights.$slug'
 import { Route as GovernmentServicesSlugRouteImport } from './routes/government-services.$slug'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
@@ -87,6 +88,11 @@ const LegalRightsIndexRoute = LegalRightsIndexRouteImport.update({
 const GovernmentServicesIndexRoute = GovernmentServicesIndexRouteImport.update({
   id: '/government-services/',
   path: '/government-services/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SchemesSlugRoute = SchemesSlugRouteImport.update({
+  id: '/schemes/$slug',
+  path: '/schemes/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LegalRightsSlugRoute = LegalRightsSlugRouteImport.update({
@@ -187,6 +193,7 @@ export interface FileRoutesByFullPath {
   '/api/chat': typeof ApiChatRoute
   '/government-services/$slug': typeof GovernmentServicesSlugRoute
   '/legal-rights/$slug': typeof LegalRightsSlugRoute
+  '/schemes/$slug': typeof SchemesSlugRoute
   '/government-services/': typeof GovernmentServicesIndexRoute
   '/legal-rights/': typeof LegalRightsIndexRoute
   '/schemes/': typeof SchemesIndexRoute
@@ -213,6 +220,7 @@ export interface FileRoutesByTo {
   '/api/chat': typeof ApiChatRoute
   '/government-services/$slug': typeof GovernmentServicesSlugRoute
   '/legal-rights/$slug': typeof LegalRightsSlugRoute
+  '/schemes/$slug': typeof SchemesSlugRoute
   '/government-services': typeof GovernmentServicesIndexRoute
   '/legal-rights': typeof LegalRightsIndexRoute
   '/schemes': typeof SchemesIndexRoute
@@ -241,6 +249,7 @@ export interface FileRoutesById {
   '/api/chat': typeof ApiChatRoute
   '/government-services/$slug': typeof GovernmentServicesSlugRoute
   '/legal-rights/$slug': typeof LegalRightsSlugRoute
+  '/schemes/$slug': typeof SchemesSlugRoute
   '/government-services/': typeof GovernmentServicesIndexRoute
   '/legal-rights/': typeof LegalRightsIndexRoute
   '/schemes/': typeof SchemesIndexRoute
@@ -269,6 +278,7 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/government-services/$slug'
     | '/legal-rights/$slug'
+    | '/schemes/$slug'
     | '/government-services/'
     | '/legal-rights/'
     | '/schemes/'
@@ -295,6 +305,7 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/government-services/$slug'
     | '/legal-rights/$slug'
+    | '/schemes/$slug'
     | '/government-services'
     | '/legal-rights'
     | '/schemes'
@@ -322,6 +333,7 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/government-services/$slug'
     | '/legal-rights/$slug'
+    | '/schemes/$slug'
     | '/government-services/'
     | '/legal-rights/'
     | '/schemes/'
@@ -340,6 +352,7 @@ export interface RootRouteChildren {
   ApiChatRoute: typeof ApiChatRoute
   GovernmentServicesSlugRoute: typeof GovernmentServicesSlugRoute
   LegalRightsSlugRoute: typeof LegalRightsSlugRoute
+  SchemesSlugRoute: typeof SchemesSlugRoute
   GovernmentServicesIndexRoute: typeof GovernmentServicesIndexRoute
   LegalRightsIndexRoute: typeof LegalRightsIndexRoute
   SchemesIndexRoute: typeof SchemesIndexRoute
@@ -422,6 +435,13 @@ declare module '@tanstack/react-router' {
       path: '/government-services'
       fullPath: '/government-services/'
       preLoaderRoute: typeof GovernmentServicesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/schemes/$slug': {
+      id: '/schemes/$slug'
+      path: '/schemes/$slug'
+      fullPath: '/schemes/$slug'
+      preLoaderRoute: typeof SchemesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/legal-rights/$slug': {
@@ -568,6 +588,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiChatRoute: ApiChatRoute,
   GovernmentServicesSlugRoute: GovernmentServicesSlugRoute,
   LegalRightsSlugRoute: LegalRightsSlugRoute,
+  SchemesSlugRoute: SchemesSlugRoute,
   GovernmentServicesIndexRoute: GovernmentServicesIndexRoute,
   LegalRightsIndexRoute: LegalRightsIndexRoute,
   SchemesIndexRoute: SchemesIndexRoute,
