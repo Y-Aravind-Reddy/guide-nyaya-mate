@@ -1,12 +1,28 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
 
-const BASE_URL = "";
+const BASE_URL = "https://guide-nyaya-mate.lovable.app";
 
 interface SitemapEntry {
   path: string;
   changefreq?: "always" | "hourly" | "daily" | "weekly" | "monthly" | "yearly" | "never";
   priority?: string;
+}
+
+async function fetchSlugs(table: string): Promise<string[]> {
+  const url = process.env.SUPABASE_URL;
+  const key = process.env.SUPABASE_PUBLISHABLE_KEY;
+  if (!url || !key) return [];
+  try {
+    const res = await fetch(`${url}/rest/v1/${table}?select=slug`, {
+      headers: { apikey: key, Authorization: `Bearer ${key}` },
+    });
+    if (!res.ok) return [];
+    const rows = (await res.json()) as { slug: string }[];
+    return rows.map((r) => r.slug).filter(Boolean);
+  } catch {
+    return [];
+  }
 }
 
 export const Route = createFileRoute("/sitemap.xml")({
@@ -15,8 +31,28 @@ export const Route = createFileRoute("/sitemap.xml")({
       GET: async () => {
         const entries: SitemapEntry[] = [
           { path: "/", changefreq: "weekly", priority: "1.0" },
-          { path: "/login", changefreq: "monthly", priority: "0.7" },
+          { path: "/government-services", changefreq: "weekly", priority: "0.9" },
+          { path: "/legal-rights", changefreq: "weekly", priority: "0.9" },
+          { path: "/schemes", changefreq: "weekly", priority: "0.9" },
+          { path: "/faqs", changefreq: "weekly", priority: "0.8" },
+          { path: "/glossary", changefreq: "monthly", priority: "0.7" },
+          { path: "/about", changefreq: "monthly", priority: "0.6" },
+          { path: "/contact", changefreq: "monthly", priority: "0.6" },
+          { path: "/login", changefreq: "monthly", priority: "0.4" },
         ];
+
+        const [services, topics, schemes] = await Promise.all([
+          fetchSlugs("government_services"),
+          fetchSlugs("legal_topics"),
+          fetchSlugs("schemes"),
+        ]);
+
+        for (const slug of services)
+          entries.push({ path: `/government-services/${slug}`, changefreq: "monthly", priority: "0.8" });
+        for (const slug of topics)
+          entries.push({ path: `/legal-rights/${slug}`, changefreq: "monthly", priority: "0.8" });
+        for (const slug of schemes)
+          entries.push({ path: `/schemes/${slug}`, changefreq: "monthly", priority: "0.8" });
 
         const urls = entries.map((e) =>
           [

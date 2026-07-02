@@ -8,12 +8,15 @@ import { useAuth } from "@/hooks/useAuth";
 
 const NAV_LINKS = [
   { label: "Home", to: "/" },
-  { label: "AI Chat", to: "/ai-chat" },
   { label: "Government Services", to: "/government-services" },
   { label: "Legal Rights", to: "/legal-rights" },
+  { label: "Schemes", to: "/schemes" },
+  { label: "FAQs", to: "/faqs" },
+  { label: "Glossary", to: "/glossary" },
   { label: "About", to: "/about" },
   { label: "Contact", to: "/contact" },
 ] as const;
+
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
