@@ -29,13 +29,9 @@ import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticate
 import { Route as AuthenticatedOfficialSourcesRouteImport } from './routes/_authenticated/official-sources'
 import { Route as AuthenticatedKnowledgeHealthRouteImport } from './routes/_authenticated/knowledge-health'
 import { Route as AuthenticatedKnowledgeBaseRouteImport } from './routes/_authenticated/knowledge-base'
-import { Route as AuthenticatedGlossaryRouteImport } from './routes/_authenticated/glossary'
-import { Route as AuthenticatedFaqsRouteImport } from './routes/_authenticated/faqs'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedChatHistoryRouteImport } from './routes/_authenticated/chat-history'
 import { Route as AuthenticatedAiChatRouteImport } from './routes/_authenticated/ai-chat'
-import { Route as AuthenticatedSchemesIndexRouteImport } from './routes/_authenticated/schemes.index'
-import { Route as AuthenticatedSchemesSlugRouteImport } from './routes/_authenticated/schemes.$slug'
 import { Route as AuthenticatedAdminKbSyncRouteImport } from './routes/_authenticated/admin/kb-sync'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -141,16 +137,6 @@ const AuthenticatedKnowledgeBaseRoute =
     path: '/knowledge-base',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
-const AuthenticatedGlossaryRoute = AuthenticatedGlossaryRouteImport.update({
-  id: '/glossary',
-  path: '/glossary',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedFaqsRoute = AuthenticatedFaqsRouteImport.update({
-  id: '/faqs',
-  path: '/faqs',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -167,18 +153,6 @@ const AuthenticatedAiChatRoute = AuthenticatedAiChatRouteImport.update({
   path: '/ai-chat',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const AuthenticatedSchemesIndexRoute =
-  AuthenticatedSchemesIndexRouteImport.update({
-    id: '/schemes/',
-    path: '/schemes/',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedSchemesSlugRoute =
-  AuthenticatedSchemesSlugRouteImport.update({
-    id: '/schemes/$slug',
-    path: '/schemes/$slug',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
 const AuthenticatedAdminKbSyncRoute =
   AuthenticatedAdminKbSyncRouteImport.update({
     id: '/admin/kb-sync',
@@ -197,8 +171,6 @@ export interface FileRoutesByFullPath {
   '/ai-chat': typeof AuthenticatedAiChatRoute
   '/chat-history': typeof AuthenticatedChatHistoryRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
-  '/faqs': typeof AuthenticatedFaqsRoute
-  '/glossary': typeof AuthenticatedGlossaryRoute
   '/knowledge-base': typeof AuthenticatedKnowledgeBaseRoute
   '/knowledge-health': typeof AuthenticatedKnowledgeHealthRoute
   '/official-sources': typeof AuthenticatedOfficialSourcesRoute
@@ -212,8 +184,6 @@ export interface FileRoutesByFullPath {
   '/government-services/': typeof GovernmentServicesIndexRoute
   '/legal-rights/': typeof LegalRightsIndexRoute
   '/admin/kb-sync': typeof AuthenticatedAdminKbSyncRoute
-  '/schemes/$slug': typeof AuthenticatedSchemesSlugRoute
-  '/schemes/': typeof AuthenticatedSchemesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -226,8 +196,6 @@ export interface FileRoutesByTo {
   '/ai-chat': typeof AuthenticatedAiChatRoute
   '/chat-history': typeof AuthenticatedChatHistoryRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
-  '/faqs': typeof AuthenticatedFaqsRoute
-  '/glossary': typeof AuthenticatedGlossaryRoute
   '/knowledge-base': typeof AuthenticatedKnowledgeBaseRoute
   '/knowledge-health': typeof AuthenticatedKnowledgeHealthRoute
   '/official-sources': typeof AuthenticatedOfficialSourcesRoute
@@ -241,8 +209,6 @@ export interface FileRoutesByTo {
   '/government-services': typeof GovernmentServicesIndexRoute
   '/legal-rights': typeof LegalRightsIndexRoute
   '/admin/kb-sync': typeof AuthenticatedAdminKbSyncRoute
-  '/schemes/$slug': typeof AuthenticatedSchemesSlugRoute
-  '/schemes': typeof AuthenticatedSchemesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -257,8 +223,6 @@ export interface FileRoutesById {
   '/_authenticated/ai-chat': typeof AuthenticatedAiChatRoute
   '/_authenticated/chat-history': typeof AuthenticatedChatHistoryRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
-  '/_authenticated/faqs': typeof AuthenticatedFaqsRoute
-  '/_authenticated/glossary': typeof AuthenticatedGlossaryRoute
   '/_authenticated/knowledge-base': typeof AuthenticatedKnowledgeBaseRoute
   '/_authenticated/knowledge-health': typeof AuthenticatedKnowledgeHealthRoute
   '/_authenticated/official-sources': typeof AuthenticatedOfficialSourcesRoute
@@ -272,8 +236,6 @@ export interface FileRoutesById {
   '/government-services/': typeof GovernmentServicesIndexRoute
   '/legal-rights/': typeof LegalRightsIndexRoute
   '/_authenticated/admin/kb-sync': typeof AuthenticatedAdminKbSyncRoute
-  '/_authenticated/schemes/$slug': typeof AuthenticatedSchemesSlugRoute
-  '/_authenticated/schemes/': typeof AuthenticatedSchemesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -288,8 +250,6 @@ export interface FileRouteTypes {
     | '/ai-chat'
     | '/chat-history'
     | '/dashboard'
-    | '/faqs'
-    | '/glossary'
     | '/knowledge-base'
     | '/knowledge-health'
     | '/official-sources'
@@ -303,8 +263,6 @@ export interface FileRouteTypes {
     | '/government-services/'
     | '/legal-rights/'
     | '/admin/kb-sync'
-    | '/schemes/$slug'
-    | '/schemes/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -317,8 +275,6 @@ export interface FileRouteTypes {
     | '/ai-chat'
     | '/chat-history'
     | '/dashboard'
-    | '/faqs'
-    | '/glossary'
     | '/knowledge-base'
     | '/knowledge-health'
     | '/official-sources'
@@ -332,8 +288,6 @@ export interface FileRouteTypes {
     | '/government-services'
     | '/legal-rights'
     | '/admin/kb-sync'
-    | '/schemes/$slug'
-    | '/schemes'
   id:
     | '__root__'
     | '/'
@@ -347,8 +301,6 @@ export interface FileRouteTypes {
     | '/_authenticated/ai-chat'
     | '/_authenticated/chat-history'
     | '/_authenticated/dashboard'
-    | '/_authenticated/faqs'
-    | '/_authenticated/glossary'
     | '/_authenticated/knowledge-base'
     | '/_authenticated/knowledge-health'
     | '/_authenticated/official-sources'
@@ -362,8 +314,6 @@ export interface FileRouteTypes {
     | '/government-services/'
     | '/legal-rights/'
     | '/_authenticated/admin/kb-sync'
-    | '/_authenticated/schemes/$slug'
-    | '/_authenticated/schemes/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -524,20 +474,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedKnowledgeBaseRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/glossary': {
-      id: '/_authenticated/glossary'
-      path: '/glossary'
-      fullPath: '/glossary'
-      preLoaderRoute: typeof AuthenticatedGlossaryRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/faqs': {
-      id: '/_authenticated/faqs'
-      path: '/faqs'
-      fullPath: '/faqs'
-      preLoaderRoute: typeof AuthenticatedFaqsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
     '/_authenticated/dashboard': {
       id: '/_authenticated/dashboard'
       path: '/dashboard'
@@ -559,20 +495,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAiChatRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/schemes/': {
-      id: '/_authenticated/schemes/'
-      path: '/schemes'
-      fullPath: '/schemes/'
-      preLoaderRoute: typeof AuthenticatedSchemesIndexRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/schemes/$slug': {
-      id: '/_authenticated/schemes/$slug'
-      path: '/schemes/$slug'
-      fullPath: '/schemes/$slug'
-      preLoaderRoute: typeof AuthenticatedSchemesSlugRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
     '/_authenticated/admin/kb-sync': {
       id: '/_authenticated/admin/kb-sync'
       path: '/admin/kb-sync'
@@ -587,8 +509,6 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAiChatRoute: typeof AuthenticatedAiChatRoute
   AuthenticatedChatHistoryRoute: typeof AuthenticatedChatHistoryRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
-  AuthenticatedFaqsRoute: typeof AuthenticatedFaqsRoute
-  AuthenticatedGlossaryRoute: typeof AuthenticatedGlossaryRoute
   AuthenticatedKnowledgeBaseRoute: typeof AuthenticatedKnowledgeBaseRoute
   AuthenticatedKnowledgeHealthRoute: typeof AuthenticatedKnowledgeHealthRoute
   AuthenticatedOfficialSourcesRoute: typeof AuthenticatedOfficialSourcesRoute
@@ -597,16 +517,12 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedSavedRoute: typeof AuthenticatedSavedRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
   AuthenticatedAdminKbSyncRoute: typeof AuthenticatedAdminKbSyncRoute
-  AuthenticatedSchemesSlugRoute: typeof AuthenticatedSchemesSlugRoute
-  AuthenticatedSchemesIndexRoute: typeof AuthenticatedSchemesIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAiChatRoute: AuthenticatedAiChatRoute,
   AuthenticatedChatHistoryRoute: AuthenticatedChatHistoryRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
-  AuthenticatedFaqsRoute: AuthenticatedFaqsRoute,
-  AuthenticatedGlossaryRoute: AuthenticatedGlossaryRoute,
   AuthenticatedKnowledgeBaseRoute: AuthenticatedKnowledgeBaseRoute,
   AuthenticatedKnowledgeHealthRoute: AuthenticatedKnowledgeHealthRoute,
   AuthenticatedOfficialSourcesRoute: AuthenticatedOfficialSourcesRoute,
@@ -615,8 +531,6 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedSavedRoute: AuthenticatedSavedRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
   AuthenticatedAdminKbSyncRoute: AuthenticatedAdminKbSyncRoute,
-  AuthenticatedSchemesSlugRoute: AuthenticatedSchemesSlugRoute,
-  AuthenticatedSchemesIndexRoute: AuthenticatedSchemesIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
