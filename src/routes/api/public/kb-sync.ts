@@ -46,26 +46,11 @@ export const Route = createFileRoute("/api/public/kb-sync")({
           } else {
             await ingestCmsRecord(supabaseAdmin, type, parsed.id);
           }
-          try {
-            await supabaseAdmin.from("activity_logs").insert({
-              action: "kb_autosync",
-              metadata: { type, id: parsed.id, op: parsed.op, ok: true },
-            });
-          } catch {
-            /* non-fatal */
-          }
           return Response.json({ ok: true });
         } catch (e) {
           const message = e instanceof Error ? e.message : "sync failed";
           console.error("kb-autosync error", message);
-          try {
-            await supabaseAdmin.from("activity_logs").insert({
-              action: "kb_autosync",
-              metadata: { type, id: parsed.id, op: parsed.op, ok: false, error: message },
-            });
-          } catch {
-            /* non-fatal */
-          }
+
           // Return 200 so pg_net does not treat this as an infrastructure error;
           // the failure is captured in the audit log and document status.
           return Response.json({ ok: false, error: message });
