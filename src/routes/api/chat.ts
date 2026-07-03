@@ -33,6 +33,20 @@ function partsToText(m: UIMessage): string {
     .slice(0, 8000);
 }
 
+// Start of the current day in India Standard Time, as an ISO string.
+function startOfDayIso(): string {
+  const now = new Date();
+  const ist = new Date(now.getTime() + 5.5 * 3600 * 1000);
+  ist.setUTCHours(0, 0, 0, 0);
+  return new Date(ist.getTime() - 5.5 * 3600 * 1000).toISOString();
+}
+
+// Rough token estimate (~4 chars/token) for usage accounting.
+function estTokens(text: string): number {
+  return Math.max(1, Math.ceil((text || "").length / 4));
+}
+
+
 type RetrievedChunk = {
   chunk_id: string;
   chunk_text: string;
