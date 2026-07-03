@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SignupRouteImport } from './routes/signup'
+import { Route as SearchRouteImport } from './routes/search'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as GlossaryRouteImport } from './routes/glossary'
@@ -47,6 +48,11 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
   path: '/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SearchRoute = SearchRouteImport.update({
+  id: '/search',
+  path: '/search',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
@@ -198,6 +204,7 @@ export interface FileRoutesByFullPath {
   '/glossary': typeof GlossaryRoute
   '/login': typeof LoginRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/search': typeof SearchRoute
   '/signup': typeof SignupRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/ai-chat': typeof AuthenticatedAiChatRoute
@@ -228,6 +235,7 @@ export interface FileRoutesByTo {
   '/glossary': typeof GlossaryRoute
   '/login': typeof LoginRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/search': typeof SearchRoute
   '/signup': typeof SignupRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/ai-chat': typeof AuthenticatedAiChatRoute
@@ -260,6 +268,7 @@ export interface FileRoutesById {
   '/glossary': typeof GlossaryRoute
   '/login': typeof LoginRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/search': typeof SearchRoute
   '/signup': typeof SignupRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/_authenticated/ai-chat': typeof AuthenticatedAiChatRoute
@@ -292,6 +301,7 @@ export interface FileRouteTypes {
     | '/glossary'
     | '/login'
     | '/reset-password'
+    | '/search'
     | '/signup'
     | '/sitemap.xml'
     | '/ai-chat'
@@ -322,6 +332,7 @@ export interface FileRouteTypes {
     | '/glossary'
     | '/login'
     | '/reset-password'
+    | '/search'
     | '/signup'
     | '/sitemap.xml'
     | '/ai-chat'
@@ -353,6 +364,7 @@ export interface FileRouteTypes {
     | '/glossary'
     | '/login'
     | '/reset-password'
+    | '/search'
     | '/signup'
     | '/sitemap.xml'
     | '/_authenticated/ai-chat'
@@ -385,6 +397,7 @@ export interface RootRouteChildren {
   GlossaryRoute: typeof GlossaryRoute
   LoginRoute: typeof LoginRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
+  SearchRoute: typeof SearchRoute
   SignupRoute: typeof SignupRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   ApiChatRoute: typeof ApiChatRoute
@@ -411,6 +424,13 @@ declare module '@tanstack/react-router' {
       path: '/signup'
       fullPath: '/signup'
       preLoaderRoute: typeof SignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/search': {
+      id: '/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof SearchRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/reset-password': {
@@ -645,6 +665,7 @@ const rootRouteChildren: RootRouteChildren = {
   GlossaryRoute: GlossaryRoute,
   LoginRoute: LoginRoute,
   ResetPasswordRoute: ResetPasswordRoute,
+  SearchRoute: SearchRoute,
   SignupRoute: SignupRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   ApiChatRoute: ApiChatRoute,

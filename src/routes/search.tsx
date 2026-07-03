@@ -99,7 +99,7 @@ function SearchPage() {
       first.current = false;
       return;
     }
-    navigate({ search: (p) => ({ ...p, q: debounced || undefined, page: undefined }) });
+    navigate({ search: (p: any) => ({ ...p, q: debounced || undefined, page: undefined }) });
   }, [debounced, navigate]);
 
   const saveRecent = (q: string) => {
@@ -139,7 +139,7 @@ function SearchPage() {
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
   const categories = data?.categories ?? [];
   const setParam = (patch: Record<string, unknown>) =>
-    navigate({ search: (p) => ({ ...p, ...patch, page: undefined }) });
+    navigate({ search: (p: any) => ({ ...p, ...patch, page: undefined }) });
 
   const showRecent = useMemo(() => !debounced.trim() && recent.length > 0, [debounced, recent]);
 
@@ -298,7 +298,7 @@ function SearchPage() {
             <div className="mt-6 flex items-center justify-center gap-2">
               <button
                 disabled={page <= 1}
-                onClick={() => navigate({ search: (p) => ({ ...p, page: page - 1 }) })}
+                onClick={() => navigate({ search: (p: any) => ({ ...p, page: page - 1 }) })}
                 className="rounded-lg border border-border bg-card px-3 py-1.5 text-sm text-foreground disabled:opacity-40"
               >
                 Previous
@@ -308,7 +308,7 @@ function SearchPage() {
               </span>
               <button
                 disabled={page >= totalPages}
-                onClick={() => navigate({ search: (p) => ({ ...p, page: page + 1 }) })}
+                onClick={() => navigate({ search: (p: any) => ({ ...p, page: page + 1 }) })}
                 className="rounded-lg border border-border bg-card px-3 py-1.5 text-sm text-foreground disabled:opacity-40"
               >
                 Next
