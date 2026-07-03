@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SignupRouteImport } from './routes/signup'
+import { Route as SearchRouteImport } from './routes/search'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as GlossaryRouteImport } from './routes/glossary'
@@ -36,7 +37,9 @@ import { Route as AuthenticatedKnowledgeBaseRouteImport } from './routes/_authen
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedChatHistoryRouteImport } from './routes/_authenticated/chat-history'
 import { Route as AuthenticatedAiChatRouteImport } from './routes/_authenticated/ai-chat'
+import { Route as ApiPublicKbSyncRouteImport } from './routes/api/public/kb-sync'
 import { Route as AuthenticatedAdminKbSyncRouteImport } from './routes/_authenticated/admin/kb-sync'
+import { Route as AuthenticatedAdminAiUsageRouteImport } from './routes/_authenticated/admin/ai-usage'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -46,6 +49,11 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
   path: '/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SearchRoute = SearchRouteImport.update({
+  id: '/search',
+  path: '/search',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
@@ -177,10 +185,21 @@ const AuthenticatedAiChatRoute = AuthenticatedAiChatRouteImport.update({
   path: '/ai-chat',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const ApiPublicKbSyncRoute = ApiPublicKbSyncRouteImport.update({
+  id: '/api/public/kb-sync',
+  path: '/api/public/kb-sync',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedAdminKbSyncRoute =
   AuthenticatedAdminKbSyncRouteImport.update({
     id: '/admin/kb-sync',
     path: '/admin/kb-sync',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminAiUsageRoute =
+  AuthenticatedAdminAiUsageRouteImport.update({
+    id: '/admin/ai-usage',
+    path: '/admin/ai-usage',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 
@@ -192,6 +211,7 @@ export interface FileRoutesByFullPath {
   '/glossary': typeof GlossaryRoute
   '/login': typeof LoginRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/search': typeof SearchRoute
   '/signup': typeof SignupRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/ai-chat': typeof AuthenticatedAiChatRoute
@@ -211,7 +231,9 @@ export interface FileRoutesByFullPath {
   '/government-services/': typeof GovernmentServicesIndexRoute
   '/legal-rights/': typeof LegalRightsIndexRoute
   '/schemes/': typeof SchemesIndexRoute
+  '/admin/ai-usage': typeof AuthenticatedAdminAiUsageRoute
   '/admin/kb-sync': typeof AuthenticatedAdminKbSyncRoute
+  '/api/public/kb-sync': typeof ApiPublicKbSyncRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -221,6 +243,7 @@ export interface FileRoutesByTo {
   '/glossary': typeof GlossaryRoute
   '/login': typeof LoginRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/search': typeof SearchRoute
   '/signup': typeof SignupRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/ai-chat': typeof AuthenticatedAiChatRoute
@@ -240,7 +263,9 @@ export interface FileRoutesByTo {
   '/government-services': typeof GovernmentServicesIndexRoute
   '/legal-rights': typeof LegalRightsIndexRoute
   '/schemes': typeof SchemesIndexRoute
+  '/admin/ai-usage': typeof AuthenticatedAdminAiUsageRoute
   '/admin/kb-sync': typeof AuthenticatedAdminKbSyncRoute
+  '/api/public/kb-sync': typeof ApiPublicKbSyncRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -252,6 +277,7 @@ export interface FileRoutesById {
   '/glossary': typeof GlossaryRoute
   '/login': typeof LoginRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/search': typeof SearchRoute
   '/signup': typeof SignupRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/_authenticated/ai-chat': typeof AuthenticatedAiChatRoute
@@ -271,7 +297,9 @@ export interface FileRoutesById {
   '/government-services/': typeof GovernmentServicesIndexRoute
   '/legal-rights/': typeof LegalRightsIndexRoute
   '/schemes/': typeof SchemesIndexRoute
+  '/_authenticated/admin/ai-usage': typeof AuthenticatedAdminAiUsageRoute
   '/_authenticated/admin/kb-sync': typeof AuthenticatedAdminKbSyncRoute
+  '/api/public/kb-sync': typeof ApiPublicKbSyncRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -283,6 +311,7 @@ export interface FileRouteTypes {
     | '/glossary'
     | '/login'
     | '/reset-password'
+    | '/search'
     | '/signup'
     | '/sitemap.xml'
     | '/ai-chat'
@@ -302,7 +331,9 @@ export interface FileRouteTypes {
     | '/government-services/'
     | '/legal-rights/'
     | '/schemes/'
+    | '/admin/ai-usage'
     | '/admin/kb-sync'
+    | '/api/public/kb-sync'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -312,6 +343,7 @@ export interface FileRouteTypes {
     | '/glossary'
     | '/login'
     | '/reset-password'
+    | '/search'
     | '/signup'
     | '/sitemap.xml'
     | '/ai-chat'
@@ -331,7 +363,9 @@ export interface FileRouteTypes {
     | '/government-services'
     | '/legal-rights'
     | '/schemes'
+    | '/admin/ai-usage'
     | '/admin/kb-sync'
+    | '/api/public/kb-sync'
   id:
     | '__root__'
     | '/'
@@ -342,6 +376,7 @@ export interface FileRouteTypes {
     | '/glossary'
     | '/login'
     | '/reset-password'
+    | '/search'
     | '/signup'
     | '/sitemap.xml'
     | '/_authenticated/ai-chat'
@@ -361,7 +396,9 @@ export interface FileRouteTypes {
     | '/government-services/'
     | '/legal-rights/'
     | '/schemes/'
+    | '/_authenticated/admin/ai-usage'
     | '/_authenticated/admin/kb-sync'
+    | '/api/public/kb-sync'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -373,6 +410,7 @@ export interface RootRouteChildren {
   GlossaryRoute: typeof GlossaryRoute
   LoginRoute: typeof LoginRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
+  SearchRoute: typeof SearchRoute
   SignupRoute: typeof SignupRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   ApiChatRoute: typeof ApiChatRoute
@@ -382,6 +420,7 @@ export interface RootRouteChildren {
   GovernmentServicesIndexRoute: typeof GovernmentServicesIndexRoute
   LegalRightsIndexRoute: typeof LegalRightsIndexRoute
   SchemesIndexRoute: typeof SchemesIndexRoute
+  ApiPublicKbSyncRoute: typeof ApiPublicKbSyncRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -398,6 +437,13 @@ declare module '@tanstack/react-router' {
       path: '/signup'
       fullPath: '/signup'
       preLoaderRoute: typeof SignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/search': {
+      id: '/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof SearchRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/reset-password': {
@@ -575,11 +621,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAiChatRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/api/public/kb-sync': {
+      id: '/api/public/kb-sync'
+      path: '/api/public/kb-sync'
+      fullPath: '/api/public/kb-sync'
+      preLoaderRoute: typeof ApiPublicKbSyncRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/admin/kb-sync': {
       id: '/_authenticated/admin/kb-sync'
       path: '/admin/kb-sync'
       fullPath: '/admin/kb-sync'
       preLoaderRoute: typeof AuthenticatedAdminKbSyncRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/ai-usage': {
+      id: '/_authenticated/admin/ai-usage'
+      path: '/admin/ai-usage'
+      fullPath: '/admin/ai-usage'
+      preLoaderRoute: typeof AuthenticatedAdminAiUsageRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
   }
@@ -596,6 +656,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedRetrievalAnalyticsRoute: typeof AuthenticatedRetrievalAnalyticsRoute
   AuthenticatedSavedRoute: typeof AuthenticatedSavedRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
+  AuthenticatedAdminAiUsageRoute: typeof AuthenticatedAdminAiUsageRoute
   AuthenticatedAdminKbSyncRoute: typeof AuthenticatedAdminKbSyncRoute
 }
 
@@ -610,6 +671,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedRetrievalAnalyticsRoute: AuthenticatedRetrievalAnalyticsRoute,
   AuthenticatedSavedRoute: AuthenticatedSavedRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
+  AuthenticatedAdminAiUsageRoute: AuthenticatedAdminAiUsageRoute,
   AuthenticatedAdminKbSyncRoute: AuthenticatedAdminKbSyncRoute,
 }
 
@@ -625,6 +687,7 @@ const rootRouteChildren: RootRouteChildren = {
   GlossaryRoute: GlossaryRoute,
   LoginRoute: LoginRoute,
   ResetPasswordRoute: ResetPasswordRoute,
+  SearchRoute: SearchRoute,
   SignupRoute: SignupRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   ApiChatRoute: ApiChatRoute,
@@ -634,17 +697,8 @@ const rootRouteChildren: RootRouteChildren = {
   GovernmentServicesIndexRoute: GovernmentServicesIndexRoute,
   LegalRightsIndexRoute: LegalRightsIndexRoute,
   SchemesIndexRoute: SchemesIndexRoute,
+  ApiPublicKbSyncRoute: ApiPublicKbSyncRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

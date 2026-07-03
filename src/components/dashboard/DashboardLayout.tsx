@@ -43,6 +43,7 @@ const NAV = [
 ] as const;
 
 const ADMIN_NAV = [
+  { icon: Gauge, label: "AI Usage", to: "/admin/ai-usage" },
   { icon: RefreshCw, label: "KB Sync", to: "/admin/kb-sync" },
   { icon: Database, label: "Knowledge Base", to: "/knowledge-base" },
   { icon: ShieldCheck, label: "Official Sources", to: "/official-sources" },
@@ -159,13 +160,21 @@ export function DashboardLayout({
           <button className="lg:hidden" onClick={() => setOpen(true)} aria-label="Open menu">
             <Menu className="h-5 w-5 text-foreground" />
           </button>
-          <div className="flex flex-1 items-center gap-2 rounded-xl border border-border bg-card px-3.5 py-2 sm:max-w-md">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              const q = (new FormData(e.currentTarget).get("q") as string)?.trim();
+              navigate({ to: "/search", search: q ? { q } : {} });
+            }}
+            className="flex flex-1 items-center gap-2 rounded-xl border border-border bg-card px-3.5 py-2 sm:max-w-md"
+          >
             <Search className="h-4 w-4 text-muted-foreground" />
             <input
+              name="q"
               placeholder="Search services, guides…"
               className="flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground focus:outline-none"
             />
-          </div>
+          </form>
           <button
             className="relative grid h-10 w-10 place-items-center rounded-xl border border-border bg-card text-muted-foreground hover:text-foreground"
             aria-label="Notifications"

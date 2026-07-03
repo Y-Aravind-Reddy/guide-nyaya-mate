@@ -1,0 +1,1 @@
+REVOKE ALL ON FUNCTION public.cms_kb_autosync() FROM PUBLIC, anon, authenticated;

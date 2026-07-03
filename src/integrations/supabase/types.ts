@@ -82,6 +82,54 @@ export type Database = {
           },
         ]
       }
+      ai_usage_events: {
+        Row: {
+          completion_tokens: number
+          cost_estimate: number
+          created_at: string
+          event_type: string
+          guest_key: string | null
+          id: string
+          model: string | null
+          prompt_tokens: number
+          rate_limited: boolean
+          response_time_ms: number
+          succeeded: boolean
+          total_tokens: number
+          user_id: string | null
+        }
+        Insert: {
+          completion_tokens?: number
+          cost_estimate?: number
+          created_at?: string
+          event_type?: string
+          guest_key?: string | null
+          id?: string
+          model?: string | null
+          prompt_tokens?: number
+          rate_limited?: boolean
+          response_time_ms?: number
+          succeeded?: boolean
+          total_tokens?: number
+          user_id?: string | null
+        }
+        Update: {
+          completion_tokens?: number
+          cost_estimate?: number
+          created_at?: string
+          event_type?: string
+          guest_key?: string | null
+          id?: string
+          model?: string | null
+          prompt_tokens?: number
+          rate_limited?: boolean
+          response_time_ms?: number
+          succeeded?: boolean
+          total_tokens?: number
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       bookmarks: {
         Row: {
           created_at: string
