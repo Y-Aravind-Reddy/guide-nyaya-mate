@@ -36,6 +36,7 @@ import { Route as AuthenticatedKnowledgeBaseRouteImport } from './routes/_authen
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedChatHistoryRouteImport } from './routes/_authenticated/chat-history'
 import { Route as AuthenticatedAiChatRouteImport } from './routes/_authenticated/ai-chat'
+import { Route as ApiPublicKbSyncRouteImport } from './routes/api/public/kb-sync'
 import { Route as AuthenticatedAdminKbSyncRouteImport } from './routes/_authenticated/admin/kb-sync'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -177,6 +178,11 @@ const AuthenticatedAiChatRoute = AuthenticatedAiChatRouteImport.update({
   path: '/ai-chat',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const ApiPublicKbSyncRoute = ApiPublicKbSyncRouteImport.update({
+  id: '/api/public/kb-sync',
+  path: '/api/public/kb-sync',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedAdminKbSyncRoute =
   AuthenticatedAdminKbSyncRouteImport.update({
     id: '/admin/kb-sync',
@@ -212,6 +218,7 @@ export interface FileRoutesByFullPath {
   '/legal-rights/': typeof LegalRightsIndexRoute
   '/schemes/': typeof SchemesIndexRoute
   '/admin/kb-sync': typeof AuthenticatedAdminKbSyncRoute
+  '/api/public/kb-sync': typeof ApiPublicKbSyncRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -241,6 +248,7 @@ export interface FileRoutesByTo {
   '/legal-rights': typeof LegalRightsIndexRoute
   '/schemes': typeof SchemesIndexRoute
   '/admin/kb-sync': typeof AuthenticatedAdminKbSyncRoute
+  '/api/public/kb-sync': typeof ApiPublicKbSyncRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -272,6 +280,7 @@ export interface FileRoutesById {
   '/legal-rights/': typeof LegalRightsIndexRoute
   '/schemes/': typeof SchemesIndexRoute
   '/_authenticated/admin/kb-sync': typeof AuthenticatedAdminKbSyncRoute
+  '/api/public/kb-sync': typeof ApiPublicKbSyncRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -303,6 +312,7 @@ export interface FileRouteTypes {
     | '/legal-rights/'
     | '/schemes/'
     | '/admin/kb-sync'
+    | '/api/public/kb-sync'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -332,6 +342,7 @@ export interface FileRouteTypes {
     | '/legal-rights'
     | '/schemes'
     | '/admin/kb-sync'
+    | '/api/public/kb-sync'
   id:
     | '__root__'
     | '/'
@@ -362,6 +373,7 @@ export interface FileRouteTypes {
     | '/legal-rights/'
     | '/schemes/'
     | '/_authenticated/admin/kb-sync'
+    | '/api/public/kb-sync'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -382,6 +394,7 @@ export interface RootRouteChildren {
   GovernmentServicesIndexRoute: typeof GovernmentServicesIndexRoute
   LegalRightsIndexRoute: typeof LegalRightsIndexRoute
   SchemesIndexRoute: typeof SchemesIndexRoute
+  ApiPublicKbSyncRoute: typeof ApiPublicKbSyncRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -575,6 +588,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAiChatRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/api/public/kb-sync': {
+      id: '/api/public/kb-sync'
+      path: '/api/public/kb-sync'
+      fullPath: '/api/public/kb-sync'
+      preLoaderRoute: typeof ApiPublicKbSyncRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/admin/kb-sync': {
       id: '/_authenticated/admin/kb-sync'
       path: '/admin/kb-sync'
@@ -634,6 +654,7 @@ const rootRouteChildren: RootRouteChildren = {
   GovernmentServicesIndexRoute: GovernmentServicesIndexRoute,
   LegalRightsIndexRoute: LegalRightsIndexRoute,
   SchemesIndexRoute: SchemesIndexRoute,
+  ApiPublicKbSyncRoute: ApiPublicKbSyncRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

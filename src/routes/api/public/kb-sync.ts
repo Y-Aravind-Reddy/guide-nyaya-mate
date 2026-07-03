@@ -48,7 +48,6 @@ export const Route = createFileRoute("/api/public/kb-sync")({
           }
           try {
             await supabaseAdmin.from("activity_logs").insert({
-              user_id: null,
               action: "kb_autosync",
               metadata: { type, id: parsed.id, op: parsed.op, ok: true },
             });
@@ -61,7 +60,6 @@ export const Route = createFileRoute("/api/public/kb-sync")({
           console.error("kb-autosync error", message);
           try {
             await supabaseAdmin.from("activity_logs").insert({
-              user_id: null,
               action: "kb_autosync",
               metadata: { type, id: parsed.id, op: parsed.op, ok: false, error: message },
             });
