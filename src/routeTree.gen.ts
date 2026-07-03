@@ -39,6 +39,7 @@ import { Route as AuthenticatedChatHistoryRouteImport } from './routes/_authenti
 import { Route as AuthenticatedAiChatRouteImport } from './routes/_authenticated/ai-chat'
 import { Route as ApiPublicKbSyncRouteImport } from './routes/api/public/kb-sync'
 import { Route as AuthenticatedAdminKbSyncRouteImport } from './routes/_authenticated/admin/kb-sync'
+import { Route as AuthenticatedAdminAiUsageRouteImport } from './routes/_authenticated/admin/ai-usage'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -195,6 +196,12 @@ const AuthenticatedAdminKbSyncRoute =
     path: '/admin/kb-sync',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAdminAiUsageRoute =
+  AuthenticatedAdminAiUsageRouteImport.update({
+    id: '/admin/ai-usage',
+    path: '/admin/ai-usage',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -224,6 +231,7 @@ export interface FileRoutesByFullPath {
   '/government-services/': typeof GovernmentServicesIndexRoute
   '/legal-rights/': typeof LegalRightsIndexRoute
   '/schemes/': typeof SchemesIndexRoute
+  '/admin/ai-usage': typeof AuthenticatedAdminAiUsageRoute
   '/admin/kb-sync': typeof AuthenticatedAdminKbSyncRoute
   '/api/public/kb-sync': typeof ApiPublicKbSyncRoute
 }
@@ -255,6 +263,7 @@ export interface FileRoutesByTo {
   '/government-services': typeof GovernmentServicesIndexRoute
   '/legal-rights': typeof LegalRightsIndexRoute
   '/schemes': typeof SchemesIndexRoute
+  '/admin/ai-usage': typeof AuthenticatedAdminAiUsageRoute
   '/admin/kb-sync': typeof AuthenticatedAdminKbSyncRoute
   '/api/public/kb-sync': typeof ApiPublicKbSyncRoute
 }
@@ -288,6 +297,7 @@ export interface FileRoutesById {
   '/government-services/': typeof GovernmentServicesIndexRoute
   '/legal-rights/': typeof LegalRightsIndexRoute
   '/schemes/': typeof SchemesIndexRoute
+  '/_authenticated/admin/ai-usage': typeof AuthenticatedAdminAiUsageRoute
   '/_authenticated/admin/kb-sync': typeof AuthenticatedAdminKbSyncRoute
   '/api/public/kb-sync': typeof ApiPublicKbSyncRoute
 }
@@ -321,6 +331,7 @@ export interface FileRouteTypes {
     | '/government-services/'
     | '/legal-rights/'
     | '/schemes/'
+    | '/admin/ai-usage'
     | '/admin/kb-sync'
     | '/api/public/kb-sync'
   fileRoutesByTo: FileRoutesByTo
@@ -352,6 +363,7 @@ export interface FileRouteTypes {
     | '/government-services'
     | '/legal-rights'
     | '/schemes'
+    | '/admin/ai-usage'
     | '/admin/kb-sync'
     | '/api/public/kb-sync'
   id:
@@ -384,6 +396,7 @@ export interface FileRouteTypes {
     | '/government-services/'
     | '/legal-rights/'
     | '/schemes/'
+    | '/_authenticated/admin/ai-usage'
     | '/_authenticated/admin/kb-sync'
     | '/api/public/kb-sync'
   fileRoutesById: FileRoutesById
@@ -622,6 +635,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminKbSyncRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/ai-usage': {
+      id: '/_authenticated/admin/ai-usage'
+      path: '/admin/ai-usage'
+      fullPath: '/admin/ai-usage'
+      preLoaderRoute: typeof AuthenticatedAdminAiUsageRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
@@ -636,6 +656,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedRetrievalAnalyticsRoute: typeof AuthenticatedRetrievalAnalyticsRoute
   AuthenticatedSavedRoute: typeof AuthenticatedSavedRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
+  AuthenticatedAdminAiUsageRoute: typeof AuthenticatedAdminAiUsageRoute
   AuthenticatedAdminKbSyncRoute: typeof AuthenticatedAdminKbSyncRoute
 }
 
@@ -650,6 +671,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedRetrievalAnalyticsRoute: AuthenticatedRetrievalAnalyticsRoute,
   AuthenticatedSavedRoute: AuthenticatedSavedRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
+  AuthenticatedAdminAiUsageRoute: AuthenticatedAdminAiUsageRoute,
   AuthenticatedAdminKbSyncRoute: AuthenticatedAdminKbSyncRoute,
 }
 
