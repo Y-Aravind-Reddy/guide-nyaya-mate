@@ -301,6 +301,30 @@ ${sourcesBlock}
             }
 
             try {
+              // ---- AI usage event (rate-limit accounting + usage dashboard) ----
+              const promptTokens = estTokens(query) + estTokens(system);
+              const completionTokens = estTokens(partsToText(responseMessage));
+              const totalTokens = promptTokens + completionTokens;
+              // Rough estimate in Lovable credits (embeddings + flash generation).
+              const costEstimate = Number(((totalTokens / 1000) * 0.0006).toFixed(5));
+              await authClient.from("ai_usage_events").insert({
+                user_id: userId,
+                event_type: "chat",
+                model: modelName,
+                prompt_tokens: promptTokens,
+                completion_tokens: completionTokens,
+                total_tokens: totalTokens,
+                response_time_ms: Date.now() - responseStart,
+                succeeded: true,
+                rate_limited: false,
+                cost_estimate: costEstimate,
+              });
+            } catch (e) {
+              console.error("usage log error", e);
+            }
+
+
+            try {
               const { supabaseAdmin } = await import(
                 "@/integrations/supabase/client.server"
               );
