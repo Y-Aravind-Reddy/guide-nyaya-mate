@@ -68,6 +68,49 @@ export const Route = createFileRoute("/api/chat")({
         }
         const userId = userData.user.id;
 
+        // ---- Rate limiting (admins unlimited, registered users 100/day IST) ----
+        const DAILY_LIMIT = 100;
+        let isAdmin = false;
+        try {
+          const { data: adm } = await authClient.rpc("has_role", {
+            _user_id: userId,
+            _role: "admin",
+          });
+          isAdmin = Boolean(adm);
+        } catch {
+          /* default non-admin */
+        }
+        if (!isAdmin) {
+          const { count } = await authClient
+            .from("ai_usage_events")
+            .select("id", { count: "exact", head: true })
+            .eq("user_id", userId)
+            .eq("event_type", "chat")
+            .eq("rate_limited", false)
+            .gte("created_at", startOfDayIso());
+          if ((count ?? 0) >= DAILY_LIMIT) {
+            try {
+              await authClient.from("ai_usage_events").insert({
+                user_id: userId,
+                event_type: "chat",
+                model: "google/gemini-3-flash-preview",
+                rate_limited: true,
+                succeeded: false,
+              });
+            } catch {
+              /* non-fatal */
+            }
+            return new Response(
+              JSON.stringify({
+                error: "You have reached today's AI usage limit.",
+                code: "rate_limited",
+                limit: DAILY_LIMIT,
+              }),
+              { status: 429, headers: { "Content-Type": "application/json" } },
+            );
+          }
+        }
+
         const body = (await request.json()) as Body;
         if (!Array.isArray(body.messages)) {
           return new Response("Messages are required", { status: 400 });
