@@ -349,6 +349,7 @@ export type Database = {
           created_at: string
           definition: string
           id: string
+          source_id: string | null
           term: string
           updated_at: string
         }
@@ -357,6 +358,7 @@ export type Database = {
           created_at?: string
           definition: string
           id?: string
+          source_id?: string | null
           term: string
           updated_at?: string
         }
@@ -365,10 +367,19 @@ export type Database = {
           created_at?: string
           definition?: string
           id?: string
+          source_id?: string | null
           term?: string
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "glossary_source_id_fkey"
+            columns: ["source_id"]
+            isOneToOne: false
+            referencedRelation: "official_sources"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       government_services: {
         Row: {
@@ -381,6 +392,7 @@ export type Database = {
           id: string
           processing_time: string | null
           slug: string
+          source_id: string | null
           title: string
         }
         Insert: {
@@ -393,6 +405,7 @@ export type Database = {
           id?: string
           processing_time?: string | null
           slug: string
+          source_id?: string | null
           title: string
         }
         Update: {
@@ -405,9 +418,18 @@ export type Database = {
           id?: string
           processing_time?: string | null
           slug?: string
+          source_id?: string | null
           title?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "government_services_source_id_fkey"
+            columns: ["source_id"]
+            isOneToOne: false
+            referencedRelation: "official_sources"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       ingestion_jobs: {
         Row: {
@@ -704,6 +726,7 @@ export type Database = {
           procedure: string | null
           related: Json
           slug: string
+          source_id: string | null
           title: string
         }
         Insert: {
@@ -718,6 +741,7 @@ export type Database = {
           procedure?: string | null
           related?: Json
           slug: string
+          source_id?: string | null
           title: string
         }
         Update: {
@@ -732,9 +756,18 @@ export type Database = {
           procedure?: string | null
           related?: Json
           slug?: string
+          source_id?: string | null
           title?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "legal_topics_source_id_fkey"
+            columns: ["source_id"]
+            isOneToOne: false
+            referencedRelation: "official_sources"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       messages: {
         Row: {
@@ -773,40 +806,73 @@ export type Database = {
       }
       official_sources: {
         Row: {
+          apply_online_url: string | null
           authority: string
           category: string | null
           created_at: string
           created_by: string | null
+          department: string | null
+          email: string | null
+          forms_url: string | null
+          government_level: string | null
+          helpline: string | null
           id: string
+          is_active: boolean
           jurisdiction: string | null
           last_verified_at: string | null
+          ministry: string | null
+          office_address: string | null
+          source_type: string | null
           source_url: string
+          state: string | null
           status: string
           title: string
           updated_at: string
         }
         Insert: {
+          apply_online_url?: string | null
           authority: string
           category?: string | null
           created_at?: string
           created_by?: string | null
+          department?: string | null
+          email?: string | null
+          forms_url?: string | null
+          government_level?: string | null
+          helpline?: string | null
           id?: string
+          is_active?: boolean
           jurisdiction?: string | null
           last_verified_at?: string | null
+          ministry?: string | null
+          office_address?: string | null
+          source_type?: string | null
           source_url: string
+          state?: string | null
           status?: string
           title: string
           updated_at?: string
         }
         Update: {
+          apply_online_url?: string | null
           authority?: string
           category?: string | null
           created_at?: string
           created_by?: string | null
+          department?: string | null
+          email?: string | null
+          forms_url?: string | null
+          government_level?: string | null
+          helpline?: string | null
           id?: string
+          is_active?: boolean
           jurisdiction?: string | null
           last_verified_at?: string | null
+          ministry?: string | null
+          office_address?: string | null
+          source_type?: string | null
           source_url?: string
+          state?: string | null
           status?: string
           title?: string
           updated_at?: string

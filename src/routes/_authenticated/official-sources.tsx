@@ -8,6 +8,7 @@ import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { VerifiedBadge } from "@/components/trust/VerifiedBadge";
 import {
   Dialog,
   DialogContent,
@@ -36,9 +37,38 @@ type SourceRow = {
   jurisdiction: string | null;
   status: string;
   last_verified_at: string | null;
+  department: string | null;
+  ministry: string | null;
+  government_level: string | null;
+  state: string | null;
+  apply_online_url: string | null;
+  forms_url: string | null;
+  helpline: string | null;
+  email: string | null;
+  office_address: string | null;
+  source_type: string | null;
+  is_active: boolean | null;
 };
 
-const EMPTY = { title: "", authority: "", source_url: "", category: "", jurisdiction: "India" };
+const EMPTY = {
+  title: "",
+  authority: "",
+  source_url: "",
+  category: "",
+  jurisdiction: "India",
+  department: "",
+  ministry: "",
+  government_level: "Central",
+  state: "",
+  apply_online_url: "",
+  forms_url: "",
+  helpline: "",
+  email: "",
+  office_address: "",
+  source_type: "Government Portal",
+  is_active: true,
+};
+
 
 function OfficialSourcesPage() {
   const { isAdmin, isLoading: adminLoading } = useIsAdmin();
@@ -89,6 +119,17 @@ function OfficialSourcesPage() {
       source_url: s.source_url,
       category: s.category ?? "",
       jurisdiction: s.jurisdiction ?? "India",
+      department: s.department ?? "",
+      ministry: s.ministry ?? "",
+      government_level: s.government_level ?? "Central",
+      state: s.state ?? "",
+      apply_online_url: s.apply_online_url ?? "",
+      forms_url: s.forms_url ?? "",
+      helpline: s.helpline ?? "",
+      email: s.email ?? "",
+      office_address: s.office_address ?? "",
+      source_type: s.source_type ?? "Government Portal",
+      is_active: s.is_active ?? true,
     });
     setOpen(true);
   };
@@ -183,15 +224,20 @@ function OfficialSourcesPage() {
                   {s.last_verified_at ? new Date(s.last_verified_at).toLocaleDateString("en-IN") : "—"}
                 </td>
                 <td className="px-4 py-3">
-                  <span
-                    className={`rounded-full px-2 py-0.5 text-xs font-semibold ${
-                      s.status === "verified"
-                        ? "bg-secondary/10 text-secondary"
-                        : "bg-accent/10 text-accent"
-                    }`}
-                  >
-                    {s.status}
-                  </span>
+                  <div className="flex flex-col items-start gap-1">
+                    {s.status === "verified" ? (
+                      <VerifiedBadge date={s.last_verified_at} />
+                    ) : (
+                      <span className="rounded-full bg-accent/10 px-2 py-0.5 text-xs font-semibold text-accent">
+                        {s.status}
+                      </span>
+                    )}
+                    {s.is_active === false && (
+                      <span className="rounded-full bg-muted px-2 py-0.5 text-[11px] font-semibold text-muted-foreground">
+                        Inactive
+                      </span>
+                    )}
+                  </div>
                 </td>
                 <td className="px-4 py-3">
                   <div className="flex items-center justify-end gap-1">
@@ -234,25 +280,83 @@ function OfficialSourcesPage() {
       </div>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent>
+        <DialogContent className="max-h-[85vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>{editing ? "Edit Source" : "Add Official Source"}</DialogTitle>
           </DialogHeader>
           <div className="space-y-3">
             <Input
-              placeholder="Title (e.g. PM-KISAN Official Portal)"
+              placeholder="Source Name (e.g. PM-KISAN Official Portal)"
               value={form.title}
               onChange={(e) => setForm({ ...form, title: e.target.value })}
             />
             <Input
-              placeholder="Authority (e.g. Ministry of Agriculture)"
+              placeholder="Authority (e.g. Department of Agriculture)"
               value={form.authority}
               onChange={(e) => setForm({ ...form, authority: e.target.value })}
             />
+            <div className="grid grid-cols-2 gap-3">
+              <Input
+                placeholder="Department"
+                value={form.department}
+                onChange={(e) => setForm({ ...form, department: e.target.value })}
+              />
+              <Input
+                placeholder="Ministry"
+                value={form.ministry}
+                onChange={(e) => setForm({ ...form, ministry: e.target.value })}
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <select
+                value={form.government_level}
+                onChange={(e) => setForm({ ...form, government_level: e.target.value })}
+                className="rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground"
+                aria-label="Government level"
+              >
+                <option>Central</option>
+                <option>State</option>
+                <option>Local</option>
+              </select>
+              <Input
+                placeholder="State (if applicable)"
+                value={form.state}
+                onChange={(e) => setForm({ ...form, state: e.target.value })}
+              />
+            </div>
             <Input
-              placeholder="https://source-url.gov.in"
+              placeholder="Official Website URL (https://…gov.in)"
               value={form.source_url}
               onChange={(e) => setForm({ ...form, source_url: e.target.value })}
+            />
+            <div className="grid grid-cols-2 gap-3">
+              <Input
+                placeholder="Apply Online URL"
+                value={form.apply_online_url}
+                onChange={(e) => setForm({ ...form, apply_online_url: e.target.value })}
+              />
+              <Input
+                placeholder="Download Forms URL"
+                value={form.forms_url}
+                onChange={(e) => setForm({ ...form, forms_url: e.target.value })}
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <Input
+                placeholder="Helpline"
+                value={form.helpline}
+                onChange={(e) => setForm({ ...form, helpline: e.target.value })}
+              />
+              <Input
+                placeholder="Email"
+                value={form.email}
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
+              />
+            </div>
+            <Input
+              placeholder="Office Address"
+              value={form.office_address}
+              onChange={(e) => setForm({ ...form, office_address: e.target.value })}
             />
             <div className="grid grid-cols-2 gap-3">
               <Input
@@ -261,10 +365,26 @@ function OfficialSourcesPage() {
                 onChange={(e) => setForm({ ...form, category: e.target.value })}
               />
               <Input
+                placeholder="Source Type (e.g. Government Portal)"
+                value={form.source_type}
+                onChange={(e) => setForm({ ...form, source_type: e.target.value })}
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <Input
                 placeholder="Jurisdiction"
                 value={form.jurisdiction}
                 onChange={(e) => setForm({ ...form, jurisdiction: e.target.value })}
               />
+              <label className="flex items-center gap-2 rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground">
+                <input
+                  type="checkbox"
+                  checked={form.is_active}
+                  onChange={(e) => setForm({ ...form, is_active: e.target.checked })}
+                  className="h-4 w-4"
+                />
+                Active
+              </label>
             </div>
           </div>
           <DialogFooter>

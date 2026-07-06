@@ -9,6 +9,7 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import { PageShell } from "@/components/layouts/PageShell";
+import { VerifiedBadge } from "@/components/trust/VerifiedBadge";
 import { schemeDetailQuery } from "@/lib/queries";
 
 export const Route = createFileRoute("/schemes/$slug")({
@@ -88,8 +89,9 @@ function SchemeDetail() {
 
         {scheme.source && (
           <div className="mt-5 rounded-[20px] border border-secondary/30 bg-secondary/5 p-6">
-            <h2 className="flex items-center gap-2 text-lg font-bold text-foreground">
+            <h2 className="flex flex-wrap items-center gap-2 text-lg font-bold text-foreground">
               <CheckCircle2 className="h-5 w-5 text-secondary" /> Official Source
+              <VerifiedBadge date={scheme.source.last_verified_at} />
             </h2>
             <p className="mt-1 text-sm text-muted-foreground">
               {scheme.source.authority}

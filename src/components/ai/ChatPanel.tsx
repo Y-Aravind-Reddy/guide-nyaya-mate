@@ -6,8 +6,11 @@ import remarkGfm from "remark-gfm";
 import {
   Check,
   Copy,
+  Flag,
+  Printer,
   RefreshCw,
   Send,
+  Share2,
   ThumbsDown,
   ThumbsUp,
   Sparkles,
@@ -15,6 +18,10 @@ import {
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { AiDisclaimer } from "@/components/ai/AiDisclaimer";
+import {
+  AiSourceCitations,
+  type AiMessageMeta,
+} from "@/components/ai/AiSourceCitations";
 import { useAuth } from "@/hooks/useAuth";
 import { submitFeedback } from "@/lib/conversations.functions";
 
@@ -118,6 +125,52 @@ export function ChatPanel({
     }
   };
 
+  const report = async (response: string) => {
+    const lastUser = [...messages].reverse().find((m) => m.role === "user");
+    try {
+      await submitFeedback({
+        data: {
+          rating: "down",
+          query: lastUser ? messageText(lastUser).slice(0, 4000) : undefined,
+          response: response.slice(0, 8000),
+        },
+      });
+      toast.success("Reported. Thanks — our team will review this answer.");
+    } catch {
+      toast.error("Could not submit report");
+    }
+  };
+
+  const share = async (text: string) => {
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: "NyayaMate AI answer", text });
+      } else {
+        await navigator.clipboard.writeText(text);
+        toast.success("Answer copied — ready to share");
+      }
+    } catch {
+      /* user cancelled share sheet */
+    }
+  };
+
+  const print = (text: string) => {
+    const w = window.open("", "_blank", "noopener,noreferrer,width=800,height=900");
+    if (!w) {
+      toast.error("Enable pop-ups to print this answer");
+      return;
+    }
+    w.document.write(
+      `<!doctype html><html><head><title>NyayaMate AI</title><meta charset="utf-8"><style>body{font-family:system-ui,sans-serif;max-width:720px;margin:40px auto;padding:0 20px;line-height:1.6;color:#0f172a}</style></head><body><h1>NyayaMate AI</h1><pre style="white-space:pre-wrap;font-family:inherit">${text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")}</pre></body></html>`,
+    );
+    w.document.close();
+    w.focus();
+    w.print();
+  };
+
   return (
     <div className="flex h-full flex-col">
       <div className="flex-1 space-y-5 overflow-y-auto px-1 py-2">
@@ -146,21 +199,42 @@ export function ChatPanel({
               </div>
             );
           }
+          const meta = m.metadata as AiMessageMeta | undefined;
+          const isStreamingThis = isLoading && m === messages[messages.length - 1];
           return (
             <div key={m.id} className="flex flex-col gap-2">
               <Markdown>{text}</Markdown>
+              {!isStreamingThis && <AiSourceCitations meta={meta} />}
               {!isLoading && (
-                <div className="flex items-center gap-1 text-muted-foreground">
+                <div className="flex flex-wrap items-center gap-1 text-muted-foreground">
                   <button
                     onClick={() => copy(text)}
                     className="rounded-md p-1.5 hover:bg-muted"
+                    aria-label="Copy answer"
                     title="Copy"
                   >
                     <Copy className="h-3.5 w-3.5" />
                   </button>
                   <button
+                    onClick={() => share(text)}
+                    className="rounded-md p-1.5 hover:bg-muted"
+                    aria-label="Share answer"
+                    title="Share"
+                  >
+                    <Share2 className="h-3.5 w-3.5" />
+                  </button>
+                  <button
+                    onClick={() => print(text)}
+                    className="rounded-md p-1.5 hover:bg-muted"
+                    aria-label="Print answer"
+                    title="Print"
+                  >
+                    <Printer className="h-3.5 w-3.5" />
+                  </button>
+                  <button
                     onClick={() => regenerate()}
                     className="rounded-md p-1.5 hover:bg-muted"
+                    aria-label="Regenerate answer"
                     title="Regenerate"
                   >
                     <RefreshCw className="h-3.5 w-3.5" />
@@ -168,6 +242,7 @@ export function ChatPanel({
                   <button
                     onClick={() => feedback("up", text)}
                     className="rounded-md p-1.5 hover:bg-muted"
+                    aria-label="Mark answer as helpful"
                     title="Helpful"
                   >
                     <ThumbsUp className="h-3.5 w-3.5" />
@@ -175,9 +250,18 @@ export function ChatPanel({
                   <button
                     onClick={() => feedback("down", text)}
                     className="rounded-md p-1.5 hover:bg-muted"
+                    aria-label="Mark answer as not helpful"
                     title="Not helpful"
                   >
                     <ThumbsDown className="h-3.5 w-3.5" />
+                  </button>
+                  <button
+                    onClick={() => report(text)}
+                    className="rounded-md p-1.5 hover:bg-muted"
+                    aria-label="Report incorrect answer"
+                    title="Report incorrect answer"
+                  >
+                    <Flag className="h-3.5 w-3.5" />
                   </button>
                 </div>
               )}
