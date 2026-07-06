@@ -118,6 +118,17 @@ function OfficialSourcesPage() {
       source_url: s.source_url,
       category: s.category ?? "",
       jurisdiction: s.jurisdiction ?? "India",
+      department: s.department ?? "",
+      ministry: s.ministry ?? "",
+      government_level: s.government_level ?? "Central",
+      state: s.state ?? "",
+      apply_online_url: s.apply_online_url ?? "",
+      forms_url: s.forms_url ?? "",
+      helpline: s.helpline ?? "",
+      email: s.email ?? "",
+      office_address: s.office_address ?? "",
+      source_type: s.source_type ?? "Government Portal",
+      is_active: s.is_active ?? true,
     });
     setOpen(true);
   };
