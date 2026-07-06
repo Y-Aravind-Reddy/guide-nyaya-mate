@@ -280,25 +280,83 @@ function OfficialSourcesPage() {
       </div>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent>
+        <DialogContent className="max-h-[85vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>{editing ? "Edit Source" : "Add Official Source"}</DialogTitle>
           </DialogHeader>
           <div className="space-y-3">
             <Input
-              placeholder="Title (e.g. PM-KISAN Official Portal)"
+              placeholder="Source Name (e.g. PM-KISAN Official Portal)"
               value={form.title}
               onChange={(e) => setForm({ ...form, title: e.target.value })}
             />
             <Input
-              placeholder="Authority (e.g. Ministry of Agriculture)"
+              placeholder="Authority (e.g. Department of Agriculture)"
               value={form.authority}
               onChange={(e) => setForm({ ...form, authority: e.target.value })}
             />
+            <div className="grid grid-cols-2 gap-3">
+              <Input
+                placeholder="Department"
+                value={form.department}
+                onChange={(e) => setForm({ ...form, department: e.target.value })}
+              />
+              <Input
+                placeholder="Ministry"
+                value={form.ministry}
+                onChange={(e) => setForm({ ...form, ministry: e.target.value })}
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <select
+                value={form.government_level}
+                onChange={(e) => setForm({ ...form, government_level: e.target.value })}
+                className="rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground"
+                aria-label="Government level"
+              >
+                <option>Central</option>
+                <option>State</option>
+                <option>Local</option>
+              </select>
+              <Input
+                placeholder="State (if applicable)"
+                value={form.state}
+                onChange={(e) => setForm({ ...form, state: e.target.value })}
+              />
+            </div>
             <Input
-              placeholder="https://source-url.gov.in"
+              placeholder="Official Website URL (https://…gov.in)"
               value={form.source_url}
               onChange={(e) => setForm({ ...form, source_url: e.target.value })}
+            />
+            <div className="grid grid-cols-2 gap-3">
+              <Input
+                placeholder="Apply Online URL"
+                value={form.apply_online_url}
+                onChange={(e) => setForm({ ...form, apply_online_url: e.target.value })}
+              />
+              <Input
+                placeholder="Download Forms URL"
+                value={form.forms_url}
+                onChange={(e) => setForm({ ...form, forms_url: e.target.value })}
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <Input
+                placeholder="Helpline"
+                value={form.helpline}
+                onChange={(e) => setForm({ ...form, helpline: e.target.value })}
+              />
+              <Input
+                placeholder="Email"
+                value={form.email}
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
+              />
+            </div>
+            <Input
+              placeholder="Office Address"
+              value={form.office_address}
+              onChange={(e) => setForm({ ...form, office_address: e.target.value })}
             />
             <div className="grid grid-cols-2 gap-3">
               <Input
@@ -307,10 +365,26 @@ function OfficialSourcesPage() {
                 onChange={(e) => setForm({ ...form, category: e.target.value })}
               />
               <Input
+                placeholder="Source Type (e.g. Government Portal)"
+                value={form.source_type}
+                onChange={(e) => setForm({ ...form, source_type: e.target.value })}
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <Input
                 placeholder="Jurisdiction"
                 value={form.jurisdiction}
                 onChange={(e) => setForm({ ...form, jurisdiction: e.target.value })}
               />
+              <label className="flex items-center gap-2 rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground">
+                <input
+                  type="checkbox"
+                  checked={form.is_active}
+                  onChange={(e) => setForm({ ...form, is_active: e.target.checked })}
+                  className="h-4 w-4"
+                />
+                Active
+              </label>
             </div>
           </div>
           <DialogFooter>
