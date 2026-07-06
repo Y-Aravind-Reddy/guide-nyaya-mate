@@ -199,21 +199,42 @@ export function ChatPanel({
               </div>
             );
           }
+          const meta = m.metadata as AiMessageMeta | undefined;
+          const isStreamingThis = isLoading && m === messages[messages.length - 1];
           return (
             <div key={m.id} className="flex flex-col gap-2">
               <Markdown>{text}</Markdown>
+              {!isStreamingThis && <AiSourceCitations meta={meta} />}
               {!isLoading && (
-                <div className="flex items-center gap-1 text-muted-foreground">
+                <div className="flex flex-wrap items-center gap-1 text-muted-foreground">
                   <button
                     onClick={() => copy(text)}
                     className="rounded-md p-1.5 hover:bg-muted"
+                    aria-label="Copy answer"
                     title="Copy"
                   >
                     <Copy className="h-3.5 w-3.5" />
                   </button>
                   <button
+                    onClick={() => share(text)}
+                    className="rounded-md p-1.5 hover:bg-muted"
+                    aria-label="Share answer"
+                    title="Share"
+                  >
+                    <Share2 className="h-3.5 w-3.5" />
+                  </button>
+                  <button
+                    onClick={() => print(text)}
+                    className="rounded-md p-1.5 hover:bg-muted"
+                    aria-label="Print answer"
+                    title="Print"
+                  >
+                    <Printer className="h-3.5 w-3.5" />
+                  </button>
+                  <button
                     onClick={() => regenerate()}
                     className="rounded-md p-1.5 hover:bg-muted"
+                    aria-label="Regenerate answer"
                     title="Regenerate"
                   >
                     <RefreshCw className="h-3.5 w-3.5" />
@@ -221,6 +242,7 @@ export function ChatPanel({
                   <button
                     onClick={() => feedback("up", text)}
                     className="rounded-md p-1.5 hover:bg-muted"
+                    aria-label="Mark answer as helpful"
                     title="Helpful"
                   >
                     <ThumbsUp className="h-3.5 w-3.5" />
@@ -228,9 +250,18 @@ export function ChatPanel({
                   <button
                     onClick={() => feedback("down", text)}
                     className="rounded-md p-1.5 hover:bg-muted"
+                    aria-label="Mark answer as not helpful"
                     title="Not helpful"
                   >
                     <ThumbsDown className="h-3.5 w-3.5" />
+                  </button>
+                  <button
+                    onClick={() => report(text)}
+                    className="rounded-md p-1.5 hover:bg-muted"
+                    aria-label="Report incorrect answer"
+                    title="Report incorrect answer"
+                  >
+                    <Flag className="h-3.5 w-3.5" />
                   </button>
                 </div>
               )}
