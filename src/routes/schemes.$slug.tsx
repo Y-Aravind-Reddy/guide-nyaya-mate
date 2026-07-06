@@ -9,6 +9,7 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import { PageShell } from "@/components/layouts/PageShell";
+import { VerifiedBadge } from "@/components/trust/VerifiedBadge";
 import { schemeDetailQuery } from "@/lib/queries";
 
 export const Route = createFileRoute("/schemes/$slug")({
