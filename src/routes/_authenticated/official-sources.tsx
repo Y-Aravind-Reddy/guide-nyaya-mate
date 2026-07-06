@@ -36,9 +36,38 @@ type SourceRow = {
   jurisdiction: string | null;
   status: string;
   last_verified_at: string | null;
+  department: string | null;
+  ministry: string | null;
+  government_level: string | null;
+  state: string | null;
+  apply_online_url: string | null;
+  forms_url: string | null;
+  helpline: string | null;
+  email: string | null;
+  office_address: string | null;
+  source_type: string | null;
+  is_active: boolean | null;
 };
 
-const EMPTY = { title: "", authority: "", source_url: "", category: "", jurisdiction: "India" };
+const EMPTY = {
+  title: "",
+  authority: "",
+  source_url: "",
+  category: "",
+  jurisdiction: "India",
+  department: "",
+  ministry: "",
+  government_level: "Central",
+  state: "",
+  apply_online_url: "",
+  forms_url: "",
+  helpline: "",
+  email: "",
+  office_address: "",
+  source_type: "Government Portal",
+  is_active: true,
+};
+
 
 function OfficialSourcesPage() {
   const { isAdmin, isLoading: adminLoading } = useIsAdmin();
