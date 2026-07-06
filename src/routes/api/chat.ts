@@ -59,6 +59,31 @@ type RetrievedChunk = {
   confidence_score: number | null;
 };
 
+// Structured citation surfaced to the client for each verified official source.
+type Citation = {
+  sourceName: string;
+  department: string | null;
+  authority: string | null;
+  lastVerified: string | null;
+  websiteUrl: string | null;
+  applyOnlineUrl: string | null;
+  formsUrl: string | null;
+  relatedService: string | null;
+  category: string | null;
+};
+
+function normUrl(u?: string | null): string | null {
+  if (!u) return null;
+  try {
+    const url = new URL(u.trim());
+    return `${url.hostname}${url.pathname}`.replace(/\/$/, "").toLowerCase();
+  } catch {
+    return u.trim().toLowerCase().replace(/\/$/, "");
+  }
+}
+
+
+
 export const Route = createFileRoute("/api/chat")({
   server: {
     handlers: {
