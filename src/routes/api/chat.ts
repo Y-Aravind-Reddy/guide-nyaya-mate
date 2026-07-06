@@ -299,6 +299,48 @@ ${sourcesBlock}
             )
           : null;
 
+        // ---- Build verified official-source citations (Part 2) ----
+        const citations: Citation[] = [];
+        try {
+          const urlKeys = new Set(
+            retrieved.map((c) => normUrl(c.source_url)).filter(Boolean) as string[],
+          );
+          const nameKeys = new Set(
+            retrieved.map((c) => (c.source ?? "").trim().toLowerCase()).filter(Boolean),
+          );
+          if (urlKeys.size || nameKeys.size) {
+            const { data: sources } = await authClient
+              .from("official_sources")
+              .select(
+                "title, authority, department, source_url, apply_online_url, forms_url, last_verified_at, category, is_active, status",
+              )
+              .eq("is_active", true)
+              .eq("status", "verified");
+            for (const s of sources ?? []) {
+              const matches =
+                (s.source_url && urlKeys.has(normUrl(s.source_url) ?? "")) ||
+                (s.title && nameKeys.has(s.title.trim().toLowerCase())) ||
+                (s.authority && nameKeys.has(s.authority.trim().toLowerCase()));
+              if (!matches) continue;
+              if (citations.some((c) => c.sourceName === s.title)) continue;
+              citations.push({
+                sourceName: s.title,
+                department: s.department ?? null,
+                authority: s.authority ?? null,
+                lastVerified: s.last_verified_at ?? null,
+                websiteUrl: s.source_url ?? null,
+                applyOnlineUrl: s.apply_online_url ?? null,
+                formsUrl: s.forms_url ?? null,
+                relatedService: retrieved[0]?.doc_title ?? null,
+                category: s.category ?? null,
+              });
+            }
+          }
+        } catch (e) {
+          console.error("citation lookup error", e);
+        }
+
+
         const result = streamText({
           model,
           system,
