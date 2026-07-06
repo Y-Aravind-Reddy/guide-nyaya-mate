@@ -223,15 +223,20 @@ function OfficialSourcesPage() {
                   {s.last_verified_at ? new Date(s.last_verified_at).toLocaleDateString("en-IN") : "—"}
                 </td>
                 <td className="px-4 py-3">
-                  <span
-                    className={`rounded-full px-2 py-0.5 text-xs font-semibold ${
-                      s.status === "verified"
-                        ? "bg-secondary/10 text-secondary"
-                        : "bg-accent/10 text-accent"
-                    }`}
-                  >
-                    {s.status}
-                  </span>
+                  <div className="flex flex-col items-start gap-1">
+                    {s.status === "verified" ? (
+                      <VerifiedBadge date={s.last_verified_at} />
+                    ) : (
+                      <span className="rounded-full bg-accent/10 px-2 py-0.5 text-xs font-semibold text-accent">
+                        {s.status}
+                      </span>
+                    )}
+                    {s.is_active === false && (
+                      <span className="rounded-full bg-muted px-2 py-0.5 text-[11px] font-semibold text-muted-foreground">
+                        Inactive
+                      </span>
+                    )}
+                  </div>
                 </td>
                 <td className="px-4 py-3">
                   <div className="flex items-center justify-end gap-1">
