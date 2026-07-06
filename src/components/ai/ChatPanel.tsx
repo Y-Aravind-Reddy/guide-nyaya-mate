@@ -6,8 +6,11 @@ import remarkGfm from "remark-gfm";
 import {
   Check,
   Copy,
+  Flag,
+  Printer,
   RefreshCw,
   Send,
+  Share2,
   ThumbsDown,
   ThumbsUp,
   Sparkles,
@@ -15,6 +18,10 @@ import {
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { AiDisclaimer } from "@/components/ai/AiDisclaimer";
+import {
+  AiSourceCitations,
+  type AiMessageMeta,
+} from "@/components/ai/AiSourceCitations";
 import { useAuth } from "@/hooks/useAuth";
 import { submitFeedback } from "@/lib/conversations.functions";
 
