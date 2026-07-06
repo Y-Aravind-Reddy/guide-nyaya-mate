@@ -348,8 +348,30 @@ ${sourcesBlock}
           onError: (e) => console.error("AI stream error", e),
         });
 
+        const lastUpdated = retrieved
+          .map((c) => c.last_verified_date)
+          .filter(Boolean)
+          .sort()
+          .reverse()[0] ?? null;
+        const knowledgeCategory = citations[0]?.category ?? null;
+
         return result.toUIMessageStreamResponse({
           originalMessages: messages,
+          messageMetadata: ({ part }) => {
+            if (part.type === "finish") {
+              return {
+                citations,
+                confidence: avgConfidence,
+                sourceCount: retrieved.length,
+                retrievalMs,
+                responseTimeMs: Date.now() - responseStart,
+                lastUpdated,
+                knowledgeCategory,
+                model: modelName,
+              };
+            }
+            return undefined;
+          },
           onFinish: async ({ responseMessage }) => {
             try {
               // ---- Retrieval log (RLS: user inserts own) ----
