@@ -102,38 +102,62 @@ export const deleteFaq = createServerFn({ method: "POST" })
   });
 
 // ---------- Official Sources ----------
+const OFFICIAL_SOURCE_COLS =
+  "id, title, authority, source_url, category, jurisdiction, status, last_verified_at, created_at, department, ministry, government_level, state, apply_online_url, forms_url, helpline, email, office_address, source_type, is_active";
+
 export const listOfficialSources = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     const { data, error } = await context.supabase
       .from("official_sources")
-      .select(
-        "id, title, authority, source_url, category, jurisdiction, status, last_verified_at, created_at",
-      )
+      .select(OFFICIAL_SOURCE_COLS)
       .order("created_at", { ascending: false });
     if (error) throw new Error(error.message);
     return data ?? [];
   });
 
+type OfficialSourceInput = {
+  id?: string;
+  title: string;
+  authority: string;
+  source_url: string;
+  category: string;
+  jurisdiction: string;
+  department?: string;
+  ministry?: string;
+  government_level?: string;
+  state?: string;
+  apply_online_url?: string;
+  forms_url?: string;
+  helpline?: string;
+  email?: string;
+  office_address?: string;
+  source_type?: string;
+  is_active?: boolean;
+};
+
 export const upsertOfficialSource = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator(
-    (d: {
-      id?: string;
-      title: string;
-      authority: string;
-      source_url: string;
-      category: string;
-      jurisdiction: string;
-    }) => d,
-  )
+  .inputValidator((d: OfficialSourceInput) => d)
   .handler(async ({ data, context }) => {
+    const nz = (v?: string) => (v && v.trim() ? v.trim() : null);
     const row = {
       title: data.title,
       authority: data.authority,
       source_url: data.source_url,
-      category: data.category || null,
-      jurisdiction: data.jurisdiction || "India",
+      category: nz(data.category),
+      jurisdiction: nz(data.jurisdiction) ?? "India",
+      department: nz(data.department),
+      ministry: nz(data.ministry),
+      government_level: nz(data.government_level),
+      state: nz(data.state),
+      apply_online_url: nz(data.apply_online_url),
+      forms_url: nz(data.forms_url),
+      helpline: nz(data.helpline),
+      email: nz(data.email),
+      office_address: nz(data.office_address),
+      source_type: nz(data.source_type),
+      is_active: data.is_active ?? true,
     };
     if (data.id) {
       const { error } = await context.supabase
