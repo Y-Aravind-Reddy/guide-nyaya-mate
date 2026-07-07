@@ -38,6 +38,7 @@ import { Route as AuthenticatedDashboardRouteImport } from './routes/_authentica
 import { Route as AuthenticatedChatHistoryRouteImport } from './routes/_authenticated/chat-history'
 import { Route as AuthenticatedAiChatRouteImport } from './routes/_authenticated/ai-chat'
 import { Route as ApiPublicKbSyncRouteImport } from './routes/api/public/kb-sync'
+import { Route as AuthenticatedAdminNotificationsRouteImport } from './routes/_authenticated/admin/notifications'
 import { Route as AuthenticatedAdminLaunchReadinessRouteImport } from './routes/_authenticated/admin/launch-readiness'
 import { Route as AuthenticatedAdminKnowledgeHealthRouteImport } from './routes/_authenticated/admin/knowledge-health'
 import { Route as AuthenticatedAdminKbSyncRouteImport } from './routes/_authenticated/admin/kb-sync'
@@ -194,6 +195,12 @@ const ApiPublicKbSyncRoute = ApiPublicKbSyncRouteImport.update({
   path: '/api/public/kb-sync',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedAdminNotificationsRoute =
+  AuthenticatedAdminNotificationsRouteImport.update({
+    id: '/admin/notifications',
+    path: '/admin/notifications',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAdminLaunchReadinessRoute =
   AuthenticatedAdminLaunchReadinessRouteImport.update({
     id: '/admin/launch-readiness',
@@ -265,6 +272,7 @@ export interface FileRoutesByFullPath {
   '/admin/kb-sync': typeof AuthenticatedAdminKbSyncRoute
   '/admin/knowledge-health': typeof AuthenticatedAdminKnowledgeHealthRoute
   '/admin/launch-readiness': typeof AuthenticatedAdminLaunchReadinessRoute
+  '/admin/notifications': typeof AuthenticatedAdminNotificationsRoute
   '/api/public/kb-sync': typeof ApiPublicKbSyncRoute
 }
 export interface FileRoutesByTo {
@@ -301,6 +309,7 @@ export interface FileRoutesByTo {
   '/admin/kb-sync': typeof AuthenticatedAdminKbSyncRoute
   '/admin/knowledge-health': typeof AuthenticatedAdminKnowledgeHealthRoute
   '/admin/launch-readiness': typeof AuthenticatedAdminLaunchReadinessRoute
+  '/admin/notifications': typeof AuthenticatedAdminNotificationsRoute
   '/api/public/kb-sync': typeof ApiPublicKbSyncRoute
 }
 export interface FileRoutesById {
@@ -339,6 +348,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/kb-sync': typeof AuthenticatedAdminKbSyncRoute
   '/_authenticated/admin/knowledge-health': typeof AuthenticatedAdminKnowledgeHealthRoute
   '/_authenticated/admin/launch-readiness': typeof AuthenticatedAdminLaunchReadinessRoute
+  '/_authenticated/admin/notifications': typeof AuthenticatedAdminNotificationsRoute
   '/api/public/kb-sync': typeof ApiPublicKbSyncRoute
 }
 export interface FileRouteTypes {
@@ -377,6 +387,7 @@ export interface FileRouteTypes {
     | '/admin/kb-sync'
     | '/admin/knowledge-health'
     | '/admin/launch-readiness'
+    | '/admin/notifications'
     | '/api/public/kb-sync'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -413,6 +424,7 @@ export interface FileRouteTypes {
     | '/admin/kb-sync'
     | '/admin/knowledge-health'
     | '/admin/launch-readiness'
+    | '/admin/notifications'
     | '/api/public/kb-sync'
   id:
     | '__root__'
@@ -450,6 +462,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/kb-sync'
     | '/_authenticated/admin/knowledge-health'
     | '/_authenticated/admin/launch-readiness'
+    | '/_authenticated/admin/notifications'
     | '/api/public/kb-sync'
   fileRoutesById: FileRoutesById
 }
@@ -680,6 +693,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicKbSyncRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/admin/notifications': {
+      id: '/_authenticated/admin/notifications'
+      path: '/admin/notifications'
+      fullPath: '/admin/notifications'
+      preLoaderRoute: typeof AuthenticatedAdminNotificationsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/admin/launch-readiness': {
       id: '/_authenticated/admin/launch-readiness'
       path: '/admin/launch-readiness'
@@ -742,6 +762,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminKbSyncRoute: typeof AuthenticatedAdminKbSyncRoute
   AuthenticatedAdminKnowledgeHealthRoute: typeof AuthenticatedAdminKnowledgeHealthRoute
   AuthenticatedAdminLaunchReadinessRoute: typeof AuthenticatedAdminLaunchReadinessRoute
+  AuthenticatedAdminNotificationsRoute: typeof AuthenticatedAdminNotificationsRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -763,6 +784,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
     AuthenticatedAdminKnowledgeHealthRoute,
   AuthenticatedAdminLaunchReadinessRoute:
     AuthenticatedAdminLaunchReadinessRoute,
+  AuthenticatedAdminNotificationsRoute: AuthenticatedAdminNotificationsRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =

@@ -43,12 +43,16 @@ const NAV = [
 ] as const;
 
 const ADMIN_NAV = [
+  { icon: Rocket, label: "Launch Readiness", to: "/admin/launch-readiness" },
+  { icon: HeartPulse, label: "Knowledge Health", to: "/admin/knowledge-health" },
+  { icon: ClipboardCheck, label: "Content Health", to: "/admin/content-health" },
+  { icon: BarChart3, label: "Analytics", to: "/admin/analytics" },
+  { icon: Bell, label: "Notifications", to: "/admin/notifications" },
   { icon: Gauge, label: "AI Usage", to: "/admin/ai-usage" },
   { icon: RefreshCw, label: "KB Sync", to: "/admin/kb-sync" },
   { icon: Database, label: "Knowledge Base", to: "/knowledge-base" },
   { icon: ShieldCheck, label: "Official Sources", to: "/official-sources" },
   { icon: Activity, label: "Retrieval Analytics", to: "/retrieval-analytics" },
-  { icon: Gauge, label: "Knowledge Health", to: "/knowledge-health" },
 ] as const;
 
 export function DashboardLayout({
