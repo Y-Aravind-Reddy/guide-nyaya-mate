@@ -9,6 +9,8 @@ import {
   TrendingUp,
 } from "lucide-react";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
+import { AdminWidgets } from "@/components/admin/AdminWidgets";
+import { useIsAdmin } from "@/hooks/useIsAdmin";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { servicesQuery } from "@/lib/queries";
@@ -28,6 +30,7 @@ export const Route = createFileRoute("/_authenticated/dashboard")({
 
 function DashboardPage() {
   const { user } = useAuth();
+  const { isAdmin } = useIsAdmin();
   const { data: services } = useSuspenseQuery(servicesQuery());
 
   const { data: counts } = useQuery({
@@ -141,6 +144,7 @@ function DashboardPage() {
           </div>
         </div>
       </div>
+      {isAdmin ? <AdminWidgets /> : null}
     </DashboardLayout>
   );
 }

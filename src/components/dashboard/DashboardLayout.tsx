@@ -2,8 +2,12 @@ import { useState, type ReactNode } from "react";
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import {
   Activity,
+  BarChart3,
   Bell,
   BookA,
+  ClipboardCheck,
+  HeartPulse,
+  Rocket,
   BookOpen,
   Database,
   Gauge,
@@ -43,12 +47,16 @@ const NAV = [
 ] as const;
 
 const ADMIN_NAV = [
+  { icon: Rocket, label: "Launch Readiness", to: "/admin/launch-readiness" },
+  { icon: HeartPulse, label: "Knowledge Health", to: "/admin/knowledge-health" },
+  { icon: ClipboardCheck, label: "Content Health", to: "/admin/content-health" },
+  { icon: BarChart3, label: "Analytics", to: "/admin/analytics" },
+  { icon: Bell, label: "Notifications", to: "/admin/notifications" },
   { icon: Gauge, label: "AI Usage", to: "/admin/ai-usage" },
   { icon: RefreshCw, label: "KB Sync", to: "/admin/kb-sync" },
   { icon: Database, label: "Knowledge Base", to: "/knowledge-base" },
   { icon: ShieldCheck, label: "Official Sources", to: "/official-sources" },
   { icon: Activity, label: "Retrieval Analytics", to: "/retrieval-analytics" },
-  { icon: Gauge, label: "Knowledge Health", to: "/knowledge-health" },
 ] as const;
 
 export function DashboardLayout({
@@ -175,13 +183,24 @@ export function DashboardLayout({
               className="flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground focus:outline-none"
             />
           </form>
-          <button
-            className="relative grid h-10 w-10 place-items-center rounded-xl border border-border bg-card text-muted-foreground hover:text-foreground"
-            aria-label="Notifications"
-          >
-            <Bell className="h-5 w-5" />
-            <span className="absolute right-2.5 top-2.5 h-2 w-2 rounded-full bg-accent" />
-          </button>
+          {isAdmin ? (
+            <Link
+              to="/admin/notifications"
+              className="relative grid h-10 w-10 place-items-center rounded-xl border border-border bg-card text-muted-foreground hover:text-foreground"
+              aria-label="Notifications"
+            >
+              <Bell className="h-5 w-5" />
+              <span className="absolute right-2.5 top-2.5 h-2 w-2 rounded-full bg-accent" />
+            </Link>
+          ) : (
+            <button
+              className="relative grid h-10 w-10 place-items-center rounded-xl border border-border bg-card text-muted-foreground hover:text-foreground"
+              aria-label="Notifications"
+            >
+              <Bell className="h-5 w-5" />
+              <span className="absolute right-2.5 top-2.5 h-2 w-2 rounded-full bg-accent" />
+            </button>
+          )}
           <div className="grid h-10 w-10 place-items-center rounded-full bg-primary text-sm font-bold text-primary-foreground">
             {initial}
           </div>

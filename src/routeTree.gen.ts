@@ -38,7 +38,12 @@ import { Route as AuthenticatedDashboardRouteImport } from './routes/_authentica
 import { Route as AuthenticatedChatHistoryRouteImport } from './routes/_authenticated/chat-history'
 import { Route as AuthenticatedAiChatRouteImport } from './routes/_authenticated/ai-chat'
 import { Route as ApiPublicKbSyncRouteImport } from './routes/api/public/kb-sync'
+import { Route as AuthenticatedAdminNotificationsRouteImport } from './routes/_authenticated/admin/notifications'
+import { Route as AuthenticatedAdminLaunchReadinessRouteImport } from './routes/_authenticated/admin/launch-readiness'
+import { Route as AuthenticatedAdminKnowledgeHealthRouteImport } from './routes/_authenticated/admin/knowledge-health'
 import { Route as AuthenticatedAdminKbSyncRouteImport } from './routes/_authenticated/admin/kb-sync'
+import { Route as AuthenticatedAdminContentHealthRouteImport } from './routes/_authenticated/admin/content-health'
+import { Route as AuthenticatedAdminAnalyticsRouteImport } from './routes/_authenticated/admin/analytics'
 import { Route as AuthenticatedAdminAiUsageRouteImport } from './routes/_authenticated/admin/ai-usage'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -190,10 +195,40 @@ const ApiPublicKbSyncRoute = ApiPublicKbSyncRouteImport.update({
   path: '/api/public/kb-sync',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedAdminNotificationsRoute =
+  AuthenticatedAdminNotificationsRouteImport.update({
+    id: '/admin/notifications',
+    path: '/admin/notifications',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminLaunchReadinessRoute =
+  AuthenticatedAdminLaunchReadinessRouteImport.update({
+    id: '/admin/launch-readiness',
+    path: '/admin/launch-readiness',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminKnowledgeHealthRoute =
+  AuthenticatedAdminKnowledgeHealthRouteImport.update({
+    id: '/admin/knowledge-health',
+    path: '/admin/knowledge-health',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAdminKbSyncRoute =
   AuthenticatedAdminKbSyncRouteImport.update({
     id: '/admin/kb-sync',
     path: '/admin/kb-sync',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminContentHealthRoute =
+  AuthenticatedAdminContentHealthRouteImport.update({
+    id: '/admin/content-health',
+    path: '/admin/content-health',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminAnalyticsRoute =
+  AuthenticatedAdminAnalyticsRouteImport.update({
+    id: '/admin/analytics',
+    path: '/admin/analytics',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedAdminAiUsageRoute =
@@ -232,7 +267,12 @@ export interface FileRoutesByFullPath {
   '/legal-rights/': typeof LegalRightsIndexRoute
   '/schemes/': typeof SchemesIndexRoute
   '/admin/ai-usage': typeof AuthenticatedAdminAiUsageRoute
+  '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
+  '/admin/content-health': typeof AuthenticatedAdminContentHealthRoute
   '/admin/kb-sync': typeof AuthenticatedAdminKbSyncRoute
+  '/admin/knowledge-health': typeof AuthenticatedAdminKnowledgeHealthRoute
+  '/admin/launch-readiness': typeof AuthenticatedAdminLaunchReadinessRoute
+  '/admin/notifications': typeof AuthenticatedAdminNotificationsRoute
   '/api/public/kb-sync': typeof ApiPublicKbSyncRoute
 }
 export interface FileRoutesByTo {
@@ -264,7 +304,12 @@ export interface FileRoutesByTo {
   '/legal-rights': typeof LegalRightsIndexRoute
   '/schemes': typeof SchemesIndexRoute
   '/admin/ai-usage': typeof AuthenticatedAdminAiUsageRoute
+  '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
+  '/admin/content-health': typeof AuthenticatedAdminContentHealthRoute
   '/admin/kb-sync': typeof AuthenticatedAdminKbSyncRoute
+  '/admin/knowledge-health': typeof AuthenticatedAdminKnowledgeHealthRoute
+  '/admin/launch-readiness': typeof AuthenticatedAdminLaunchReadinessRoute
+  '/admin/notifications': typeof AuthenticatedAdminNotificationsRoute
   '/api/public/kb-sync': typeof ApiPublicKbSyncRoute
 }
 export interface FileRoutesById {
@@ -298,7 +343,12 @@ export interface FileRoutesById {
   '/legal-rights/': typeof LegalRightsIndexRoute
   '/schemes/': typeof SchemesIndexRoute
   '/_authenticated/admin/ai-usage': typeof AuthenticatedAdminAiUsageRoute
+  '/_authenticated/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
+  '/_authenticated/admin/content-health': typeof AuthenticatedAdminContentHealthRoute
   '/_authenticated/admin/kb-sync': typeof AuthenticatedAdminKbSyncRoute
+  '/_authenticated/admin/knowledge-health': typeof AuthenticatedAdminKnowledgeHealthRoute
+  '/_authenticated/admin/launch-readiness': typeof AuthenticatedAdminLaunchReadinessRoute
+  '/_authenticated/admin/notifications': typeof AuthenticatedAdminNotificationsRoute
   '/api/public/kb-sync': typeof ApiPublicKbSyncRoute
 }
 export interface FileRouteTypes {
@@ -332,7 +382,12 @@ export interface FileRouteTypes {
     | '/legal-rights/'
     | '/schemes/'
     | '/admin/ai-usage'
+    | '/admin/analytics'
+    | '/admin/content-health'
     | '/admin/kb-sync'
+    | '/admin/knowledge-health'
+    | '/admin/launch-readiness'
+    | '/admin/notifications'
     | '/api/public/kb-sync'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -364,7 +419,12 @@ export interface FileRouteTypes {
     | '/legal-rights'
     | '/schemes'
     | '/admin/ai-usage'
+    | '/admin/analytics'
+    | '/admin/content-health'
     | '/admin/kb-sync'
+    | '/admin/knowledge-health'
+    | '/admin/launch-readiness'
+    | '/admin/notifications'
     | '/api/public/kb-sync'
   id:
     | '__root__'
@@ -397,7 +457,12 @@ export interface FileRouteTypes {
     | '/legal-rights/'
     | '/schemes/'
     | '/_authenticated/admin/ai-usage'
+    | '/_authenticated/admin/analytics'
+    | '/_authenticated/admin/content-health'
     | '/_authenticated/admin/kb-sync'
+    | '/_authenticated/admin/knowledge-health'
+    | '/_authenticated/admin/launch-readiness'
+    | '/_authenticated/admin/notifications'
     | '/api/public/kb-sync'
   fileRoutesById: FileRoutesById
 }
@@ -628,11 +693,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicKbSyncRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/admin/notifications': {
+      id: '/_authenticated/admin/notifications'
+      path: '/admin/notifications'
+      fullPath: '/admin/notifications'
+      preLoaderRoute: typeof AuthenticatedAdminNotificationsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/launch-readiness': {
+      id: '/_authenticated/admin/launch-readiness'
+      path: '/admin/launch-readiness'
+      fullPath: '/admin/launch-readiness'
+      preLoaderRoute: typeof AuthenticatedAdminLaunchReadinessRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/knowledge-health': {
+      id: '/_authenticated/admin/knowledge-health'
+      path: '/admin/knowledge-health'
+      fullPath: '/admin/knowledge-health'
+      preLoaderRoute: typeof AuthenticatedAdminKnowledgeHealthRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/admin/kb-sync': {
       id: '/_authenticated/admin/kb-sync'
       path: '/admin/kb-sync'
       fullPath: '/admin/kb-sync'
       preLoaderRoute: typeof AuthenticatedAdminKbSyncRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/content-health': {
+      id: '/_authenticated/admin/content-health'
+      path: '/admin/content-health'
+      fullPath: '/admin/content-health'
+      preLoaderRoute: typeof AuthenticatedAdminContentHealthRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/analytics': {
+      id: '/_authenticated/admin/analytics'
+      path: '/admin/analytics'
+      fullPath: '/admin/analytics'
+      preLoaderRoute: typeof AuthenticatedAdminAnalyticsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/admin/ai-usage': {
@@ -657,7 +757,12 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedSavedRoute: typeof AuthenticatedSavedRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
   AuthenticatedAdminAiUsageRoute: typeof AuthenticatedAdminAiUsageRoute
+  AuthenticatedAdminAnalyticsRoute: typeof AuthenticatedAdminAnalyticsRoute
+  AuthenticatedAdminContentHealthRoute: typeof AuthenticatedAdminContentHealthRoute
   AuthenticatedAdminKbSyncRoute: typeof AuthenticatedAdminKbSyncRoute
+  AuthenticatedAdminKnowledgeHealthRoute: typeof AuthenticatedAdminKnowledgeHealthRoute
+  AuthenticatedAdminLaunchReadinessRoute: typeof AuthenticatedAdminLaunchReadinessRoute
+  AuthenticatedAdminNotificationsRoute: typeof AuthenticatedAdminNotificationsRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -672,7 +777,14 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedSavedRoute: AuthenticatedSavedRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
   AuthenticatedAdminAiUsageRoute: AuthenticatedAdminAiUsageRoute,
+  AuthenticatedAdminAnalyticsRoute: AuthenticatedAdminAnalyticsRoute,
+  AuthenticatedAdminContentHealthRoute: AuthenticatedAdminContentHealthRoute,
   AuthenticatedAdminKbSyncRoute: AuthenticatedAdminKbSyncRoute,
+  AuthenticatedAdminKnowledgeHealthRoute:
+    AuthenticatedAdminKnowledgeHealthRoute,
+  AuthenticatedAdminLaunchReadinessRoute:
+    AuthenticatedAdminLaunchReadinessRoute,
+  AuthenticatedAdminNotificationsRoute: AuthenticatedAdminNotificationsRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
