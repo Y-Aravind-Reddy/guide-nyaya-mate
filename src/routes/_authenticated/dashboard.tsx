@@ -144,6 +144,7 @@ function DashboardPage() {
           </div>
         </div>
       </div>
+      {isAdmin ? <AdminWidgets /> : null}
     </DashboardLayout>
   );
 }
