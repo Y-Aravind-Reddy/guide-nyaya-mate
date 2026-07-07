@@ -2,8 +2,12 @@ import { useState, type ReactNode } from "react";
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import {
   Activity,
+  BarChart3,
   Bell,
   BookA,
+  ClipboardCheck,
+  HeartPulse,
+  Rocket,
   BookOpen,
   Database,
   Gauge,
