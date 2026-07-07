@@ -30,6 +30,7 @@ export const Route = createFileRoute("/_authenticated/dashboard")({
 
 function DashboardPage() {
   const { user } = useAuth();
+  const { isAdmin } = useIsAdmin();
   const { data: services } = useSuspenseQuery(servicesQuery());
 
   const { data: counts } = useQuery({
