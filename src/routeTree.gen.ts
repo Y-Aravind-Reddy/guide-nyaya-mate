@@ -40,6 +40,7 @@ import { Route as AuthenticatedAiChatRouteImport } from './routes/_authenticated
 import { Route as ApiPublicKbSyncRouteImport } from './routes/api/public/kb-sync'
 import { Route as AuthenticatedAdminKnowledgeHealthRouteImport } from './routes/_authenticated/admin/knowledge-health'
 import { Route as AuthenticatedAdminKbSyncRouteImport } from './routes/_authenticated/admin/kb-sync'
+import { Route as AuthenticatedAdminContentHealthRouteImport } from './routes/_authenticated/admin/content-health'
 import { Route as AuthenticatedAdminAiUsageRouteImport } from './routes/_authenticated/admin/ai-usage'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -203,6 +204,12 @@ const AuthenticatedAdminKbSyncRoute =
     path: '/admin/kb-sync',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAdminContentHealthRoute =
+  AuthenticatedAdminContentHealthRouteImport.update({
+    id: '/admin/content-health',
+    path: '/admin/content-health',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAdminAiUsageRoute =
   AuthenticatedAdminAiUsageRouteImport.update({
     id: '/admin/ai-usage',
@@ -239,6 +246,7 @@ export interface FileRoutesByFullPath {
   '/legal-rights/': typeof LegalRightsIndexRoute
   '/schemes/': typeof SchemesIndexRoute
   '/admin/ai-usage': typeof AuthenticatedAdminAiUsageRoute
+  '/admin/content-health': typeof AuthenticatedAdminContentHealthRoute
   '/admin/kb-sync': typeof AuthenticatedAdminKbSyncRoute
   '/admin/knowledge-health': typeof AuthenticatedAdminKnowledgeHealthRoute
   '/api/public/kb-sync': typeof ApiPublicKbSyncRoute
@@ -272,6 +280,7 @@ export interface FileRoutesByTo {
   '/legal-rights': typeof LegalRightsIndexRoute
   '/schemes': typeof SchemesIndexRoute
   '/admin/ai-usage': typeof AuthenticatedAdminAiUsageRoute
+  '/admin/content-health': typeof AuthenticatedAdminContentHealthRoute
   '/admin/kb-sync': typeof AuthenticatedAdminKbSyncRoute
   '/admin/knowledge-health': typeof AuthenticatedAdminKnowledgeHealthRoute
   '/api/public/kb-sync': typeof ApiPublicKbSyncRoute
@@ -307,6 +316,7 @@ export interface FileRoutesById {
   '/legal-rights/': typeof LegalRightsIndexRoute
   '/schemes/': typeof SchemesIndexRoute
   '/_authenticated/admin/ai-usage': typeof AuthenticatedAdminAiUsageRoute
+  '/_authenticated/admin/content-health': typeof AuthenticatedAdminContentHealthRoute
   '/_authenticated/admin/kb-sync': typeof AuthenticatedAdminKbSyncRoute
   '/_authenticated/admin/knowledge-health': typeof AuthenticatedAdminKnowledgeHealthRoute
   '/api/public/kb-sync': typeof ApiPublicKbSyncRoute
@@ -342,6 +352,7 @@ export interface FileRouteTypes {
     | '/legal-rights/'
     | '/schemes/'
     | '/admin/ai-usage'
+    | '/admin/content-health'
     | '/admin/kb-sync'
     | '/admin/knowledge-health'
     | '/api/public/kb-sync'
@@ -375,6 +386,7 @@ export interface FileRouteTypes {
     | '/legal-rights'
     | '/schemes'
     | '/admin/ai-usage'
+    | '/admin/content-health'
     | '/admin/kb-sync'
     | '/admin/knowledge-health'
     | '/api/public/kb-sync'
@@ -409,6 +421,7 @@ export interface FileRouteTypes {
     | '/legal-rights/'
     | '/schemes/'
     | '/_authenticated/admin/ai-usage'
+    | '/_authenticated/admin/content-health'
     | '/_authenticated/admin/kb-sync'
     | '/_authenticated/admin/knowledge-health'
     | '/api/public/kb-sync'
@@ -655,6 +668,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminKbSyncRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/content-health': {
+      id: '/_authenticated/admin/content-health'
+      path: '/admin/content-health'
+      fullPath: '/admin/content-health'
+      preLoaderRoute: typeof AuthenticatedAdminContentHealthRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/admin/ai-usage': {
       id: '/_authenticated/admin/ai-usage'
       path: '/admin/ai-usage'
@@ -677,6 +697,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedSavedRoute: typeof AuthenticatedSavedRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
   AuthenticatedAdminAiUsageRoute: typeof AuthenticatedAdminAiUsageRoute
+  AuthenticatedAdminContentHealthRoute: typeof AuthenticatedAdminContentHealthRoute
   AuthenticatedAdminKbSyncRoute: typeof AuthenticatedAdminKbSyncRoute
   AuthenticatedAdminKnowledgeHealthRoute: typeof AuthenticatedAdminKnowledgeHealthRoute
 }
@@ -693,6 +714,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedSavedRoute: AuthenticatedSavedRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
   AuthenticatedAdminAiUsageRoute: AuthenticatedAdminAiUsageRoute,
+  AuthenticatedAdminContentHealthRoute: AuthenticatedAdminContentHealthRoute,
   AuthenticatedAdminKbSyncRoute: AuthenticatedAdminKbSyncRoute,
   AuthenticatedAdminKnowledgeHealthRoute:
     AuthenticatedAdminKnowledgeHealthRoute,
