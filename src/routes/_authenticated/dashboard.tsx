@@ -9,6 +9,8 @@ import {
   TrendingUp,
 } from "lucide-react";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
+import { AdminWidgets } from "@/components/admin/AdminWidgets";
+import { useIsAdmin } from "@/hooks/useIsAdmin";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { servicesQuery } from "@/lib/queries";
