@@ -42,6 +42,7 @@ import { Route as AuthenticatedAdminNotificationsRouteImport } from './routes/_a
 import { Route as AuthenticatedAdminLaunchReadinessRouteImport } from './routes/_authenticated/admin/launch-readiness'
 import { Route as AuthenticatedAdminKnowledgeHealthRouteImport } from './routes/_authenticated/admin/knowledge-health'
 import { Route as AuthenticatedAdminKbSyncRouteImport } from './routes/_authenticated/admin/kb-sync'
+import { Route as AuthenticatedAdminContentOpsRouteImport } from './routes/_authenticated/admin/content-ops'
 import { Route as AuthenticatedAdminContentHealthRouteImport } from './routes/_authenticated/admin/content-health'
 import { Route as AuthenticatedAdminAnalyticsRouteImport } from './routes/_authenticated/admin/analytics'
 import { Route as AuthenticatedAdminAiUsageRouteImport } from './routes/_authenticated/admin/ai-usage'
@@ -219,6 +220,12 @@ const AuthenticatedAdminKbSyncRoute =
     path: '/admin/kb-sync',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAdminContentOpsRoute =
+  AuthenticatedAdminContentOpsRouteImport.update({
+    id: '/admin/content-ops',
+    path: '/admin/content-ops',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAdminContentHealthRoute =
   AuthenticatedAdminContentHealthRouteImport.update({
     id: '/admin/content-health',
@@ -269,6 +276,7 @@ export interface FileRoutesByFullPath {
   '/admin/ai-usage': typeof AuthenticatedAdminAiUsageRoute
   '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/admin/content-health': typeof AuthenticatedAdminContentHealthRoute
+  '/admin/content-ops': typeof AuthenticatedAdminContentOpsRoute
   '/admin/kb-sync': typeof AuthenticatedAdminKbSyncRoute
   '/admin/knowledge-health': typeof AuthenticatedAdminKnowledgeHealthRoute
   '/admin/launch-readiness': typeof AuthenticatedAdminLaunchReadinessRoute
@@ -306,6 +314,7 @@ export interface FileRoutesByTo {
   '/admin/ai-usage': typeof AuthenticatedAdminAiUsageRoute
   '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/admin/content-health': typeof AuthenticatedAdminContentHealthRoute
+  '/admin/content-ops': typeof AuthenticatedAdminContentOpsRoute
   '/admin/kb-sync': typeof AuthenticatedAdminKbSyncRoute
   '/admin/knowledge-health': typeof AuthenticatedAdminKnowledgeHealthRoute
   '/admin/launch-readiness': typeof AuthenticatedAdminLaunchReadinessRoute
@@ -345,6 +354,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/ai-usage': typeof AuthenticatedAdminAiUsageRoute
   '/_authenticated/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/_authenticated/admin/content-health': typeof AuthenticatedAdminContentHealthRoute
+  '/_authenticated/admin/content-ops': typeof AuthenticatedAdminContentOpsRoute
   '/_authenticated/admin/kb-sync': typeof AuthenticatedAdminKbSyncRoute
   '/_authenticated/admin/knowledge-health': typeof AuthenticatedAdminKnowledgeHealthRoute
   '/_authenticated/admin/launch-readiness': typeof AuthenticatedAdminLaunchReadinessRoute
@@ -384,6 +394,7 @@ export interface FileRouteTypes {
     | '/admin/ai-usage'
     | '/admin/analytics'
     | '/admin/content-health'
+    | '/admin/content-ops'
     | '/admin/kb-sync'
     | '/admin/knowledge-health'
     | '/admin/launch-readiness'
@@ -421,6 +432,7 @@ export interface FileRouteTypes {
     | '/admin/ai-usage'
     | '/admin/analytics'
     | '/admin/content-health'
+    | '/admin/content-ops'
     | '/admin/kb-sync'
     | '/admin/knowledge-health'
     | '/admin/launch-readiness'
@@ -459,6 +471,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/ai-usage'
     | '/_authenticated/admin/analytics'
     | '/_authenticated/admin/content-health'
+    | '/_authenticated/admin/content-ops'
     | '/_authenticated/admin/kb-sync'
     | '/_authenticated/admin/knowledge-health'
     | '/_authenticated/admin/launch-readiness'
@@ -721,6 +734,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminKbSyncRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/content-ops': {
+      id: '/_authenticated/admin/content-ops'
+      path: '/admin/content-ops'
+      fullPath: '/admin/content-ops'
+      preLoaderRoute: typeof AuthenticatedAdminContentOpsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/admin/content-health': {
       id: '/_authenticated/admin/content-health'
       path: '/admin/content-health'
@@ -759,6 +779,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminAiUsageRoute: typeof AuthenticatedAdminAiUsageRoute
   AuthenticatedAdminAnalyticsRoute: typeof AuthenticatedAdminAnalyticsRoute
   AuthenticatedAdminContentHealthRoute: typeof AuthenticatedAdminContentHealthRoute
+  AuthenticatedAdminContentOpsRoute: typeof AuthenticatedAdminContentOpsRoute
   AuthenticatedAdminKbSyncRoute: typeof AuthenticatedAdminKbSyncRoute
   AuthenticatedAdminKnowledgeHealthRoute: typeof AuthenticatedAdminKnowledgeHealthRoute
   AuthenticatedAdminLaunchReadinessRoute: typeof AuthenticatedAdminLaunchReadinessRoute
@@ -779,6 +800,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminAiUsageRoute: AuthenticatedAdminAiUsageRoute,
   AuthenticatedAdminAnalyticsRoute: AuthenticatedAdminAnalyticsRoute,
   AuthenticatedAdminContentHealthRoute: AuthenticatedAdminContentHealthRoute,
+  AuthenticatedAdminContentOpsRoute: AuthenticatedAdminContentOpsRoute,
   AuthenticatedAdminKbSyncRoute: AuthenticatedAdminKbSyncRoute,
   AuthenticatedAdminKnowledgeHealthRoute:
     AuthenticatedAdminKnowledgeHealthRoute,

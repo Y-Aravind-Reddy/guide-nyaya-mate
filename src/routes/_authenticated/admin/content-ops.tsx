@@ -9,7 +9,6 @@ import {
   Link2,
   RefreshCw,
   AlertTriangle,
-  CheckCircle2,
   ExternalLink,
   ShieldOff,
   FileWarning,
