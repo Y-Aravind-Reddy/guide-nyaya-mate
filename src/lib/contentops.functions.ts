@@ -224,11 +224,11 @@ export const aiCoverageReport = createServerFn({ method: "GET" })
     let syncedCount = 0;
 
     const cmsRows = await Promise.all(
-      CMS_TYPES.map((c) => sb.from(c.table).select(`id, ${c.titleField}`).limit(10000)),
+      CMS_TYPES.map((c) => (sb.from(c.table) as any).select(`id, ${c.titleField}`).limit(10000)),
     );
 
     CMS_TYPES.forEach((c, i) => {
-      const rows = cmsRows[i].data ?? [];
+      const rows: any[] = cmsRows[i].data ?? [];
       totalCmsRecords += rows.length;
       const noKb: { id: string; title: string }[] = [];
       const noEmb: { id: string; title: string }[] = [];
