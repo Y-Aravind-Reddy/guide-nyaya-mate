@@ -94,7 +94,29 @@ export function AdminWidgets() {
             Notifications <ChevronRight className="h-3 w-3" />
           </Link>
         </GlassCard>
+
+        <GlassCard>
+          <div className="flex items-center justify-between">
+            <span className="flex items-center gap-2 text-sm text-muted-foreground">
+              <ClipboardList className="h-4 w-4" /> Content Quality
+            </span>
+            <StatusDot health={healthOf(quality?.summary.avgQuality ?? 0, 75, 45)} />
+          </div>
+          <p className="mt-3 text-2xl font-extrabold text-foreground">
+            {quality?.summary.avgQuality ?? 0}
+          </p>
+          <p className="text-xs text-muted-foreground">
+            {quality?.summary.totalRecords ?? 0} records scanned
+          </p>
+          <div className="mt-3">
+            <ProgressBar value={quality?.summary.avgQuality ?? 0} />
+          </div>
+          <Link to="/admin/content-ops" className="mt-3 flex items-center gap-1 text-xs font-semibold text-primary">
+            Content Ops <ChevronRight className="h-3 w-3" />
+          </Link>
+        </GlassCard>
       </div>
+
 
       <div className="mt-4 grid gap-4 lg:grid-cols-2">
         <GlassCard>
