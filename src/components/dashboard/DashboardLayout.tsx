@@ -6,6 +6,7 @@ import {
   Bell,
   BookA,
   ClipboardCheck,
+  ClipboardList,
   HeartPulse,
   Rocket,
   BookOpen,
