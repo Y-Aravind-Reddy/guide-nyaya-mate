@@ -27,7 +27,6 @@ import {
   MetricCard,
   ProgressBar,
   ScoreRing,
-  StatusDot,
   healthOf,
 } from "@/components/admin/health-ui";
 import { cn } from "@/lib/utils";
