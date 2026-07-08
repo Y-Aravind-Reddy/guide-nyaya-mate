@@ -50,6 +50,7 @@ const ADMIN_NAV = [
   { icon: Rocket, label: "Launch Readiness", to: "/admin/launch-readiness" },
   { icon: HeartPulse, label: "Knowledge Health", to: "/admin/knowledge-health" },
   { icon: ClipboardCheck, label: "Content Health", to: "/admin/content-health" },
+  { icon: ClipboardList, label: "Content Ops", to: "/admin/content-ops" },
   { icon: BarChart3, label: "Analytics", to: "/admin/analytics" },
   { icon: Bell, label: "Notifications", to: "/admin/notifications" },
   { icon: Gauge, label: "AI Usage", to: "/admin/ai-usage" },
