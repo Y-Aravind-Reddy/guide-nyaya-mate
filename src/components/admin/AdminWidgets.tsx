@@ -23,6 +23,13 @@ export function AdminWidgets() {
     staleTime: 60_000,
   });
 
+  const qualityFn = useServerFn(contentQualityScan);
+  const { data: quality } = useQuery({
+    queryKey: ["contentops_quality"],
+    queryFn: () => qualityFn(),
+    staleTime: 60_000,
+  });
+
   return (
     <div className="mt-8">
       <div className="flex items-center justify-between">
