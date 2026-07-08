@@ -806,6 +806,8 @@ export type Database = {
       }
       official_sources: {
         Row: {
+          apply_http_code: number | null
+          apply_link_status: string | null
           apply_online_url: string | null
           authority: string
           category: string | null
@@ -813,6 +815,8 @@ export type Database = {
           created_by: string | null
           department: string | null
           email: string | null
+          forms_http_code: number | null
+          forms_link_status: string | null
           forms_url: string | null
           government_level: string | null
           helpline: string | null
@@ -820,6 +824,8 @@ export type Database = {
           is_active: boolean
           jurisdiction: string | null
           last_verified_at: string | null
+          link_status: string | null
+          links_checked_at: string | null
           ministry: string | null
           office_address: string | null
           source_type: string | null
@@ -828,8 +834,12 @@ export type Database = {
           status: string
           title: string
           updated_at: string
+          website_http_code: number | null
+          website_link_status: string | null
         }
         Insert: {
+          apply_http_code?: number | null
+          apply_link_status?: string | null
           apply_online_url?: string | null
           authority: string
           category?: string | null
@@ -837,6 +847,8 @@ export type Database = {
           created_by?: string | null
           department?: string | null
           email?: string | null
+          forms_http_code?: number | null
+          forms_link_status?: string | null
           forms_url?: string | null
           government_level?: string | null
           helpline?: string | null
@@ -844,6 +856,8 @@ export type Database = {
           is_active?: boolean
           jurisdiction?: string | null
           last_verified_at?: string | null
+          link_status?: string | null
+          links_checked_at?: string | null
           ministry?: string | null
           office_address?: string | null
           source_type?: string | null
@@ -852,8 +866,12 @@ export type Database = {
           status?: string
           title: string
           updated_at?: string
+          website_http_code?: number | null
+          website_link_status?: string | null
         }
         Update: {
+          apply_http_code?: number | null
+          apply_link_status?: string | null
           apply_online_url?: string | null
           authority?: string
           category?: string | null
@@ -861,6 +879,8 @@ export type Database = {
           created_by?: string | null
           department?: string | null
           email?: string | null
+          forms_http_code?: number | null
+          forms_link_status?: string | null
           forms_url?: string | null
           government_level?: string | null
           helpline?: string | null
@@ -868,6 +888,8 @@ export type Database = {
           is_active?: boolean
           jurisdiction?: string | null
           last_verified_at?: string | null
+          link_status?: string | null
+          links_checked_at?: string | null
           ministry?: string | null
           office_address?: string | null
           source_type?: string | null
@@ -876,6 +898,8 @@ export type Database = {
           status?: string
           title?: string
           updated_at?: string
+          website_http_code?: number | null
+          website_link_status?: string | null
         }
         Relationships: []
       }
