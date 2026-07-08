@@ -11,6 +11,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { adminDashboardSummary } from "@/lib/admin-health.functions";
+import { contentQualityScan } from "@/lib/contentops.functions";
 import { GlassCard, ProgressBar, StatusDot, healthOf } from "@/components/admin/health-ui";
 
 /** Admin-only widget grid for the main dashboard (Part 6). */
