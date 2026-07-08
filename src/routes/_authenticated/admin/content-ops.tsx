@@ -476,6 +476,3 @@ function LinksTab() {
   );
 }
 
-// silence unused import in some build configs
-void CheckCircle2;
-void StatusDot;
