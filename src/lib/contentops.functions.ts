@@ -216,7 +216,7 @@ export const aiCoverageReport = createServerFn({ method: "GET" })
       .eq("source", "cms_sync")
       .limit(10000);
     const docBySlug = new Map<string, any>();
-    for (const d of docs ?? []) docBySlug.set(d.slug, d);
+    for (const d of docs ?? []) docBySlug.set(String(d.slug), d);
 
     const missingKb: { type: string; label: string; items: { id: string; title: string }[] }[] = [];
     const missingEmbeddings: { type: string; label: string; items: { id: string; title: string }[] }[] = [];
