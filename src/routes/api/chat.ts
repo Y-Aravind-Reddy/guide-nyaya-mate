@@ -82,6 +82,104 @@ function normUrl(u?: string | null): string | null {
   }
 }
 
+// Days after which a verified document should be re-checked.
+const STALE_AFTER_DAYS = 180;
+
+function daysSince(date?: string | null): number | null {
+  if (!date) return null;
+  const t = Date.parse(date);
+  if (Number.isNaN(t)) return null;
+  return Math.floor((Date.now() - t) / 86_400_000);
+}
+
+// Trust levels ranked for merge ordering (official first).
+const TRUST_RANK: Record<string, number> = {
+  official: 5,
+  verified: 4,
+  reviewed: 3,
+  imported: 2,
+  community: 1,
+  draft: 0,
+};
+
+/**
+ * Merge multi-document retrieval into a single ranked evidence set.
+ * Ranks by relevance + verification status + recency + official-source priority.
+ */
+function rankChunks(chunks: RetrievedChunk[]): RetrievedChunk[] {
+  const seen = new Set<string>();
+  return chunks
+    .filter((c) => {
+      const k = c.chunk_text.slice(0, 160).toLowerCase();
+      if (seen.has(k)) return false;
+      seen.add(k);
+      return true;
+    })
+    .map((c) => {
+      const trust = (TRUST_RANK[c.content_trust_level] ?? 1) / 5;
+      const age = daysSince(c.last_verified_date);
+      const recency = age == null ? 0.4 : Math.max(0, 1 - age / 730);
+      const official = c.source_url && /\.gov\.in|\.nic\.in/i.test(c.source_url) ? 1 : 0;
+      const score =
+        (c.similarity ?? 0) * 0.55 + trust * 0.2 + recency * 0.15 + official * 0.1;
+      return { ...c, _score: score } as RetrievedChunk & { _score: number };
+    })
+    .sort((a, b) => (b as any)._score - (a as any)._score)
+    .slice(0, 8);
+}
+
+/** Composite answer confidence: retrieval score, support count, trust, freshness. */
+function computeConfidence(chunks: RetrievedChunk[]): number | null {
+  if (!chunks.length) return null;
+  const top = chunks.slice(0, 4);
+  const rel = top.reduce((s, c) => s + (c.similarity ?? 0), 0) / top.length;
+  const docs = new Set(chunks.map((c) => c.doc_title)).size;
+  const support = Math.min(1, docs / 3);
+  const trust =
+    top.reduce((s, c) => s + (TRUST_RANK[c.content_trust_level] ?? 1) / 5, 0) / top.length;
+  const freshness =
+    top.reduce((s, c) => {
+      const age = daysSince(c.last_verified_date);
+      return s + (age == null ? 0.4 : Math.max(0, 1 - age / 730));
+    }, 0) / top.length;
+  return Number(
+    (rel * 0.5 + support * 0.2 + trust * 0.2 + freshness * 0.1).toFixed(3),
+  );
+}
+
+type Conflict = { topic: string; values: { value: string; source: string }[] };
+
+/**
+ * Heuristic conflict detection: the same fact type (fees / timelines) reported
+ * with different values by different verified documents.
+ */
+function detectConflicts(chunks: RetrievedChunk[]): Conflict[] {
+  const patterns: { topic: string; re: RegExp }[] = [
+    { topic: "Fees", re: /₹\s?[\d,]+/g },
+    { topic: "Processing time", re: /\b\d+\s?(?:–|-|to\s)?\s?\d*\s?(?:days?|weeks?|months?)\b/gi },
+  ];
+  const conflicts: Conflict[] = [];
+  for (const { topic, re } of patterns) {
+    const byValue = new Map<string, string>();
+    for (const c of chunks) {
+      const matches = c.chunk_text.match(re) ?? [];
+      for (const m of matches.slice(0, 3)) {
+        const v = m.trim().toLowerCase();
+        if (!byValue.has(v)) byValue.set(v, c.doc_title);
+      }
+    }
+    const entries = [...byValue.entries()];
+    const distinctDocs = new Set(entries.map(([, d]) => d));
+    if (entries.length > 1 && distinctDocs.size > 1) {
+      conflicts.push({
+        topic,
+        values: entries.slice(0, 4).map(([value, source]) => ({ value, source })),
+      });
+    }
+  }
+  return conflicts;
+}
+
 
 
 export const Route = createFileRoute("/api/chat")({
