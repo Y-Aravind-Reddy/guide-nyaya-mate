@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Link } from "@tanstack/react-router";
 import {
   AlertTriangle,
   Building2,
@@ -167,9 +166,9 @@ export function AiSourceCitations({ meta }: { meta?: AiMessageMeta }) {
           <ul className="mt-1.5 space-y-1">
             {recommendations.map((r) => (
               <li key={`${r.kind}-${r.href}-${r.title}`}>
-                <Link to={r.href} className="text-primary hover:underline">
+                <a href={r.href} className="text-primary hover:underline">
                   {r.title}
-                </Link>
+                </a>
                 <span className="text-muted-foreground"> · {r.kind === "faq" ? "FAQ" : "Service"}</span>
               </li>
             ))}
