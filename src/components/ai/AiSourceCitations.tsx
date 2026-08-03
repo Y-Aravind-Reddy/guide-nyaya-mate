@@ -1,4 +1,16 @@
-import { Building2, Download, ExternalLink, ShieldAlert, ShieldCheck } from "lucide-react";
+import { useState } from "react";
+import { Link } from "@tanstack/react-router";
+import {
+  AlertTriangle,
+  Building2,
+  ChevronDown,
+  Clock,
+  Compass,
+  Download,
+  ExternalLink,
+  ShieldAlert,
+  ShieldCheck,
+} from "lucide-react";
 import { VerifiedBadge } from "@/components/trust/VerifiedBadge";
 
 export type AiCitation = {
@@ -13,15 +25,39 @@ export type AiCitation = {
   category: string | null;
 };
 
+export type AiEvidence = {
+  index: number;
+  docTitle: string;
+  authority: string | null;
+  url: string | null;
+  trust: string;
+  lastVerified: string | null;
+  similarity: number;
+  excerpt: string;
+};
+
+export type AiConflict = {
+  topic: string;
+  values: { value: string; source: string }[];
+};
+
+export type AiRecommendation = { kind: "service" | "faq"; title: string; href: string };
+
 export type AiMessageMeta = {
   citations?: AiCitation[];
   confidence?: number | null;
   sourceCount?: number;
+  documentCount?: number;
   retrievalMs?: number;
   responseTimeMs?: number;
   lastUpdated?: string | null;
   knowledgeCategory?: string | null;
   model?: string;
+  conflicts?: AiConflict[];
+  outdated?: boolean;
+  staleSources?: string[];
+  recommendations?: AiRecommendation[];
+  evidence?: AiEvidence[];
 };
 
 function confidenceLabel(c?: number | null): { label: string; tone: string } {
@@ -31,11 +67,22 @@ function confidenceLabel(c?: number | null): { label: string; tone: string } {
   return { label: "Low", tone: "text-destructive" };
 }
 
+function fmtDate(d?: string | null): string | null {
+  if (!d) return null;
+  const t = new Date(d);
+  if (Number.isNaN(t.getTime())) return null;
+  return t.toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
+}
+
 /** Renders the official-source citations + answer metadata below an AI reply. */
 export function AiSourceCitations({ meta }: { meta?: AiMessageMeta }) {
+  const [openEvidence, setOpenEvidence] = useState(false);
   if (!meta) return null;
   const citations = meta.citations ?? [];
   const conf = confidenceLabel(meta.confidence);
+  const conflicts = meta.conflicts ?? [];
+  const evidence = meta.evidence ?? [];
+  const recommendations = meta.recommendations ?? [];
 
   return (
     <div className="mt-1 space-y-2">
@@ -45,7 +92,11 @@ export function AiSourceCitations({ meta }: { meta?: AiMessageMeta }) {
           Confidence: <span className={`font-semibold ${conf.tone}`}>{conf.label}</span>
         </span>
         <span aria-hidden="true">·</span>
-        <span>Sources: {meta.sourceCount ?? 0}</span>
+        <span>
+          Sources: {meta.sourceCount ?? 0}
+          {meta.documentCount ? ` (${meta.documentCount} documents)` : ""}
+        </span>
+
         {meta.knowledgeCategory ? (
           <>
             <span aria-hidden="true">·</span>
