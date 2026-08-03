@@ -332,11 +332,12 @@ export const Route = createFileRoute("/api/chat")({
             if (embedding) {
               const { data: chunks, error } = await authClient.rpc("match_chunks", {
                 query_embedding: toVectorLiteral(embedding),
-                match_count: 6,
+                match_count: 12,
                 filter_state: filterState,
               });
               if (!error && Array.isArray(chunks)) {
-                retrieved = chunks as RetrievedChunk[];
+                // Multi-source retrieval: merge + re-rank across documents.
+                retrieved = rankChunks(chunks as RetrievedChunk[]);
                 retrievalSucceeded = retrieved.length > 0;
               }
             }
@@ -345,6 +346,15 @@ export const Route = createFileRoute("/api/chat")({
           }
           retrievalMs = Date.now() - tStart;
         }
+
+        const conflicts = detectConflicts(retrieved);
+        const staleSources = retrieved
+          .filter((c) => {
+            const age = daysSince(c.last_verified_date);
+            return age == null || age > STALE_AFTER_DAYS;
+          })
+          .map((c) => c.doc_title);
+        const outdated = retrieved.length > 0 && staleSources.length === retrieved.length;
 
         if (retrieved.length) {
           const sourcesBlock = retrieved
@@ -373,10 +383,23 @@ export const Route = createFileRoute("/api/chat")({
           system = `${system}
 
 === RETRIEVED KNOWLEDGE BASE CONTEXT (grounding) ===
-Use ONLY the verified context below as your primary source of truth. Prefer higher trust levels (official > verified > reviewed). ${
+Use ONLY the verified context below as your primary source of truth. Combine ALL relevant sources into one coherent answer, preferring higher trust levels (official > verified > reviewed). ${
             filterState ? `The user is asking about ${filterState}; prioritise ${filterState}-specific guidance.` : ""
           }
-If the context does not answer the question, say so clearly and advise verifying with the official authority — do not invent facts.
+Cite each factual statement inline with its source number, e.g. [1].
+${
+  conflicts.length
+    ? `IMPORTANT: These sources appear to disagree on: ${conflicts
+        .map((c) => c.topic)
+        .join(", ")}. Surface the disagreement explicitly with the sentence "**This information differs between official sources.**", list both values with citations, and advise checking the official website.`
+    : ""
+}
+${
+  outdated
+    ? `NOTE: All retrieved sources are older than ${STALE_AFTER_DAYS} days. Add a short note that this information may require verification with the official authority.`
+    : ""
+}
+If the context does not answer the question, reply exactly with "I couldn't find enough verified information to answer this accurately." and recommend the related government service, related FAQ, or the official website — never invent facts.
 
 At the END of every answer that uses this context, append a "Sources" section listing the Document title, Authority, URL (if any), and Last Verified date for each source you used.
 
@@ -389,13 +412,36 @@ ${sourcesBlock}
         const modelName = "google/gemini-3-flash-preview";
         const responseStart = Date.now();
 
-        const avgConfidence = retrieved.length
-          ? Number(
-              (
-                retrieved.reduce((s, c) => s + (c.similarity ?? 0), 0) / retrieved.length
-              ).toFixed(3),
-            )
-          : null;
+        const avgConfidence = computeConfidence(retrieved);
+
+        // ---- Fallback recommendations when grounding is weak (Part 5) ----
+        type Recommendation = { kind: "service" | "faq"; title: string; href: string };
+        const recommendations: Recommendation[] = [];
+        const weakGrounding = !retrieved.length || (avgConfidence ?? 0) < 0.4;
+        if (weakGrounding && query.trim()) {
+          const term = query.replace(/[%_,]/g, " ").slice(0, 60).trim();
+          try {
+            const [svc, faq] = await Promise.all([
+              authClient
+                .from("government_services")
+                .select("title, slug")
+                .or(`title.ilike.%${term}%,description.ilike.%${term}%`)
+                .limit(3),
+              authClient.from("faqs").select("question").ilike("question", `%${term}%`).limit(3),
+            ]);
+            for (const s of svc.data ?? [])
+              recommendations.push({
+                kind: "service",
+                title: s.title,
+                href: `/government-services/${s.slug}`,
+              });
+            for (const f of faq.data ?? [])
+              recommendations.push({ kind: "faq", title: f.question, href: "/faqs" });
+          } catch (e) {
+            console.error("recommendation lookup error", e);
+          }
+        }
+
 
         // ---- Build verified official-source citations (Part 2) ----
         const citations: Citation[] = [];
