@@ -82,6 +82,104 @@ function normUrl(u?: string | null): string | null {
   }
 }
 
+// Days after which a verified document should be re-checked.
+const STALE_AFTER_DAYS = 180;
+
+function daysSince(date?: string | null): number | null {
+  if (!date) return null;
+  const t = Date.parse(date);
+  if (Number.isNaN(t)) return null;
+  return Math.floor((Date.now() - t) / 86_400_000);
+}
+
+// Trust levels ranked for merge ordering (official first).
+const TRUST_RANK: Record<string, number> = {
+  official: 5,
+  verified: 4,
+  reviewed: 3,
+  imported: 2,
+  community: 1,
+  draft: 0,
+};
+
+/**
+ * Merge multi-document retrieval into a single ranked evidence set.
+ * Ranks by relevance + verification status + recency + official-source priority.
+ */
+function rankChunks(chunks: RetrievedChunk[]): RetrievedChunk[] {
+  const seen = new Set<string>();
+  return chunks
+    .filter((c) => {
+      const k = c.chunk_text.slice(0, 160).toLowerCase();
+      if (seen.has(k)) return false;
+      seen.add(k);
+      return true;
+    })
+    .map((c) => {
+      const trust = (TRUST_RANK[c.content_trust_level] ?? 1) / 5;
+      const age = daysSince(c.last_verified_date);
+      const recency = age == null ? 0.4 : Math.max(0, 1 - age / 730);
+      const official = c.source_url && /\.gov\.in|\.nic\.in/i.test(c.source_url) ? 1 : 0;
+      const score =
+        (c.similarity ?? 0) * 0.55 + trust * 0.2 + recency * 0.15 + official * 0.1;
+      return { ...c, _score: score } as RetrievedChunk & { _score: number };
+    })
+    .sort((a, b) => (b as any)._score - (a as any)._score)
+    .slice(0, 8);
+}
+
+/** Composite answer confidence: retrieval score, support count, trust, freshness. */
+function computeConfidence(chunks: RetrievedChunk[]): number | null {
+  if (!chunks.length) return null;
+  const top = chunks.slice(0, 4);
+  const rel = top.reduce((s, c) => s + (c.similarity ?? 0), 0) / top.length;
+  const docs = new Set(chunks.map((c) => c.doc_title)).size;
+  const support = Math.min(1, docs / 3);
+  const trust =
+    top.reduce((s, c) => s + (TRUST_RANK[c.content_trust_level] ?? 1) / 5, 0) / top.length;
+  const freshness =
+    top.reduce((s, c) => {
+      const age = daysSince(c.last_verified_date);
+      return s + (age == null ? 0.4 : Math.max(0, 1 - age / 730));
+    }, 0) / top.length;
+  return Number(
+    (rel * 0.5 + support * 0.2 + trust * 0.2 + freshness * 0.1).toFixed(3),
+  );
+}
+
+type Conflict = { topic: string; values: { value: string; source: string }[] };
+
+/**
+ * Heuristic conflict detection: the same fact type (fees / timelines) reported
+ * with different values by different verified documents.
+ */
+function detectConflicts(chunks: RetrievedChunk[]): Conflict[] {
+  const patterns: { topic: string; re: RegExp }[] = [
+    { topic: "Fees", re: /₹\s?[\d,]+/g },
+    { topic: "Processing time", re: /\b\d+\s?(?:–|-|to\s)?\s?\d*\s?(?:days?|weeks?|months?)\b/gi },
+  ];
+  const conflicts: Conflict[] = [];
+  for (const { topic, re } of patterns) {
+    const byValue = new Map<string, string>();
+    for (const c of chunks) {
+      const matches = c.chunk_text.match(re) ?? [];
+      for (const m of matches.slice(0, 3)) {
+        const v = m.trim().toLowerCase();
+        if (!byValue.has(v)) byValue.set(v, c.doc_title);
+      }
+    }
+    const entries = [...byValue.entries()];
+    const distinctDocs = new Set(entries.map(([, d]) => d));
+    if (entries.length > 1 && distinctDocs.size > 1) {
+      conflicts.push({
+        topic,
+        values: entries.slice(0, 4).map(([value, source]) => ({ value, source })),
+      });
+    }
+  }
+  return conflicts;
+}
+
 
 
 export const Route = createFileRoute("/api/chat")({
@@ -234,11 +332,12 @@ export const Route = createFileRoute("/api/chat")({
             if (embedding) {
               const { data: chunks, error } = await authClient.rpc("match_chunks", {
                 query_embedding: toVectorLiteral(embedding),
-                match_count: 6,
+                match_count: 12,
                 filter_state: filterState,
               });
               if (!error && Array.isArray(chunks)) {
-                retrieved = chunks as RetrievedChunk[];
+                // Multi-source retrieval: merge + re-rank across documents.
+                retrieved = rankChunks(chunks as RetrievedChunk[]);
                 retrievalSucceeded = retrieved.length > 0;
               }
             }
@@ -247,6 +346,15 @@ export const Route = createFileRoute("/api/chat")({
           }
           retrievalMs = Date.now() - tStart;
         }
+
+        const conflicts = detectConflicts(retrieved);
+        const staleSources = retrieved
+          .filter((c) => {
+            const age = daysSince(c.last_verified_date);
+            return age == null || age > STALE_AFTER_DAYS;
+          })
+          .map((c) => c.doc_title);
+        const outdated = retrieved.length > 0 && staleSources.length === retrieved.length;
 
         if (retrieved.length) {
           const sourcesBlock = retrieved
@@ -275,10 +383,23 @@ export const Route = createFileRoute("/api/chat")({
           system = `${system}
 
 === RETRIEVED KNOWLEDGE BASE CONTEXT (grounding) ===
-Use ONLY the verified context below as your primary source of truth. Prefer higher trust levels (official > verified > reviewed). ${
+Use ONLY the verified context below as your primary source of truth. Combine ALL relevant sources into one coherent answer, preferring higher trust levels (official > verified > reviewed). ${
             filterState ? `The user is asking about ${filterState}; prioritise ${filterState}-specific guidance.` : ""
           }
-If the context does not answer the question, say so clearly and advise verifying with the official authority — do not invent facts.
+Cite each factual statement inline with its source number, e.g. [1].
+${
+  conflicts.length
+    ? `IMPORTANT: These sources appear to disagree on: ${conflicts
+        .map((c) => c.topic)
+        .join(", ")}. Surface the disagreement explicitly with the sentence "**This information differs between official sources.**", list both values with citations, and advise checking the official website.`
+    : ""
+}
+${
+  outdated
+    ? `NOTE: All retrieved sources are older than ${STALE_AFTER_DAYS} days. Add a short note that this information may require verification with the official authority.`
+    : ""
+}
+If the context does not answer the question, reply exactly with "I couldn't find enough verified information to answer this accurately." and recommend the related government service, related FAQ, or the official website — never invent facts.
 
 At the END of every answer that uses this context, append a "Sources" section listing the Document title, Authority, URL (if any), and Last Verified date for each source you used.
 
@@ -291,13 +412,36 @@ ${sourcesBlock}
         const modelName = "google/gemini-3-flash-preview";
         const responseStart = Date.now();
 
-        const avgConfidence = retrieved.length
-          ? Number(
-              (
-                retrieved.reduce((s, c) => s + (c.similarity ?? 0), 0) / retrieved.length
-              ).toFixed(3),
-            )
-          : null;
+        const avgConfidence = computeConfidence(retrieved);
+
+        // ---- Fallback recommendations when grounding is weak (Part 5) ----
+        type Recommendation = { kind: "service" | "faq"; title: string; href: string };
+        const recommendations: Recommendation[] = [];
+        const weakGrounding = !retrieved.length || (avgConfidence ?? 0) < 0.4;
+        if (weakGrounding && query.trim()) {
+          const term = query.replace(/[%_,]/g, " ").slice(0, 60).trim();
+          try {
+            const [svc, faq] = await Promise.all([
+              authClient
+                .from("government_services")
+                .select("title, slug")
+                .or(`title.ilike.%${term}%,description.ilike.%${term}%`)
+                .limit(3),
+              authClient.from("faqs").select("question").ilike("question", `%${term}%`).limit(3),
+            ]);
+            for (const s of svc.data ?? [])
+              recommendations.push({
+                kind: "service",
+                title: s.title,
+                href: `/government-services/${s.slug}`,
+              });
+            for (const f of faq.data ?? [])
+              recommendations.push({ kind: "faq", title: f.question, href: "/faqs" });
+          } catch (e) {
+            console.error("recommendation lookup error", e);
+          }
+        }
+
 
         // ---- Build verified official-source citations (Part 2) ----
         const citations: Citation[] = [];
@@ -363,15 +507,31 @@ ${sourcesBlock}
                 citations,
                 confidence: avgConfidence,
                 sourceCount: retrieved.length,
+                documentCount: new Set(retrieved.map((c) => c.doc_title)).size,
                 retrievalMs,
                 responseTimeMs: Date.now() - responseStart,
                 lastUpdated,
                 knowledgeCategory,
                 model: modelName,
+                conflicts,
+                outdated,
+                staleSources: [...new Set(staleSources)].slice(0, 5),
+                recommendations,
+                evidence: retrieved.slice(0, 5).map((c, i) => ({
+                  index: i + 1,
+                  docTitle: c.doc_title,
+                  authority: c.source,
+                  url: c.source_url,
+                  trust: c.content_trust_level,
+                  lastVerified: c.last_verified_date,
+                  similarity: Number((c.similarity ?? 0).toFixed(3)),
+                  excerpt: c.chunk_text.slice(0, 400),
+                })),
               };
             }
             return undefined;
           },
+
           onFinish: async ({ responseMessage }) => {
             try {
               // ---- Retrieval log (RLS: user inserts own) ----
