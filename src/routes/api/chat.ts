@@ -507,15 +507,31 @@ ${sourcesBlock}
                 citations,
                 confidence: avgConfidence,
                 sourceCount: retrieved.length,
+                documentCount: new Set(retrieved.map((c) => c.doc_title)).size,
                 retrievalMs,
                 responseTimeMs: Date.now() - responseStart,
                 lastUpdated,
                 knowledgeCategory,
                 model: modelName,
+                conflicts,
+                outdated,
+                staleSources: [...new Set(staleSources)].slice(0, 5),
+                recommendations,
+                evidence: retrieved.slice(0, 5).map((c, i) => ({
+                  index: i + 1,
+                  docTitle: c.doc_title,
+                  authority: c.source,
+                  url: c.source_url,
+                  trust: c.content_trust_level,
+                  lastVerified: c.last_verified_date,
+                  similarity: Number((c.similarity ?? 0).toFixed(3)),
+                  excerpt: c.chunk_text.slice(0, 400),
+                })),
               };
             }
             return undefined;
           },
+
           onFinish: async ({ responseMessage }) => {
             try {
               // ---- Retrieval log (RLS: user inserts own) ----
