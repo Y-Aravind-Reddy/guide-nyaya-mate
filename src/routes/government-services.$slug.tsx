@@ -13,6 +13,7 @@ import {
 import { toast } from "sonner";
 import { PageShell } from "@/components/layouts/PageShell";
 import { AskAi } from "@/components/ai/AskAi";
+import { OfficialActions } from "@/components/official/OfficialActions";
 import { Button } from "@/components/ui/button";
 import { serviceDetailQuery } from "@/lib/queries";
 import { useAuth } from "@/hooks/useAuth";
@@ -54,7 +55,7 @@ function ServiceDetail() {
     return null;
   }
 
-  const { service, steps, documents } = data;
+  const { service, steps, documents, portal } = data;
 
   const { data: saved } = useQuery({
     queryKey: ["saved_item", user?.id, service.id],
@@ -167,6 +168,10 @@ function ServiceDetail() {
               ))}
             </ul>
           </div>
+        </div>
+
+        <div className="mt-10">
+          <OfficialActions portal={portal} serviceSlug={service.slug} serviceTitle={service.title} />
         </div>
 
         <div className="mt-10">
