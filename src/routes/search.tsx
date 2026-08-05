@@ -279,6 +279,14 @@ function SearchPage() {
                       {r.category && (
                         <span className="text-[11px] text-muted-foreground">{r.category}</span>
                       )}
+                      {(r.badges ?? []).map((b) => (
+                        <span
+                          key={b}
+                          className="rounded-full bg-secondary/10 px-2 py-0.5 text-[11px] font-semibold text-secondary"
+                        >
+                          {b}
+                        </span>
+                      ))}
                     </div>
                     <p className="mt-1 font-semibold text-foreground">
                       {highlight(r.title, debounced)}

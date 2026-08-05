@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { OFFICIAL_PORTAL_COLS, type OfficialPortal } from "@/lib/official-portal";
 import { convertToModelMessages, streamText, type UIMessage } from "ai";
 import { createClient } from "@supabase/supabase-js";
 import { createLovableAiGatewayProvider } from "@/lib/ai-gateway.server";
@@ -70,6 +71,7 @@ type Citation = {
   formsUrl: string | null;
   relatedService: string | null;
   category: string | null;
+  portal: OfficialPortal | null;
 };
 
 function normUrl(u?: string | null): string | null {
@@ -456,7 +458,7 @@ ${sourcesBlock}
             const { data: sources } = await authClient
               .from("official_sources")
               .select(
-                "title, authority, department, source_url, apply_online_url, forms_url, last_verified_at, category, is_active, status",
+                OFFICIAL_PORTAL_COLS,
               )
               .eq("is_active", true)
               .eq("status", "verified");
@@ -477,6 +479,7 @@ ${sourcesBlock}
                 formsUrl: s.forms_url ?? null,
                 relatedService: retrieved[0]?.doc_title ?? null,
                 category: s.category ?? null,
+                portal: s as unknown as OfficialPortal,
               });
             }
           }

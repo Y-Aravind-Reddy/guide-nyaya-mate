@@ -804,13 +804,56 @@ export type Database = {
           },
         ]
       }
+      official_link_clicks: {
+        Row: {
+          action: string
+          created_at: string
+          id: string
+          service_slug: string | null
+          service_title: string | null
+          source_id: string | null
+          target_url: string | null
+          user_id: string | null
+        }
+        Insert: {
+          action: string
+          created_at?: string
+          id?: string
+          service_slug?: string | null
+          service_title?: string | null
+          source_id?: string | null
+          target_url?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          action?: string
+          created_at?: string
+          id?: string
+          service_slug?: string | null
+          service_title?: string | null
+          source_id?: string | null
+          target_url?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "official_link_clicks_source_id_fkey"
+            columns: ["source_id"]
+            isOneToOne: false
+            referencedRelation: "official_sources"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       official_sources: {
         Row: {
           apply_http_code: number | null
           apply_link_status: string | null
           apply_online_url: string | null
+          appointment_url: string | null
           authority: string
           category: string | null
+          complaint_url: string | null
           created_at: string
           created_by: string | null
           department: string | null
@@ -819,6 +862,7 @@ export type Database = {
           forms_link_status: string | null
           forms_url: string | null
           government_level: string | null
+          help_centre_url: string | null
           helpline: string | null
           id: string
           is_active: boolean
@@ -826,13 +870,17 @@ export type Database = {
           last_verified_at: string | null
           link_status: string | null
           links_checked_at: string | null
+          locate_office_url: string | null
           ministry: string | null
+          mobile_app_url: string | null
           office_address: string | null
           source_type: string | null
           source_url: string
           state: string | null
           status: string
           title: string
+          track_status_url: string | null
+          update_url: string | null
           updated_at: string
           website_http_code: number | null
           website_link_status: string | null
@@ -841,8 +889,10 @@ export type Database = {
           apply_http_code?: number | null
           apply_link_status?: string | null
           apply_online_url?: string | null
+          appointment_url?: string | null
           authority: string
           category?: string | null
+          complaint_url?: string | null
           created_at?: string
           created_by?: string | null
           department?: string | null
@@ -851,6 +901,7 @@ export type Database = {
           forms_link_status?: string | null
           forms_url?: string | null
           government_level?: string | null
+          help_centre_url?: string | null
           helpline?: string | null
           id?: string
           is_active?: boolean
@@ -858,13 +909,17 @@ export type Database = {
           last_verified_at?: string | null
           link_status?: string | null
           links_checked_at?: string | null
+          locate_office_url?: string | null
           ministry?: string | null
+          mobile_app_url?: string | null
           office_address?: string | null
           source_type?: string | null
           source_url: string
           state?: string | null
           status?: string
           title: string
+          track_status_url?: string | null
+          update_url?: string | null
           updated_at?: string
           website_http_code?: number | null
           website_link_status?: string | null
@@ -873,8 +928,10 @@ export type Database = {
           apply_http_code?: number | null
           apply_link_status?: string | null
           apply_online_url?: string | null
+          appointment_url?: string | null
           authority?: string
           category?: string | null
+          complaint_url?: string | null
           created_at?: string
           created_by?: string | null
           department?: string | null
@@ -883,6 +940,7 @@ export type Database = {
           forms_link_status?: string | null
           forms_url?: string | null
           government_level?: string | null
+          help_centre_url?: string | null
           helpline?: string | null
           id?: string
           is_active?: boolean
@@ -890,13 +948,17 @@ export type Database = {
           last_verified_at?: string | null
           link_status?: string | null
           links_checked_at?: string | null
+          locate_office_url?: string | null
           ministry?: string | null
+          mobile_app_url?: string | null
           office_address?: string | null
           source_type?: string | null
           source_url?: string
           state?: string | null
           status?: string
           title?: string
+          track_status_url?: string | null
+          update_url?: string | null
           updated_at?: string
           website_http_code?: number | null
           website_link_status?: string | null
