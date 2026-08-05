@@ -156,22 +156,17 @@ export const schemeDetailQuery = (slug: string) =>
         .maybeSingle();
       if (error) throw error;
       if (!scheme) return null;
-      let source = null;
+      let source: OfficialPortal | null = null;
       if (scheme.source_id) {
         const { data: s } = await supabase
           .from("official_sources")
-          .select("title, authority, source_url, last_verified_at")
+          .select(OFFICIAL_PORTAL_COLS)
           .eq("id", scheme.source_id)
           .maybeSingle();
-        source = s ?? null;
+        source = (s as unknown as OfficialPortal) ?? null;
       }
       return { ...scheme, source } as typeof scheme & {
-        source: {
-          title: string;
-          authority: string | null;
-          source_url: string;
-          last_verified_at: string | null;
-        } | null;
+        source: OfficialPortal | null;
       };
     },
   });
