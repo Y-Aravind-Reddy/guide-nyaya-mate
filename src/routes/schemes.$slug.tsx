@@ -95,18 +95,19 @@ function SchemeDetail() {
             </h2>
             <p className="mt-1 text-sm text-muted-foreground">
               {scheme.source.authority}
+              {scheme.source.department ? ` · ${scheme.source.department}` : ""}
+              {scheme.source.ministry ? ` · ${scheme.source.ministry}` : ""}
               {scheme.source.last_verified_at
                 ? ` · Verified ${new Date(scheme.source.last_verified_at).toLocaleDateString("en-IN")}`
                 : ""}
             </p>
-            <a
-              href={scheme.source.source_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-2 inline-flex items-center gap-1 text-sm font-semibold text-primary"
-            >
-              {scheme.source.title} <ExternalLink className="h-3.5 w-3.5" />
-            </a>
+            <OfficialActions
+              portal={scheme.source}
+              serviceSlug={scheme.slug}
+              serviceTitle={scheme.title}
+              variant="compact"
+              className="mt-3"
+            />
           </div>
         )}
       </section>
