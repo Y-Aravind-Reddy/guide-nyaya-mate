@@ -11,6 +11,8 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import { VerifiedBadge } from "@/components/trust/VerifiedBadge";
+import { OfficialActions } from "@/components/official/OfficialActions";
+import { NO_PORTAL_MESSAGE, type OfficialPortal } from "@/lib/official-portal";
 
 export type AiCitation = {
   sourceName: string;
@@ -22,6 +24,7 @@ export type AiCitation = {
   formsUrl: string | null;
   relatedService: string | null;
   category: string | null;
+  portal?: OfficialPortal | null;
 };
 
 export type AiEvidence = {
@@ -225,7 +228,7 @@ export function AiSourceCitations({ meta }: { meta?: AiMessageMeta }) {
       {citations.length === 0 ? (
         <div className="flex items-start gap-2 rounded-xl border border-border bg-muted/40 px-3 py-2 text-xs text-muted-foreground">
           <ShieldAlert className="mt-0.5 h-3.5 w-3.5 shrink-0 text-accent" aria-hidden="true" />
-          <span>No verified official source available.</span>
+          <span>{NO_PORTAL_MESSAGE}</span>
         </div>
       ) : (
         <div className="space-y-2">
@@ -250,38 +253,14 @@ export function AiSourceCitations({ meta }: { meta?: AiMessageMeta }) {
                 {c.authority ? <p>Authority: {c.authority}</p> : null}
                 {c.relatedService ? <p>Related: {c.relatedService}</p> : null}
               </div>
-              <div className="mt-2 flex flex-wrap gap-2">
-                {c.websiteUrl ? (
-                  <a
-                    href={c.websiteUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 rounded-lg border border-border px-2 py-1 font-medium text-foreground hover:border-primary/40 hover:text-primary"
-                  >
-                    <ExternalLink className="h-3 w-3" aria-hidden="true" /> Official Website
-                  </a>
-                ) : null}
-                {c.applyOnlineUrl ? (
-                  <a
-                    href={c.applyOnlineUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 rounded-lg border border-border px-2 py-1 font-medium text-foreground hover:border-primary/40 hover:text-primary"
-                  >
-                    <ExternalLink className="h-3 w-3" aria-hidden="true" /> Apply Online
-                  </a>
-                ) : null}
-                {c.formsUrl ? (
-                  <a
-                    href={c.formsUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 rounded-lg border border-border px-2 py-1 font-medium text-foreground hover:border-primary/40 hover:text-primary"
-                  >
-                    <Download className="h-3 w-3" aria-hidden="true" /> Download Forms
-                  </a>
-                ) : null}
-              </div>
+              {c.portal ? (
+                <OfficialActions
+                  portal={c.portal}
+                  serviceTitle={c.relatedService ?? c.sourceName}
+                  variant="compact"
+                  className="mt-2"
+                />
+              ) : null}
             </div>
           ))}
         </div>
