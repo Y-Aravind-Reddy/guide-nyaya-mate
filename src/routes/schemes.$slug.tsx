@@ -3,13 +3,13 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import {
   ArrowLeft,
   CheckCircle2,
-  ExternalLink,
   Gift,
   ListChecks,
   ShieldCheck,
 } from "lucide-react";
 import { PageShell } from "@/components/layouts/PageShell";
 import { VerifiedBadge } from "@/components/trust/VerifiedBadge";
+import { OfficialActions } from "@/components/official/OfficialActions";
 import { schemeDetailQuery } from "@/lib/queries";
 
 export const Route = createFileRoute("/schemes/$slug")({
