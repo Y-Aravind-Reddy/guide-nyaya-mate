@@ -20,6 +20,7 @@ export type SearchResult = {
   category: string | null;
   updatedAt: string | null;
   link: string;
+  badges?: string[];
 };
 
 const TYPE_LABELS: Record<string, string> = {
@@ -45,14 +46,34 @@ async function searchType(
   if (type === "government_services") {
     const { data } = await sb
       .from("government_services")
-      .select("id, title, slug, description, category, created_at")
+      .select("id, title, slug, description, category, created_at, source_id")
       .or(`title.ilike.${like},description.ilike.${like},category.ilike.${like}`)
       .limit(50);
-    return (data ?? []).map((r: any) => ({
-      id: r.id, type, typeLabel: TYPE_LABELS[type], title: r.title,
-      snippet: snippet(r.description), category: r.category,
-      updatedAt: r.created_at, link: `/government-services/${r.slug}`,
-    }));
+    const rows = data ?? [];
+    const sourceIds = [...new Set(rows.map((r: any) => r.source_id).filter(Boolean))];
+    const portals = new Map<string, any>();
+    if (sourceIds.length) {
+      const { data: srcs } = await sb
+        .from("official_sources")
+        .select("id, status, is_active, source_url, apply_online_url, track_status_url")
+        .in("id", sourceIds as string[]);
+      for (const s of srcs ?? []) portals.set((s as any).id, s);
+    }
+    return rows.map((r: any) => {
+      const p = r.source_id ? portals.get(r.source_id) : null;
+      const badges: string[] = [];
+      if (p && p.is_active !== false) {
+        if (p.source_url) badges.push("Official Portal");
+        if (p.apply_online_url) badges.push("Apply Online");
+        if (p.track_status_url) badges.push("Track Status");
+        if (p.status === "verified") badges.push("Verified");
+      }
+      return {
+        id: r.id, type, typeLabel: TYPE_LABELS[type], title: r.title,
+        snippet: snippet(r.description), category: r.category,
+        updatedAt: r.created_at, link: `/government-services/${r.slug}`, badges,
+      };
+    });
   }
   if (type === "legal_topics") {
     const { data } = await sb
