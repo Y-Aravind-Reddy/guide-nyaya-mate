@@ -1,5 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import { OFFICIAL_PORTAL_COLS } from "@/lib/official-portal";
 
 // ---------- Schemes ----------
 export const listSchemes = createServerFn({ method: "GET" })
@@ -102,8 +103,6 @@ export const deleteFaq = createServerFn({ method: "POST" })
   });
 
 // ---------- Official Sources ----------
-import { OFFICIAL_PORTAL_COLS } from "@/lib/official-portal";
-
 const OFFICIAL_SOURCE_COLS = `${OFFICIAL_PORTAL_COLS}, created_at`;
 
 export const listOfficialSources = createServerFn({ method: "GET" })
