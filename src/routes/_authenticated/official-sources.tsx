@@ -42,7 +42,14 @@ type SourceRow = {
   government_level: string | null;
   state: string | null;
   apply_online_url: string | null;
+  update_url: string | null;
+  track_status_url: string | null;
   forms_url: string | null;
+  appointment_url: string | null;
+  locate_office_url: string | null;
+  mobile_app_url: string | null;
+  complaint_url: string | null;
+  help_centre_url: string | null;
   helpline: string | null;
   email: string | null;
   office_address: string | null;
@@ -61,7 +68,14 @@ const EMPTY = {
   government_level: "Central",
   state: "",
   apply_online_url: "",
+  update_url: "",
+  track_status_url: "",
   forms_url: "",
+  appointment_url: "",
+  locate_office_url: "",
+  mobile_app_url: "",
+  complaint_url: "",
+  help_centre_url: "",
   helpline: "",
   email: "",
   office_address: "",
@@ -124,7 +138,14 @@ function OfficialSourcesPage() {
       government_level: s.government_level ?? "Central",
       state: s.state ?? "",
       apply_online_url: s.apply_online_url ?? "",
+      update_url: s.update_url ?? "",
+      track_status_url: s.track_status_url ?? "",
       forms_url: s.forms_url ?? "",
+      appointment_url: s.appointment_url ?? "",
+      locate_office_url: s.locate_office_url ?? "",
+      mobile_app_url: s.mobile_app_url ?? "",
+      complaint_url: s.complaint_url ?? "",
+      help_centre_url: s.help_centre_url ?? "",
       helpline: s.helpline ?? "",
       email: s.email ?? "",
       office_address: s.office_address ?? "",
@@ -341,6 +362,47 @@ function OfficialSourcesPage() {
                 onChange={(e) => setForm({ ...form, forms_url: e.target.value })}
               />
             </div>
+            <div className="grid grid-cols-2 gap-3">
+              <Input
+                placeholder="Update Details URL"
+                value={form.update_url}
+                onChange={(e) => setForm({ ...form, update_url: e.target.value })}
+              />
+              <Input
+                placeholder="Track Status URL"
+                value={form.track_status_url}
+                onChange={(e) => setForm({ ...form, track_status_url: e.target.value })}
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <Input
+                placeholder="Book Appointment URL"
+                value={form.appointment_url}
+                onChange={(e) => setForm({ ...form, appointment_url: e.target.value })}
+              />
+              <Input
+                placeholder="Locate Office URL"
+                value={form.locate_office_url}
+                onChange={(e) => setForm({ ...form, locate_office_url: e.target.value })}
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <Input
+                placeholder="Help Centre URL"
+                value={form.help_centre_url}
+                onChange={(e) => setForm({ ...form, help_centre_url: e.target.value })}
+              />
+              <Input
+                placeholder="Complaint Portal URL"
+                value={form.complaint_url}
+                onChange={(e) => setForm({ ...form, complaint_url: e.target.value })}
+              />
+            </div>
+            <Input
+              placeholder="Official Mobile App URL"
+              value={form.mobile_app_url}
+              onChange={(e) => setForm({ ...form, mobile_app_url: e.target.value })}
+            />
             <div className="grid grid-cols-2 gap-3">
               <Input
                 placeholder="Helpline"
