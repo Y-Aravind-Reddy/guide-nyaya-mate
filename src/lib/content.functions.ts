@@ -102,8 +102,9 @@ export const deleteFaq = createServerFn({ method: "POST" })
   });
 
 // ---------- Official Sources ----------
-const OFFICIAL_SOURCE_COLS =
-  "id, title, authority, source_url, category, jurisdiction, status, last_verified_at, created_at, department, ministry, government_level, state, apply_online_url, forms_url, helpline, email, office_address, source_type, is_active";
+import { OFFICIAL_PORTAL_COLS } from "@/lib/official-portal";
+
+const OFFICIAL_SOURCE_COLS = `${OFFICIAL_PORTAL_COLS}, created_at`;
 
 export const listOfficialSources = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
@@ -128,7 +129,14 @@ type OfficialSourceInput = {
   government_level?: string;
   state?: string;
   apply_online_url?: string;
+  update_url?: string;
+  track_status_url?: string;
   forms_url?: string;
+  appointment_url?: string;
+  locate_office_url?: string;
+  mobile_app_url?: string;
+  complaint_url?: string;
+  help_centre_url?: string;
   helpline?: string;
   email?: string;
   office_address?: string;
@@ -152,7 +160,14 @@ export const upsertOfficialSource = createServerFn({ method: "POST" })
       government_level: nz(data.government_level),
       state: nz(data.state),
       apply_online_url: nz(data.apply_online_url),
+      update_url: nz(data.update_url),
+      track_status_url: nz(data.track_status_url),
       forms_url: nz(data.forms_url),
+      appointment_url: nz(data.appointment_url),
+      locate_office_url: nz(data.locate_office_url),
+      mobile_app_url: nz(data.mobile_app_url),
+      complaint_url: nz(data.complaint_url),
+      help_centre_url: nz(data.help_centre_url),
       helpline: nz(data.helpline),
       email: nz(data.email),
       office_address: nz(data.office_address),
