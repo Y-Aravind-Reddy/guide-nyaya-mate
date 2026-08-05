@@ -73,10 +73,21 @@ export const serviceDetailQuery = (slug: string) =>
           .eq("service_id", service.id),
       ]);
 
+      let portal: OfficialPortal | null = null;
+      if ((service as { source_id?: string | null }).source_id) {
+        const { data: p } = await supabase
+          .from("official_sources")
+          .select(OFFICIAL_PORTAL_COLS)
+          .eq("id", (service as { source_id: string }).source_id)
+          .maybeSingle();
+        portal = (p as unknown as OfficialPortal) ?? null;
+      }
+
       return {
         service: service as GovernmentService,
         steps: (steps ?? []) as Procedure[],
         documents: (docs ?? []) as RequiredDocument[],
+        portal,
       };
     },
   });
