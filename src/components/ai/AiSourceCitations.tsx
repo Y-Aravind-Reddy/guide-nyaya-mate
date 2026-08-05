@@ -5,7 +5,6 @@ import {
   ChevronDown,
   Clock,
   Compass,
-  Download,
   ExternalLink,
   ShieldAlert,
   ShieldCheck,
