@@ -140,11 +140,11 @@ function AnalyticsPage() {
         <RankList title="Top Glossary Terms" items={data?.topGlossary ?? []} />
         <RankList
           title="Official Portal Clicks by Action (30d)"
-          items={(portal?.actions ?? []).map((a) => ({ label: a.label, count: a.value }))}
+          items={portal?.actions ?? []}
         />
         <RankList
           title="Most Clicked Official Services (30d)"
-          items={(portal?.topServices ?? []).map((s2) => ({ label: s2.label, count: s2.value }))}
+          items={portal?.topServices ?? []}
         />
       </div>
     </DashboardLayout>
