@@ -14,6 +14,7 @@ import { Gauge, Users, UserCheck, Sparkles, Timer, Search, Percent, TrendingUp }
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
 import { Button } from "@/components/ui/button";
+import { officialPortalAnalytics } from "@/lib/official-portal.functions";
 import { adminAnalyticsReport } from "@/lib/admin-health.functions";
 import { GlassCard, MetricCard } from "@/components/admin/health-ui";
 
@@ -63,6 +64,13 @@ function AnalyticsPage() {
   const { data } = useQuery({
     queryKey: ["admin_analytics"],
     queryFn: () => fetchFn(),
+    enabled: isAdmin,
+    staleTime: 60_000,
+  });
+  const portalFn = useServerFn(officialPortalAnalytics);
+  const { data: portal } = useQuery({
+    queryKey: ["official_portal_analytics"],
+    queryFn: () => portalFn({ data: { days: 30 } }),
     enabled: isAdmin,
     staleTime: 60_000,
   });
@@ -130,6 +138,14 @@ function AnalyticsPage() {
         <RankList title="Most Common Searches" items={data?.mostCommonSearches ?? []} />
         <RankList title="Top FAQs" items={data?.topFaqs ?? []} />
         <RankList title="Top Glossary Terms" items={data?.topGlossary ?? []} />
+        <RankList
+          title="Official Portal Clicks by Action (30d)"
+          items={(portal?.actions ?? []).map((a) => ({ label: a.label, count: a.value }))}
+        />
+        <RankList
+          title="Most Clicked Official Services (30d)"
+          items={(portal?.topServices ?? []).map((s2) => ({ label: s2.label, count: s2.value }))}
+        />
       </div>
     </DashboardLayout>
   );
