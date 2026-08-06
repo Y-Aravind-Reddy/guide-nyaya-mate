@@ -1,4 +1,4 @@
-import { createFileRoute, Link, useRouter } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useQuery, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { ArrowLeft, Bookmark, BookmarkCheck, FileText, HelpCircle, Link2 } from "lucide-react";
 import { toast } from "sonner";
@@ -16,8 +16,11 @@ import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/legal-rights/$slug")({
-  loader: ({ context, params }) =>
-    context.queryClient.ensureQueryData(legalTopicDetailQuery(params.slug)),
+  loader: async ({ context, params }) => {
+    const data = await context.queryClient.ensureQueryData(legalTopicDetailQuery(params.slug));
+    if (!data) throw notFound();
+    return data;
+  },
   head: ({ loaderData }) => ({
     meta: [
       { title: `${loaderData?.title ?? "Legal Topic"} — NyayaMate AI` },
@@ -41,15 +44,11 @@ export const Route = createFileRoute("/legal-rights/$slug")({
 
 function TopicDetail() {
   const { slug } = Route.useParams();
-  const { data: topic } = useSuspenseQuery(legalTopicDetailQuery(slug));
+  const { data } = useSuspenseQuery(legalTopicDetailQuery(slug));
+  const topic = data!;
   const { user } = useAuth();
   const queryClient = useQueryClient();
-  const router = useRouter();
 
-  if (!topic) {
-    router.navigate({ to: "/legal-rights" });
-    return null;
-  }
 
   const { data: bookmarked } = useQuery({
     queryKey: ["bookmark", user?.id, topic.id],

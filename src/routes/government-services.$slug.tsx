@@ -1,4 +1,4 @@
-import { createFileRoute, Link, useRouter } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useQuery, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import {
   ArrowLeft,
@@ -20,8 +20,11 @@ import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/government-services/$slug")({
-  loader: ({ context, params }) =>
-    context.queryClient.ensureQueryData(serviceDetailQuery(params.slug)),
+  loader: async ({ context, params }) => {
+    const data = await context.queryClient.ensureQueryData(serviceDetailQuery(params.slug));
+    if (!data) throw notFound();
+    return data;
+  },
   head: ({ loaderData }) => ({
     meta: [
       { title: `${loaderData?.service.title ?? "Service"} — NyayaMate AI` },
@@ -48,14 +51,9 @@ function ServiceDetail() {
   const { data } = useSuspenseQuery(serviceDetailQuery(slug));
   const { user } = useAuth();
   const queryClient = useQueryClient();
-  const router = useRouter();
 
-  if (!data) {
-    router.navigate({ to: "/government-services" });
-    return null;
-  }
+  const { service, steps, documents, portal } = data!;
 
-  const { service, steps, documents, portal } = data;
 
   const { data: saved } = useQuery({
     queryKey: ["saved_item", user?.id, service.id],
