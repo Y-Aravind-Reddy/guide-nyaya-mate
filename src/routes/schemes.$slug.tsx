@@ -1,4 +1,4 @@
-import { createFileRoute, Link, useRouter } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import {
   ArrowLeft,
@@ -13,8 +13,11 @@ import { OfficialActions } from "@/components/official/OfficialActions";
 import { schemeDetailQuery } from "@/lib/queries";
 
 export const Route = createFileRoute("/schemes/$slug")({
-  loader: ({ context, params }) =>
-    context.queryClient.ensureQueryData(schemeDetailQuery(params.slug)),
+  loader: async ({ context, params }) => {
+    const data = await context.queryClient.ensureQueryData(schemeDetailQuery(params.slug));
+    if (!data) throw notFound();
+    return data;
+  },
   head: ({ loaderData, params }) => ({
     meta: [
       { title: `${loaderData?.title ?? "Scheme"} — NyayaMate AI` },
@@ -43,13 +46,9 @@ export const Route = createFileRoute("/schemes/$slug")({
 
 function SchemeDetail() {
   const { slug } = Route.useParams();
-  const { data: scheme } = useSuspenseQuery(schemeDetailQuery(slug));
-  const router = useRouter();
+  const { data } = useSuspenseQuery(schemeDetailQuery(slug));
+  const scheme = data!;
 
-  if (!scheme) {
-    router.navigate({ to: "/schemes" });
-    return null;
-  }
 
   const sections = [
     { icon: ShieldCheck, title: "Eligibility", body: scheme.eligibility },
