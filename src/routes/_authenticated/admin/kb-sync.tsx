@@ -161,6 +161,23 @@ function SyncEngine() {
     { total: 0, synced: 0, pending: 0, failed: 0 },
   );
 
+  const retryFailed = async () => {
+    setRetrying(true);
+    try {
+      const res = await retryFn({ data: { limit: 25 } });
+      refresh();
+      if (!res.attempted) toast.info("No failed documents to retry");
+      else
+        toast[res.failed ? "warning" : "success"](
+          `Retried ${res.attempted}: ${res.succeeded} recovered${res.failed ? `, ${res.failed} still failing` : ""}${res.remaining ? ` · ${res.remaining} remaining` : ""}`,
+        );
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Retry failed");
+    } finally {
+      setRetrying(false);
+    }
+  };
+
   return (
     <DashboardLayout title="Knowledge Base Sync">
       <div className="space-y-6">
@@ -174,15 +191,31 @@ function SyncEngine() {
               embeddings, and power the AI Chat with grounded answers.
             </p>
           </div>
-          <Button onClick={syncAll} disabled={progress.running} className="gap-2">
-            {progress.running ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
-            ) : (
-              <RefreshCw className="h-4 w-4" />
-            )}
-            Sync All
-          </Button>
+          <div className="flex flex-wrap gap-2">
+            <Button
+              variant="outline"
+              onClick={retryFailed}
+              disabled={retrying || progress.running || totals.failed === 0}
+              className="gap-2"
+            >
+              {retrying ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <RefreshCw className="h-4 w-4" />
+              )}
+              Retry Failed{totals.failed ? ` (${totals.failed})` : ""}
+            </Button>
+            <Button onClick={syncAll} disabled={progress.running || retrying} className="gap-2">
+              {progress.running ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <RefreshCw className="h-4 w-4" />
+              )}
+              Sync All
+            </Button>
+          </div>
         </div>
+
 
         {/* Summary cards */}
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
