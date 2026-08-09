@@ -139,7 +139,8 @@ export async function composeDoc(
       line("Fees", svc.fees) +
       line("Processing Time", svc.processing_time) +
       (reqDocs ? `## Required Documents\n${reqDocs}\n` : "") +
-      (procedure ? `## Procedure\n${procedure}\n` : "");
+      (procedure ? `## Procedure\n${procedure}\n` : "") +
+      (await sourceBlock(sb, svc.source_id));
     return { title: svc.title, category: cfg.category, text };
   }
 
@@ -154,7 +155,8 @@ export async function composeDoc(
       line("Procedure", t.procedure) +
       (t.documents ? `## Documents\n${jsonArrayToText(t.documents)}\n` : "") +
       (t.faq ? `## FAQs\n${jsonArrayToText(t.faq)}\n` : "") +
-      (t.related ? `## Related\n${jsonArrayToText(t.related)}\n` : "");
+      (t.related ? `## Related\n${jsonArrayToText(t.related)}\n` : "") +
+      (await sourceBlock(sb, t.source_id));
     return { title: t.title, category: cfg.category, text };
   }
 
@@ -165,7 +167,8 @@ export async function composeDoc(
       `# ${f.question}\n` +
       line("Category", f.category) +
       line("Answer", f.answer) +
-      line("Jurisdiction", f.jurisdiction);
+      line("Jurisdiction", f.jurisdiction) +
+      (await sourceBlock(sb, f.source_id));
     return { title: f.question, category: cfg.category, text };
   }
 
@@ -179,7 +182,8 @@ export async function composeDoc(
       line("Description", s.description) +
       line("Eligibility", s.eligibility) +
       line("Benefits", s.benefits) +
-      line("Application Process", s.application_process);
+      line("Application Process", s.application_process) +
+      (await sourceBlock(sb, s.source_id));
     return { title: s.title, category: cfg.category, text };
   }
 
@@ -198,9 +202,14 @@ export async function composeDoc(
   if (type === "glossary") {
     const { data: g } = await sb.from("glossary").select("*").eq("id", id).maybeSingle();
     if (!g) return null;
-    const text = `# ${g.term}\n` + line("Category", g.category) + line("Definition", g.definition);
+    const text =
+      `# ${g.term}\n` +
+      line("Category", g.category) +
+      line("Definition", g.definition) +
+      (await sourceBlock(sb, g.source_id));
     return { title: g.term, category: cfg.category, text };
   }
+
 
   return null;
 }
