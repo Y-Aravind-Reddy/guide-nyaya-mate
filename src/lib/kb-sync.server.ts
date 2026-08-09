@@ -69,12 +69,51 @@ function jsonArrayToText(value: unknown): string {
   }
 }
 
+/** Markdown block describing the official government source behind a record. */
+async function sourceBlock(sb: any, sourceId: string | null | undefined): Promise<string> {
+  if (!sourceId) return "";
+  const { data: s } = await sb
+    .from("official_sources")
+    .select(
+      "title, authority, department, ministry, state, government_level, source_url, apply_online_url, forms_url, track_status_url, appointment_url, complaint_url, helpline, email, last_verified_at",
+    )
+    .eq("id", sourceId)
+    .maybeSingle();
+  if (!s) return "";
+  const rows = [
+    ["Authority", s.authority],
+    ["Department", s.department],
+    ["Ministry", s.ministry],
+    ["Government level", s.government_level],
+    ["State", s.state],
+    ["Official website", s.source_url],
+    ["Apply online", s.apply_online_url],
+    ["Forms & downloads", s.forms_url],
+    ["Track application", s.track_status_url],
+    ["Book appointment", s.appointment_url],
+    ["File a complaint", s.complaint_url],
+    ["Helpline", s.helpline],
+    ["Email", s.email],
+    [
+      "Last verified",
+      s.last_verified_at ? new Date(s.last_verified_at).toISOString().slice(0, 10) : null,
+    ],
+  ].filter(([, v]) => v);
+  if (!rows.length) return "";
+  return (
+    `## Official Source\n${s.title ?? ""}\n` +
+    rows.map(([k, v]) => `- ${k}: ${v}`).join("\n") +
+    "\n"
+  );
+}
+
 export async function composeDoc(
   sb: any,
   type: SyncType,
   id: string,
 ): Promise<{ title: string; category: string; text: string } | null> {
   const cfg = SYNC_TYPES.find((t) => t.type === type)!;
+
 
   if (type === "government_services") {
     const { data: svc } = await sb.from("government_services").select("*").eq("id", id).maybeSingle();
