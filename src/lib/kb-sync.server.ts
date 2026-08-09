@@ -214,18 +214,11 @@ export async function composeDoc(
   return null;
 }
 
-async function embedWithRetry(texts: string[], attempts = 3): Promise<number[][]> {
-  let lastErr: unknown;
-  for (let i = 0; i < attempts; i++) {
-    try {
-      return await embedTexts(texts, EMBEDDING_MODEL);
-    } catch (e) {
-      lastErr = e;
-      await new Promise((r) => setTimeout(r, 500 * (i + 1)));
-    }
-  }
-  throw lastErr instanceof Error ? lastErr : new Error("Embedding failed");
+async function embedWithRetry(texts: string[]): Promise<number[][]> {
+  // embedTexts already retries with exponential backoff on 429/5xx.
+  return embedTexts(texts, EMBEDDING_MODEL);
 }
+
 
 /**
  * Ingest a single CMS record into the Knowledge Base:
