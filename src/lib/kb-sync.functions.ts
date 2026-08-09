@@ -9,6 +9,7 @@ import {
   ingestCmsRecord,
   removeCmsDocument,
   recordTitle,
+  retryFailedIngestions,
 } from "@/lib/kb-sync.server";
 
 export { SYNC_TYPES, type SyncType };
@@ -209,4 +210,18 @@ export const deleteSyncedDocument = createServerFn({ method: "POST" })
     if (error) throw new Error(error.message);
     await logActivity(context, "kb_delete_document", { document_id: data.documentId });
     return { ok: true };
+  });
+
+// ---------------------------------------------------------------- retry failures
+export const retryFailedSyncs = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) =>
+    z.object({ limit: z.number().int().min(1).max(50).optional() }).parse(d ?? {}),
+  )
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context);
+    const sb = context.supabase as any;
+    const result = await retryFailedIngestions(sb, context.userId, data.limit ?? 25);
+    await logActivity(context, "kb_retry_failed_syncs", result);
+    return result;
   });
