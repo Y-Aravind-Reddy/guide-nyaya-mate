@@ -25,6 +25,8 @@ import {
   syncRecord,
   rebuildEmbeddings,
   deleteSyncedDocument,
+  retryFailedSyncs,
+
   type SyncType,
 } from "@/lib/kb-sync.functions";
 
