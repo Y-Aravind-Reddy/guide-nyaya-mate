@@ -369,3 +369,49 @@ export async function removeCmsDocument(
   await sb.from("knowledge_documents").delete().eq("id", doc.id);
   return { ok: true };
 }
+
+/**
+ * Re-ingest every CMS-synced document that previously failed (typically due to
+ * embedding rate limits). Records are processed serially with a small pause so
+ * the AI gateway is not hammered again.
+ */
+export async function retryFailedIngestions(
+  sb: any,
+  uploadedBy?: string | null,
+  limit = 25,
+): Promise<{ attempted: number; succeeded: number; failed: number; remaining: number }> {
+  const { data: docs } = await sb
+    .from("knowledge_documents")
+    .select("id, slug")
+    .eq("source", "cms_sync")
+    .eq("status", "failed")
+    .limit(500);
+
+  const all = (docs ?? []) as { id: string; slug: string }[];
+  const batch = all.slice(0, limit);
+  let succeeded = 0;
+  let failed = 0;
+
+  for (const doc of batch) {
+    const [, type, recordId] = String(doc.slug).split(":");
+    const cfg = SYNC_TYPES.find((t) => t.type === type);
+    if (!cfg || !recordId) {
+      failed++;
+      continue;
+    }
+    try {
+      await ingestCmsRecord(sb, cfg.type, recordId, uploadedBy);
+      succeeded++;
+    } catch {
+      failed++;
+    }
+    await new Promise((r) => setTimeout(r, 400));
+  }
+
+  return {
+    attempted: batch.length,
+    succeeded,
+    failed,
+    remaining: Math.max(0, all.length - succeeded),
+  };
+}
