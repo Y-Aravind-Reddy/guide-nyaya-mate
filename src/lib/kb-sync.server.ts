@@ -69,12 +69,51 @@ function jsonArrayToText(value: unknown): string {
   }
 }
 
+/** Markdown block describing the official government source behind a record. */
+async function sourceBlock(sb: any, sourceId: string | null | undefined): Promise<string> {
+  if (!sourceId) return "";
+  const { data: s } = await sb
+    .from("official_sources")
+    .select(
+      "title, authority, department, ministry, state, government_level, source_url, apply_online_url, forms_url, track_status_url, appointment_url, complaint_url, helpline, email, last_verified_at",
+    )
+    .eq("id", sourceId)
+    .maybeSingle();
+  if (!s) return "";
+  const rows = [
+    ["Authority", s.authority],
+    ["Department", s.department],
+    ["Ministry", s.ministry],
+    ["Government level", s.government_level],
+    ["State", s.state],
+    ["Official website", s.source_url],
+    ["Apply online", s.apply_online_url],
+    ["Forms & downloads", s.forms_url],
+    ["Track application", s.track_status_url],
+    ["Book appointment", s.appointment_url],
+    ["File a complaint", s.complaint_url],
+    ["Helpline", s.helpline],
+    ["Email", s.email],
+    [
+      "Last verified",
+      s.last_verified_at ? new Date(s.last_verified_at).toISOString().slice(0, 10) : null,
+    ],
+  ].filter(([, v]) => v);
+  if (!rows.length) return "";
+  return (
+    `## Official Source\n${s.title ?? ""}\n` +
+    rows.map(([k, v]) => `- ${k}: ${v}`).join("\n") +
+    "\n"
+  );
+}
+
 export async function composeDoc(
   sb: any,
   type: SyncType,
   id: string,
 ): Promise<{ title: string; category: string; text: string } | null> {
   const cfg = SYNC_TYPES.find((t) => t.type === type)!;
+
 
   if (type === "government_services") {
     const { data: svc } = await sb.from("government_services").select("*").eq("id", id).maybeSingle();
@@ -100,7 +139,8 @@ export async function composeDoc(
       line("Fees", svc.fees) +
       line("Processing Time", svc.processing_time) +
       (reqDocs ? `## Required Documents\n${reqDocs}\n` : "") +
-      (procedure ? `## Procedure\n${procedure}\n` : "");
+      (procedure ? `## Procedure\n${procedure}\n` : "") +
+      (await sourceBlock(sb, svc.source_id));
     return { title: svc.title, category: cfg.category, text };
   }
 
@@ -115,7 +155,8 @@ export async function composeDoc(
       line("Procedure", t.procedure) +
       (t.documents ? `## Documents\n${jsonArrayToText(t.documents)}\n` : "") +
       (t.faq ? `## FAQs\n${jsonArrayToText(t.faq)}\n` : "") +
-      (t.related ? `## Related\n${jsonArrayToText(t.related)}\n` : "");
+      (t.related ? `## Related\n${jsonArrayToText(t.related)}\n` : "") +
+      (await sourceBlock(sb, t.source_id));
     return { title: t.title, category: cfg.category, text };
   }
 
@@ -126,7 +167,8 @@ export async function composeDoc(
       `# ${f.question}\n` +
       line("Category", f.category) +
       line("Answer", f.answer) +
-      line("Jurisdiction", f.jurisdiction);
+      line("Jurisdiction", f.jurisdiction) +
+      (await sourceBlock(sb, f.source_id));
     return { title: f.question, category: cfg.category, text };
   }
 
@@ -140,7 +182,8 @@ export async function composeDoc(
       line("Description", s.description) +
       line("Eligibility", s.eligibility) +
       line("Benefits", s.benefits) +
-      line("Application Process", s.application_process);
+      line("Application Process", s.application_process) +
+      (await sourceBlock(sb, s.source_id));
     return { title: s.title, category: cfg.category, text };
   }
 
@@ -159,25 +202,23 @@ export async function composeDoc(
   if (type === "glossary") {
     const { data: g } = await sb.from("glossary").select("*").eq("id", id).maybeSingle();
     if (!g) return null;
-    const text = `# ${g.term}\n` + line("Category", g.category) + line("Definition", g.definition);
+    const text =
+      `# ${g.term}\n` +
+      line("Category", g.category) +
+      line("Definition", g.definition) +
+      (await sourceBlock(sb, g.source_id));
     return { title: g.term, category: cfg.category, text };
   }
+
 
   return null;
 }
 
-async function embedWithRetry(texts: string[], attempts = 3): Promise<number[][]> {
-  let lastErr: unknown;
-  for (let i = 0; i < attempts; i++) {
-    try {
-      return await embedTexts(texts, EMBEDDING_MODEL);
-    } catch (e) {
-      lastErr = e;
-      await new Promise((r) => setTimeout(r, 500 * (i + 1)));
-    }
-  }
-  throw lastErr instanceof Error ? lastErr : new Error("Embedding failed");
+async function embedWithRetry(texts: string[]): Promise<number[][]> {
+  // embedTexts already retries with exponential backoff on 429/5xx.
+  return embedTexts(texts, EMBEDDING_MODEL);
 }
+
 
 /**
  * Ingest a single CMS record into the Knowledge Base:
@@ -327,4 +368,50 @@ export async function removeCmsDocument(
   await sb.from("rag_chunks").delete().eq("document_id", doc.id);
   await sb.from("knowledge_documents").delete().eq("id", doc.id);
   return { ok: true };
+}
+
+/**
+ * Re-ingest every CMS-synced document that previously failed (typically due to
+ * embedding rate limits). Records are processed serially with a small pause so
+ * the AI gateway is not hammered again.
+ */
+export async function retryFailedIngestions(
+  sb: any,
+  uploadedBy?: string | null,
+  limit = 25,
+): Promise<{ attempted: number; succeeded: number; failed: number; remaining: number }> {
+  const { data: docs } = await sb
+    .from("knowledge_documents")
+    .select("id, slug")
+    .eq("source", "cms_sync")
+    .eq("status", "failed")
+    .limit(500);
+
+  const all = (docs ?? []) as { id: string; slug: string }[];
+  const batch = all.slice(0, limit);
+  let succeeded = 0;
+  let failed = 0;
+
+  for (const doc of batch) {
+    const [, type, recordId] = String(doc.slug).split(":");
+    const cfg = SYNC_TYPES.find((t) => t.type === type);
+    if (!cfg || !recordId) {
+      failed++;
+      continue;
+    }
+    try {
+      await ingestCmsRecord(sb, cfg.type, recordId, uploadedBy);
+      succeeded++;
+    } catch {
+      failed++;
+    }
+    await new Promise((r) => setTimeout(r, 400));
+  }
+
+  return {
+    attempted: batch.length,
+    succeeded,
+    failed,
+    remaining: Math.max(0, all.length - succeeded),
+  };
 }

@@ -48,9 +48,11 @@ export type Chunk = {
 
 /**
  * Semantic-ish chunking: split on markdown headings / blank lines, then pack
- * paragraphs into chunks bounded by an approximate token budget.
+ * paragraphs into chunks bounded by an approximate token budget. Consecutive
+ * chunks share an overlap block so facts split across a boundary stay
+ * retrievable from either side.
  */
-export function chunkText(text: string, maxTokens = 350): Chunk[] {
+export function chunkText(text: string, maxTokens = 300, overlapTokens = 60): Chunk[] {
   if (!text.trim()) return [];
 
   const blocks = text
@@ -73,14 +75,25 @@ export function chunkText(text: string, maxTokens = 350): Chunk[] {
       tokenCount: estimateTokens(body),
       section: currentSection,
     });
-    buffer = [];
-    bufferTokens = 0;
+    // Carry the tail of this chunk into the next one for context overlap.
+    const carry: string[] = [];
+    let carried = 0;
+    for (let i = buffer.length - 1; i >= 0; i--) {
+      const t = estimateTokens(buffer[i]);
+      if (carried + t > overlapTokens) break;
+      carry.unshift(buffer[i]);
+      carried += t;
+    }
+    buffer = carry;
+    bufferTokens = carried;
   };
 
   for (const block of blocks) {
     const headingMatch = block.match(/^(#{1,6})\s+(.+)$/m);
     if (headingMatch && block.length < 120) {
       flush();
+      buffer = [];
+      bufferTokens = 0;
       currentSection = headingMatch[2].trim();
     }
     const blockTokens = estimateTokens(block);
@@ -88,41 +101,76 @@ export function chunkText(text: string, maxTokens = 350): Chunk[] {
     buffer.push(block);
     bufferTokens += blockTokens;
   }
-  flush();
+  // Final flush must not re-carry, so clear afterwards.
+  if (buffer.length) {
+    const body = buffer.join("\n\n");
+    const last = chunks[chunks.length - 1];
+    if (!last || last.text !== body) {
+      chunks.push({
+        index: chunks.length,
+        title: currentSection,
+        text: body,
+        tokenCount: estimateTokens(body),
+        section: currentSection,
+      });
+    }
+  }
 
-  return chunks;
+  return chunks.map((c, i) => ({ ...c, index: i }));
 }
 
 export function estimateTokens(text: string): number {
   return Math.max(1, Math.ceil(text.length / 4));
 }
 
-/** Generate embeddings for a batch of texts via the Lovable AI Gateway. */
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+/**
+ * Generate embeddings for a batch of texts via the Lovable AI Gateway.
+ * Retries on rate limits (429) and transient gateway errors, honouring
+ * `Retry-After` when the gateway supplies it.
+ */
 export async function embedTexts(
   texts: string[],
   model = "google/gemini-embedding-001",
+  attempts = 5,
 ): Promise<number[][]> {
   const apiKey = process.env.LOVABLE_API_KEY;
   if (!apiKey) throw new Error("LOVABLE_API_KEY is not configured");
   if (!texts.length) return [];
 
-  const res = await fetch("https://ai.gateway.lovable.dev/v1/embeddings", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Lovable-API-Key": apiKey,
-    },
-    body: JSON.stringify({ model, input: texts }),
-  });
+  let lastError = "";
+  for (let attempt = 0; attempt < attempts; attempt++) {
+    const res = await fetch("https://ai.gateway.lovable.dev/v1/embeddings", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Lovable-API-Key": apiKey,
+      },
+      body: JSON.stringify({ model, input: texts }),
+    });
 
-  if (!res.ok) {
+    if (res.ok) {
+      const json = (await res.json()) as { data?: { embedding: number[] }[] };
+      return (json.data ?? []).map((d) => d.embedding);
+    }
+
     const detail = await res.text().catch(() => "");
-    throw new Error(`Embedding request failed (${res.status}): ${detail.slice(0, 200)}`);
+    lastError = `Embedding request failed (${res.status}): ${detail.slice(0, 200)}`;
+
+    const retryable = res.status === 429 || res.status >= 500;
+    if (!retryable || attempt === attempts - 1) break;
+
+    const retryAfter = Number(res.headers.get("retry-after"));
+    const backoff = Number.isFinite(retryAfter) && retryAfter > 0
+      ? Math.min(retryAfter * 1000, 20_000)
+      : Math.min(1500 * 2 ** attempt, 20_000);
+    await sleep(backoff + Math.floor(Math.random() * 400));
   }
 
-  const json = (await res.json()) as { data?: { embedding: number[] }[] };
-  return (json.data ?? []).map((d) => d.embedding);
+  throw new Error(lastError || "Embedding request failed");
 }
+
 
 export function toVectorLiteral(embedding: number[]): string {
   return `[${embedding.join(",")}]`;
