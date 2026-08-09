@@ -93,6 +93,9 @@ function SyncEngine() {
   const syncFn = useServerFn(syncRecord);
   const rebuildFn = useServerFn(rebuildEmbeddings);
   const deleteFn = useServerFn(deleteSyncedDocument);
+  const retryFn = useServerFn(retryFailedSyncs);
+  const [retrying, setRetrying] = useState(false);
+
 
   const [progress, setProgress] = useState<{ running: boolean; done: number; total: number; label: string }>(
     { running: false, done: 0, total: 0, label: "" },
