@@ -109,6 +109,10 @@ export function ChatPanel({
     toast.success("Copied to clipboard");
   };
 
+  // Optional free-text detail collected after a negative rating.
+  const [commentFor, setCommentFor] = useState<string | null>(null);
+  const [comment, setComment] = useState("");
+
   const feedback = async (rating: "up" | "down", response: string, comment?: string) => {
     const lastUser = [...messages].reverse().find((m) => m.role === "user");
     try {
