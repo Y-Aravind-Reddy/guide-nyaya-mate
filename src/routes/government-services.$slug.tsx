@@ -16,6 +16,7 @@ import { AskAi } from "@/components/ai/AskAi";
 import { OfficialActions } from "@/components/official/OfficialActions";
 import { Button } from "@/components/ui/button";
 import { serviceDetailQuery } from "@/lib/queries";
+import { breadcrumbSchema, governmentServiceSchema, jsonLdScript } from "@/lib/structured-data";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 

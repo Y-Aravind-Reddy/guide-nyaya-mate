@@ -14,6 +14,7 @@ import {
 import { legalTopicDetailQuery } from "@/lib/queries";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
+import { breadcrumbSchema, jsonLdScript } from "@/lib/structured-data";
 
 export const Route = createFileRoute("/legal-rights/$slug")({
   loader: async ({ context, params }) => {

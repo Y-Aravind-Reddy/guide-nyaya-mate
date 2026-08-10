@@ -11,6 +11,7 @@ import { PageShell } from "@/components/layouts/PageShell";
 import { VerifiedBadge } from "@/components/trust/VerifiedBadge";
 import { OfficialActions } from "@/components/official/OfficialActions";
 import { schemeDetailQuery } from "@/lib/queries";
+import { breadcrumbSchema, jsonLdScript } from "@/lib/structured-data";
 
 export const Route = createFileRoute("/schemes/$slug")({
   loader: async ({ context, params }) => {
