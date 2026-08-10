@@ -369,45 +369,25 @@ function overallLink(states: LinkState[]): LinkState {
   return "healthy";
 }
 
+/**
+ * Verify official-source links in a bounded, resumable batch.
+ * Each URL result is persisted to `link_check_history`; the caller can keep
+ * calling with the returned `nextOffset` until it is null.
+ */
 export const verifyOfficialLinks = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((data?: { id?: string }) => data ?? {})
+  .inputValidator((data?: { id?: string; offset?: number; limit?: number }) => data ?? {})
   .handler(async ({ data, context }) => {
     await assertAdmin(context);
-    const sb = context.supabase;
-
-    let q = sb
-      .from("official_sources")
-      .select("id, title, source_url, apply_online_url, forms_url");
-    if (data?.id) q = q.eq("id", data.id);
-    const { data: rows, error } = await q.limit(500);
-    if (error) throw new Error(error.message);
-
-    const now = new Date().toISOString();
-    await pool(rows ?? [], 6, async (r: any) => {
-      const [web, apply, forms] = await Promise.all([
-        checkUrl(r.source_url),
-        checkUrl(r.apply_online_url),
-        checkUrl(r.forms_url),
-      ]);
-      const link_status = overallLink([web.state, apply.state, forms.state]);
-      await sb
-        .from("official_sources")
-        .update({
-          link_status,
-          website_link_status: web.state,
-          apply_link_status: apply.state,
-          forms_link_status: forms.state,
-          website_http_code: web.code,
-          apply_http_code: apply.code,
-          forms_http_code: forms.code,
-          links_checked_at: now,
-        })
-        .eq("id", r.id);
+    const { verifyLinkBatch } = await import("@/lib/link-check.server");
+    const result = await verifyLinkBatch(context.supabase, {
+      sourceId: data?.id,
+      offset: data?.offset ?? 0,
+      limit: data?.limit ?? 10,
     });
-
-    return { checked: (rows ?? []).length, checkedAt: now };
+    return { ...result, checked: result.processed, checkedAt: new Date().toISOString() };
   });
+
 
 export const linkStatusReport = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
