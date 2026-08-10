@@ -276,13 +276,33 @@ export async function ingestCmsRecord(
 
   const { data: job } = await sb
     .from("ingestion_jobs")
-    .insert({ document_id: documentId, status: "running", started_at: new Date().toISOString() })
+    .insert({
+      document_id: documentId,
+      status: "processing",
+      attempts: 1,
+      started_at: new Date().toISOString(),
+    })
     .select("id")
     .single();
+
+  console.log(
+    JSON.stringify({ event: "ingestion_started", type, record_id: id, document_id: documentId }),
+  );
 
   try {
     const chunks = chunkText(composed.text);
     if (!chunks.length) throw new Error("Chunking produced no segments");
+
+    console.log(
+      JSON.stringify({
+        event: "chunk_generation",
+        document_id: documentId,
+        chunks: chunks.length,
+        avg_chars: Math.round(
+          chunks.reduce((s, c) => s + c.text.length, 0) / chunks.length,
+        ),
+      }),
+    );
 
     // Embed first — if this fails, existing chunks remain untouched.
     const embeddings = await embedWithRetry(chunks.map((c) => c.text));
@@ -308,7 +328,14 @@ export async function ingestCmsRecord(
         confidence_score: quality,
         chunk_type: chunkTypeVal,
         chunk_status: "active",
-        metadata: { source_table: type, source_id: id },
+        metadata: {
+          source_table: type,
+          source_id: id,
+          title: composed.title,
+          section: c.section,
+          category: composed.category,
+          url: composed.url ?? null,
+        },
       };
     });
 
@@ -329,9 +356,21 @@ export async function ingestCmsRecord(
     if (job?.id) {
       await sb
         .from("ingestion_jobs")
-        .update({ status: "completed", completed_at: new Date().toISOString() })
+        .update({
+          status: "completed",
+          completed_at: new Date().toISOString(),
+          last_error: null,
+        })
         .eq("id", job.id);
     }
+
+    console.log(
+      JSON.stringify({
+        event: "ingestion_completed",
+        document_id: documentId,
+        chunks: rows.length,
+      }),
+    );
 
     return { ok: true, documentId, chunks: rows.length };
   } catch (err) {
@@ -344,9 +383,13 @@ export async function ingestCmsRecord(
           status: "failed",
           completed_at: new Date().toISOString(),
           error_message: message,
+          last_error: message,
         })
         .eq("id", job.id);
     }
+    console.error(
+      JSON.stringify({ event: "ingestion_failed", document_id: documentId, error: message }),
+    );
     throw new Error(message);
   }
 }
