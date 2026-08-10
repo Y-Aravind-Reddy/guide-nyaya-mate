@@ -414,15 +414,58 @@ export async function removeCmsDocument(
 }
 
 /**
- * Re-ingest every CMS-synced document that previously failed (typically due to
- * embedding rate limits). Records are processed serially with a small pause so
- * the AI gateway is not hammered again.
+ * Recovery pass for the ingestion pipeline:
+ * 1. Reconcile stale job rows — jobs still marked failed/processing whose
+ *    document is already processed with chunks are historical noise.
+ * 2. Re-ingest documents that are genuinely failed (typically embedding rate
+ *    limits), serially with a pause so the AI gateway is not hammered again.
  */
 export async function retryFailedIngestions(
   sb: any,
   uploadedBy?: string | null,
   limit = 25,
-): Promise<{ attempted: number; succeeded: number; failed: number; remaining: number }> {
+): Promise<{
+  attempted: number;
+  succeeded: number;
+  failed: number;
+  remaining: number;
+  reconciled: number;
+}> {
+  // --- 1. reconcile stale jobs against real document state ---
+  const { data: staleJobs } = await sb
+    .from("ingestion_jobs")
+    .select("id, document_id")
+    .in("status", ["failed", "processing", "running"])
+    .limit(1000);
+
+  let reconciled = 0;
+  const jobRows = (staleJobs ?? []) as { id: string; document_id: string }[];
+  if (jobRows.length) {
+    const docIds = Array.from(new Set(jobRows.map((j) => j.document_id)));
+    const { data: healthy } = await sb
+      .from("knowledge_documents")
+      .select("id")
+      .in("id", docIds)
+      .eq("status", "processed")
+      .gt("chunk_count", 0);
+    const healthyIds = new Set((healthy ?? []).map((d: any) => d.id as string));
+    const resolvable = jobRows.filter((j) => healthyIds.has(j.document_id)).map((j) => j.id);
+    for (let i = 0; i < resolvable.length; i += 200) {
+      const slice = resolvable.slice(i, i + 200);
+      await sb
+        .from("ingestion_jobs")
+        .update({
+          status: "completed",
+          completed_at: new Date().toISOString(),
+          error_message: null,
+          last_error: null,
+        })
+        .in("id", slice);
+      reconciled += slice.length;
+    }
+  }
+
+  // --- 2. retry documents that are actually failed ---
   const { data: docs } = await sb
     .from("knowledge_documents")
     .select("id, slug")
@@ -451,10 +494,22 @@ export async function retryFailedIngestions(
     await new Promise((r) => setTimeout(r, 400));
   }
 
+  console.log(
+    JSON.stringify({
+      event: "ingestion_retry_pass",
+      reconciled,
+      attempted: batch.length,
+      succeeded,
+      failed,
+    }),
+  );
+
   return {
     attempted: batch.length,
     succeeded,
     failed,
     remaining: Math.max(0, all.length - succeeded),
+    reconciled,
   };
 }
+
