@@ -109,17 +109,20 @@ export function ChatPanel({
     toast.success("Copied to clipboard");
   };
 
-  const feedback = async (rating: "up" | "down", response: string) => {
+  const feedback = async (rating: "up" | "down", response: string, comment?: string) => {
     const lastUser = [...messages].reverse().find((m) => m.role === "user");
     try {
       await submitFeedback({
         data: {
           rating,
+          comment: comment?.slice(0, 1000) || undefined,
           query: lastUser ? messageText(lastUser).slice(0, 4000) : undefined,
           response: response.slice(0, 8000),
         },
       });
       toast.success("Thanks for your feedback!");
+      if (rating === "down" && !comment) setCommentFor(response);
+      else setCommentFor(null);
     } catch {
       toast.error("Could not save feedback");
     }
