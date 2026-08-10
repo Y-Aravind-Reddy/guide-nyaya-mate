@@ -16,17 +16,14 @@ const bodySchema = z.object({
 });
 
 // Called asynchronously by database triggers whenever CMS content changes.
-// Authenticated with the project's publishable/anon key in the `apikey` header.
+// Authenticated with a dedicated server-side secret (never exposed to the browser).
 export const Route = createFileRoute("/api/public/kb-sync")({
   server: {
     handlers: {
       POST: async ({ request }) => {
-        const apikey =
-          request.headers.get("apikey") ??
-          request.headers.get("authorization")?.replace(/^Bearer\s+/i, "") ??
-          "";
-        const expected = process.env.SUPABASE_PUBLISHABLE_KEY ?? "";
-        if (!expected || apikey !== expected) {
+        const provided = request.headers.get("x-kb-sync-secret") ?? "";
+        const expected = process.env.KB_SYNC_WEBHOOK_SECRET ?? "";
+        if (!expected || provided.length !== expected.length || provided !== expected) {
           return new Response("Unauthorized", { status: 401 });
         }
 
