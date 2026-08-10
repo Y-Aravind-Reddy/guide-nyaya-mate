@@ -320,54 +320,8 @@ export const aiCoverageReport = createServerFn({ method: "GET" })
 // ================================================================
 // PART 3 — LINK VERIFICATION
 // ================================================================
-type LinkState = "healthy" | "broken" | "redirected" | "needs_review" | "none";
 
-async function checkUrl(url: string | null | undefined): Promise<{ state: LinkState; code: number | null }> {
-  if (!url || typeof url !== "string" || !/^https?:\/\//i.test(url.trim())) {
-    return { state: "none", code: null };
-  }
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), 8000);
-  try {
-    let res: Response;
-    try {
-      res = await fetch(url, { method: "HEAD", redirect: "manual", signal: controller.signal });
-      // some servers reject HEAD — retry with GET
-      if (res.status === 405 || res.status === 501) {
-        res = await fetch(url, { method: "GET", redirect: "manual", signal: controller.signal });
-      }
-    } catch {
-      res = await fetch(url, { method: "GET", redirect: "manual", signal: controller.signal });
-    }
-    const code = res.status;
-    if (code >= 200 && code < 300) return { state: "healthy", code };
-    if (code >= 300 && code < 400) return { state: "redirected", code };
-    if (code >= 400) return { state: "broken", code };
-    return { state: "needs_review", code };
-  } catch {
-    return { state: "needs_review", code: null };
-  } finally {
-    clearTimeout(timer);
-  }
-}
 
-async function pool<T, R>(items: T[], size: number, fn: (item: T) => Promise<R>): Promise<R[]> {
-  const results: R[] = [];
-  for (let i = 0; i < items.length; i += size) {
-    const batch = items.slice(i, i + size);
-    results.push(...(await Promise.all(batch.map(fn))));
-  }
-  return results;
-}
-
-function overallLink(states: LinkState[]): LinkState {
-  const real = states.filter((s) => s !== "none");
-  if (!real.length) return "needs_review";
-  if (real.includes("broken")) return "broken";
-  if (real.includes("redirected")) return "redirected";
-  if (real.includes("needs_review")) return "needs_review";
-  return "healthy";
-}
 
 /**
  * Verify official-source links in a bounded, resumable batch.
