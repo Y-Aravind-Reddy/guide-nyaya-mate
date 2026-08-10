@@ -30,6 +30,15 @@ export const Route = createFileRoute("/schemes/$slug")({
     links: [
       { rel: "canonical", href: `https://guide-nyaya-mate.lovable.app/schemes/${params.slug}` },
     ],
+    scripts: [
+      jsonLdScript(
+        breadcrumbSchema([
+          { name: "Home", path: "/" },
+          { name: "Schemes", path: "/schemes" },
+          { name: loaderData?.title ?? "Scheme", path: `/schemes/${params.slug}` },
+        ]),
+      ),
+    ],
   }),
   component: SchemeDetail,
   notFoundComponent: () => (
