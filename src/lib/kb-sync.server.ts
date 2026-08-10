@@ -111,7 +111,7 @@ export async function composeDoc(
   sb: any,
   type: SyncType,
   id: string,
-): Promise<{ title: string; category: string; text: string } | null> {
+): Promise<{ title: string; category: string; text: string; url?: string | null } | null> {
   const cfg = SYNC_TYPES.find((t) => t.type === type)!;
 
 
