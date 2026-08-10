@@ -126,18 +126,56 @@ export function estimateTokens(text: string): number {
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 /**
+ * Global serialization gate: only ONE embedding request may be in flight at a
+ * time per worker instance. Prevents bursts of concurrent requests from
+ * tripping the gateway's rate limiter (the original cause of mass 429s).
+ */
+let embeddingQueue: Promise<unknown> = Promise.resolve();
+
+function enqueue<T>(task: () => Promise<T>): Promise<T> {
+  const run = embeddingQueue.then(task, task);
+  // keep the chain alive regardless of individual failures
+  embeddingQueue = run.then(
+    () => undefined,
+    () => undefined,
+  );
+  return run;
+}
+
+/** Batch cap for google/gemini-embedding-* is 100 inputs per request. */
+const MAX_BATCH = 50;
+
+/**
  * Generate embeddings for a batch of texts via the Lovable AI Gateway.
- * Retries on rate limits (429) and transient gateway errors, honouring
- * `Retry-After` when the gateway supplies it.
+ *
+ * - Requests are serialized (one in flight at a time).
+ * - Large input sets are split into batches of {@link MAX_BATCH}.
+ * - Transient failures (429 / 5xx) are retried up to 5 times with exponential
+ *   backoff + jitter (~1s, 2s, 4s, 8s, 16s, capped at 20s), honouring
+ *   `Retry-After` when supplied.
+ * - Permanent failures (400/401/403/404) are NOT retried.
  */
 export async function embedTexts(
   texts: string[],
   model = "google/gemini-embedding-001",
   attempts = 5,
 ): Promise<number[][]> {
+  if (!texts.length) return [];
+  const out: number[][] = [];
+  for (let i = 0; i < texts.length; i += MAX_BATCH) {
+    const batch = texts.slice(i, i + MAX_BATCH);
+    out.push(...(await enqueue(() => embedBatch(batch, model, attempts))));
+  }
+  return out;
+}
+
+async function embedBatch(
+  texts: string[],
+  model: string,
+  attempts: number,
+): Promise<number[][]> {
   const apiKey = process.env.LOVABLE_API_KEY;
   if (!apiKey) throw new Error("LOVABLE_API_KEY is not configured");
-  if (!texts.length) return [];
 
   let lastError = "";
   for (let attempt = 0; attempt < attempts; attempt++) {
@@ -158,16 +196,31 @@ export async function embedTexts(
     const detail = await res.text().catch(() => "");
     lastError = `Embedding request failed (${res.status}): ${detail.slice(0, 200)}`;
 
+    // 400/401/403/404 are permanent: retrying cannot help.
     const retryable = res.status === 429 || res.status >= 500;
     if (!retryable || attempt === attempts - 1) break;
 
     const retryAfter = Number(res.headers.get("retry-after"));
-    const backoff = Number.isFinite(retryAfter) && retryAfter > 0
-      ? Math.min(retryAfter * 1000, 20_000)
-      : Math.min(1500 * 2 ** attempt, 20_000);
-    await sleep(backoff + Math.floor(Math.random() * 400));
+    const backoff =
+      Number.isFinite(retryAfter) && retryAfter > 0
+        ? Math.min(retryAfter * 1000, 20_000)
+        : Math.min(1000 * 2 ** attempt, 20_000);
+    const wait = backoff + Math.floor(Math.random() * 400);
+    console.warn(
+      JSON.stringify({
+        event: "embedding_retry",
+        attempt: attempt + 1,
+        status: res.status,
+        wait_ms: wait,
+        inputs: texts.length,
+      }),
+    );
+    await sleep(wait);
   }
 
+  console.error(
+    JSON.stringify({ event: "embedding_failure", inputs: texts.length, error: lastError }),
+  );
   throw new Error(lastError || "Embedding request failed");
 }
 

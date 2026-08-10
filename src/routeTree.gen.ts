@@ -37,6 +37,7 @@ import { Route as AuthenticatedKnowledgeBaseRouteImport } from './routes/_authen
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedChatHistoryRouteImport } from './routes/_authenticated/chat-history'
 import { Route as AuthenticatedAiChatRouteImport } from './routes/_authenticated/ai-chat'
+import { Route as ApiPublicVerifyLinksRouteImport } from './routes/api/public/verify-links'
 import { Route as ApiPublicKbSyncRouteImport } from './routes/api/public/kb-sync'
 import { Route as AuthenticatedAdminReviewQueueRouteImport } from './routes/_authenticated/admin/review-queue'
 import { Route as AuthenticatedAdminNotificationsRouteImport } from './routes/_authenticated/admin/notifications'
@@ -192,6 +193,11 @@ const AuthenticatedAiChatRoute = AuthenticatedAiChatRouteImport.update({
   path: '/ai-chat',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const ApiPublicVerifyLinksRoute = ApiPublicVerifyLinksRouteImport.update({
+  id: '/api/public/verify-links',
+  path: '/api/public/verify-links',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicKbSyncRoute = ApiPublicKbSyncRouteImport.update({
   id: '/api/public/kb-sync',
   path: '/api/public/kb-sync',
@@ -290,6 +296,7 @@ export interface FileRoutesByFullPath {
   '/admin/notifications': typeof AuthenticatedAdminNotificationsRoute
   '/admin/review-queue': typeof AuthenticatedAdminReviewQueueRoute
   '/api/public/kb-sync': typeof ApiPublicKbSyncRoute
+  '/api/public/verify-links': typeof ApiPublicVerifyLinksRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -329,6 +336,7 @@ export interface FileRoutesByTo {
   '/admin/notifications': typeof AuthenticatedAdminNotificationsRoute
   '/admin/review-queue': typeof AuthenticatedAdminReviewQueueRoute
   '/api/public/kb-sync': typeof ApiPublicKbSyncRoute
+  '/api/public/verify-links': typeof ApiPublicVerifyLinksRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -370,6 +378,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/notifications': typeof AuthenticatedAdminNotificationsRoute
   '/_authenticated/admin/review-queue': typeof AuthenticatedAdminReviewQueueRoute
   '/api/public/kb-sync': typeof ApiPublicKbSyncRoute
+  '/api/public/verify-links': typeof ApiPublicVerifyLinksRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -411,6 +420,7 @@ export interface FileRouteTypes {
     | '/admin/notifications'
     | '/admin/review-queue'
     | '/api/public/kb-sync'
+    | '/api/public/verify-links'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -450,6 +460,7 @@ export interface FileRouteTypes {
     | '/admin/notifications'
     | '/admin/review-queue'
     | '/api/public/kb-sync'
+    | '/api/public/verify-links'
   id:
     | '__root__'
     | '/'
@@ -490,6 +501,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/notifications'
     | '/_authenticated/admin/review-queue'
     | '/api/public/kb-sync'
+    | '/api/public/verify-links'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -512,6 +524,7 @@ export interface RootRouteChildren {
   LegalRightsIndexRoute: typeof LegalRightsIndexRoute
   SchemesIndexRoute: typeof SchemesIndexRoute
   ApiPublicKbSyncRoute: typeof ApiPublicKbSyncRoute
+  ApiPublicVerifyLinksRoute: typeof ApiPublicVerifyLinksRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -712,6 +725,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAiChatRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/api/public/verify-links': {
+      id: '/api/public/verify-links'
+      path: '/api/public/verify-links'
+      fullPath: '/api/public/verify-links'
+      preLoaderRoute: typeof ApiPublicVerifyLinksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/kb-sync': {
       id: '/api/public/kb-sync'
       path: '/api/public/kb-sync'
@@ -854,17 +874,8 @@ const rootRouteChildren: RootRouteChildren = {
   LegalRightsIndexRoute: LegalRightsIndexRoute,
   SchemesIndexRoute: SchemesIndexRoute,
   ApiPublicKbSyncRoute: ApiPublicKbSyncRoute,
+  ApiPublicVerifyLinksRoute: ApiPublicVerifyLinksRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

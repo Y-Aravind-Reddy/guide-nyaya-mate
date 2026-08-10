@@ -320,94 +320,28 @@ export const aiCoverageReport = createServerFn({ method: "GET" })
 // ================================================================
 // PART 3 — LINK VERIFICATION
 // ================================================================
-type LinkState = "healthy" | "broken" | "redirected" | "needs_review" | "none";
 
-async function checkUrl(url: string | null | undefined): Promise<{ state: LinkState; code: number | null }> {
-  if (!url || typeof url !== "string" || !/^https?:\/\//i.test(url.trim())) {
-    return { state: "none", code: null };
-  }
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), 8000);
-  try {
-    let res: Response;
-    try {
-      res = await fetch(url, { method: "HEAD", redirect: "manual", signal: controller.signal });
-      // some servers reject HEAD — retry with GET
-      if (res.status === 405 || res.status === 501) {
-        res = await fetch(url, { method: "GET", redirect: "manual", signal: controller.signal });
-      }
-    } catch {
-      res = await fetch(url, { method: "GET", redirect: "manual", signal: controller.signal });
-    }
-    const code = res.status;
-    if (code >= 200 && code < 300) return { state: "healthy", code };
-    if (code >= 300 && code < 400) return { state: "redirected", code };
-    if (code >= 400) return { state: "broken", code };
-    return { state: "needs_review", code };
-  } catch {
-    return { state: "needs_review", code: null };
-  } finally {
-    clearTimeout(timer);
-  }
-}
 
-async function pool<T, R>(items: T[], size: number, fn: (item: T) => Promise<R>): Promise<R[]> {
-  const results: R[] = [];
-  for (let i = 0; i < items.length; i += size) {
-    const batch = items.slice(i, i + size);
-    results.push(...(await Promise.all(batch.map(fn))));
-  }
-  return results;
-}
 
-function overallLink(states: LinkState[]): LinkState {
-  const real = states.filter((s) => s !== "none");
-  if (!real.length) return "needs_review";
-  if (real.includes("broken")) return "broken";
-  if (real.includes("redirected")) return "redirected";
-  if (real.includes("needs_review")) return "needs_review";
-  return "healthy";
-}
-
+/**
+ * Verify official-source links in a bounded, resumable batch.
+ * Each URL result is persisted to `link_check_history`; the caller can keep
+ * calling with the returned `nextOffset` until it is null.
+ */
 export const verifyOfficialLinks = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((data?: { id?: string }) => data ?? {})
+  .inputValidator((data?: { id?: string; offset?: number; limit?: number }) => data ?? {})
   .handler(async ({ data, context }) => {
     await assertAdmin(context);
-    const sb = context.supabase;
-
-    let q = sb
-      .from("official_sources")
-      .select("id, title, source_url, apply_online_url, forms_url");
-    if (data?.id) q = q.eq("id", data.id);
-    const { data: rows, error } = await q.limit(500);
-    if (error) throw new Error(error.message);
-
-    const now = new Date().toISOString();
-    await pool(rows ?? [], 6, async (r: any) => {
-      const [web, apply, forms] = await Promise.all([
-        checkUrl(r.source_url),
-        checkUrl(r.apply_online_url),
-        checkUrl(r.forms_url),
-      ]);
-      const link_status = overallLink([web.state, apply.state, forms.state]);
-      await sb
-        .from("official_sources")
-        .update({
-          link_status,
-          website_link_status: web.state,
-          apply_link_status: apply.state,
-          forms_link_status: forms.state,
-          website_http_code: web.code,
-          apply_http_code: apply.code,
-          forms_http_code: forms.code,
-          links_checked_at: now,
-        })
-        .eq("id", r.id);
+    const { verifyLinkBatch } = await import("@/lib/link-check.server");
+    const result = await verifyLinkBatch(context.supabase, {
+      sourceId: data?.id,
+      offset: data?.offset ?? 0,
+      limit: data?.limit ?? 10,
     });
-
-    return { checked: (rows ?? []).length, checkedAt: now };
+    return { ...result, checked: result.processed, checkedAt: new Date().toISOString() };
   });
+
 
 export const linkStatusReport = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])

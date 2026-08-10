@@ -433,31 +433,37 @@ export type Database = {
       }
       ingestion_jobs: {
         Row: {
+          attempts: number
           completed_at: string | null
           created_at: string
           document_id: string
           error_message: string | null
           id: string
+          last_error: string | null
           started_at: string | null
           status: string
           updated_at: string
         }
         Insert: {
+          attempts?: number
           completed_at?: string | null
           created_at?: string
           document_id: string
           error_message?: string | null
           id?: string
+          last_error?: string | null
           started_at?: string | null
           status?: string
           updated_at?: string
         }
         Update: {
+          attempts?: number
           completed_at?: string | null
           created_at?: string
           document_id?: string
           error_message?: string | null
           id?: string
+          last_error?: string | null
           started_at?: string | null
           status?: string
           updated_at?: string
@@ -762,6 +768,53 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "legal_topics_source_id_fkey"
+            columns: ["source_id"]
+            isOneToOne: false
+            referencedRelation: "official_sources"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      link_check_history: {
+        Row: {
+          checked_at: string
+          created_at: string
+          error_message: string | null
+          http_code: number | null
+          id: string
+          redirect_url: string | null
+          source_id: string | null
+          status: string
+          url: string
+          url_kind: string
+        }
+        Insert: {
+          checked_at?: string
+          created_at?: string
+          error_message?: string | null
+          http_code?: number | null
+          id?: string
+          redirect_url?: string | null
+          source_id?: string | null
+          status: string
+          url: string
+          url_kind?: string
+        }
+        Update: {
+          checked_at?: string
+          created_at?: string
+          error_message?: string | null
+          http_code?: number | null
+          id?: string
+          redirect_url?: string | null
+          source_id?: string | null
+          status?: string
+          url?: string
+          url_kind?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "link_check_history_source_id_fkey"
             columns: ["source_id"]
             isOneToOne: false
             referencedRelation: "official_sources"

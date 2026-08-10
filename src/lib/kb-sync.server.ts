@@ -111,7 +111,7 @@ export async function composeDoc(
   sb: any,
   type: SyncType,
   id: string,
-): Promise<{ title: string; category: string; text: string } | null> {
+): Promise<{ title: string; category: string; text: string; url?: string | null } | null> {
   const cfg = SYNC_TYPES.find((t) => t.type === type)!;
 
 
@@ -276,13 +276,33 @@ export async function ingestCmsRecord(
 
   const { data: job } = await sb
     .from("ingestion_jobs")
-    .insert({ document_id: documentId, status: "running", started_at: new Date().toISOString() })
+    .insert({
+      document_id: documentId,
+      status: "processing",
+      attempts: 1,
+      started_at: new Date().toISOString(),
+    })
     .select("id")
     .single();
+
+  console.log(
+    JSON.stringify({ event: "ingestion_started", type, record_id: id, document_id: documentId }),
+  );
 
   try {
     const chunks = chunkText(composed.text);
     if (!chunks.length) throw new Error("Chunking produced no segments");
+
+    console.log(
+      JSON.stringify({
+        event: "chunk_generation",
+        document_id: documentId,
+        chunks: chunks.length,
+        avg_chars: Math.round(
+          chunks.reduce((s, c) => s + c.text.length, 0) / chunks.length,
+        ),
+      }),
+    );
 
     // Embed first — if this fails, existing chunks remain untouched.
     const embeddings = await embedWithRetry(chunks.map((c) => c.text));
@@ -308,7 +328,14 @@ export async function ingestCmsRecord(
         confidence_score: quality,
         chunk_type: chunkTypeVal,
         chunk_status: "active",
-        metadata: { source_table: type, source_id: id },
+        metadata: {
+          source_table: type,
+          source_id: id,
+          title: composed.title,
+          section: c.section,
+          category: composed.category,
+          url: composed.url ?? null,
+        },
       };
     });
 
@@ -329,9 +356,21 @@ export async function ingestCmsRecord(
     if (job?.id) {
       await sb
         .from("ingestion_jobs")
-        .update({ status: "completed", completed_at: new Date().toISOString() })
+        .update({
+          status: "completed",
+          completed_at: new Date().toISOString(),
+          last_error: null,
+        })
         .eq("id", job.id);
     }
+
+    console.log(
+      JSON.stringify({
+        event: "ingestion_completed",
+        document_id: documentId,
+        chunks: rows.length,
+      }),
+    );
 
     return { ok: true, documentId, chunks: rows.length };
   } catch (err) {
@@ -344,9 +383,13 @@ export async function ingestCmsRecord(
           status: "failed",
           completed_at: new Date().toISOString(),
           error_message: message,
+          last_error: message,
         })
         .eq("id", job.id);
     }
+    console.error(
+      JSON.stringify({ event: "ingestion_failed", document_id: documentId, error: message }),
+    );
     throw new Error(message);
   }
 }
@@ -371,15 +414,58 @@ export async function removeCmsDocument(
 }
 
 /**
- * Re-ingest every CMS-synced document that previously failed (typically due to
- * embedding rate limits). Records are processed serially with a small pause so
- * the AI gateway is not hammered again.
+ * Recovery pass for the ingestion pipeline:
+ * 1. Reconcile stale job rows — jobs still marked failed/processing whose
+ *    document is already processed with chunks are historical noise.
+ * 2. Re-ingest documents that are genuinely failed (typically embedding rate
+ *    limits), serially with a pause so the AI gateway is not hammered again.
  */
 export async function retryFailedIngestions(
   sb: any,
   uploadedBy?: string | null,
   limit = 25,
-): Promise<{ attempted: number; succeeded: number; failed: number; remaining: number }> {
+): Promise<{
+  attempted: number;
+  succeeded: number;
+  failed: number;
+  remaining: number;
+  reconciled: number;
+}> {
+  // --- 1. reconcile stale jobs against real document state ---
+  const { data: staleJobs } = await sb
+    .from("ingestion_jobs")
+    .select("id, document_id")
+    .in("status", ["failed", "processing", "running"])
+    .limit(1000);
+
+  let reconciled = 0;
+  const jobRows = (staleJobs ?? []) as { id: string; document_id: string }[];
+  if (jobRows.length) {
+    const docIds = Array.from(new Set(jobRows.map((j) => j.document_id)));
+    const { data: healthy } = await sb
+      .from("knowledge_documents")
+      .select("id")
+      .in("id", docIds)
+      .eq("status", "processed")
+      .gt("chunk_count", 0);
+    const healthyIds = new Set((healthy ?? []).map((d: any) => d.id as string));
+    const resolvable = jobRows.filter((j) => healthyIds.has(j.document_id)).map((j) => j.id);
+    for (let i = 0; i < resolvable.length; i += 200) {
+      const slice = resolvable.slice(i, i + 200);
+      await sb
+        .from("ingestion_jobs")
+        .update({
+          status: "completed",
+          completed_at: new Date().toISOString(),
+          error_message: null,
+          last_error: null,
+        })
+        .in("id", slice);
+      reconciled += slice.length;
+    }
+  }
+
+  // --- 2. retry documents that are actually failed ---
   const { data: docs } = await sb
     .from("knowledge_documents")
     .select("id, slug")
@@ -408,10 +494,22 @@ export async function retryFailedIngestions(
     await new Promise((r) => setTimeout(r, 400));
   }
 
+  console.log(
+    JSON.stringify({
+      event: "ingestion_retry_pass",
+      reconciled,
+      attempted: batch.length,
+      succeeded,
+      failed,
+    }),
+  );
+
   return {
     attempted: batch.length,
     succeeded,
     failed,
     remaining: Math.max(0, all.length - succeeded),
+    reconciled,
   };
 }
+

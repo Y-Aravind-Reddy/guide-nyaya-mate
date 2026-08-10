@@ -109,17 +109,24 @@ export function ChatPanel({
     toast.success("Copied to clipboard");
   };
 
-  const feedback = async (rating: "up" | "down", response: string) => {
+  // Optional free-text detail collected after a negative rating.
+  const [commentFor, setCommentFor] = useState<string | null>(null);
+  const [comment, setComment] = useState("");
+
+  const feedback = async (rating: "up" | "down", response: string, comment?: string) => {
     const lastUser = [...messages].reverse().find((m) => m.role === "user");
     try {
       await submitFeedback({
         data: {
           rating,
+          comment: comment?.slice(0, 1000) || undefined,
           query: lastUser ? messageText(lastUser).slice(0, 4000) : undefined,
           response: response.slice(0, 8000),
         },
       });
       toast.success("Thanks for your feedback!");
+      if (rating === "down" && !comment) setCommentFor(response);
+      else setCommentFor(null);
     } catch {
       toast.error("Could not save feedback");
     }
@@ -263,6 +270,49 @@ export function ChatPanel({
                   >
                     <Flag className="h-3.5 w-3.5" />
                   </button>
+                </div>
+              )}
+              {commentFor === text && (
+                <div className="mt-2 rounded-lg border border-border bg-muted/40 p-3">
+                  <label
+                    htmlFor="ai-feedback-comment"
+                    className="text-xs font-medium text-foreground"
+                  >
+                    What was wrong with this answer? (optional)
+                  </label>
+                  <textarea
+                    id="ai-feedback-comment"
+                    value={comment}
+                    onChange={(e) => setComment(e.target.value)}
+                    rows={2}
+                    maxLength={1000}
+                    placeholder="e.g. the fee amount is outdated"
+                    className="mt-2 w-full resize-none rounded-md border border-border bg-background p-2 text-sm outline-none focus:ring-2 focus:ring-ring"
+                  />
+                  <div className="mt-2 flex justify-end gap-2">
+                    <button
+                      onClick={() => {
+                        setCommentFor(null);
+                        setComment("");
+                      }}
+                      className="rounded-md px-3 py-1.5 text-xs text-muted-foreground hover:bg-muted"
+                    >
+                      Skip
+                    </button>
+                    <button
+                      onClick={async () => {
+                        if (!comment.trim()) {
+                          setCommentFor(null);
+                          return;
+                        }
+                        await feedback("down", text, comment.trim());
+                        setComment("");
+                      }}
+                      className="rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground hover:opacity-90"
+                    >
+                      Send details
+                    </button>
+                  </div>
                 </div>
               )}
             </div>

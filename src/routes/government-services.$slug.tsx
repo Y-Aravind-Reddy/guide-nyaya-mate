@@ -16,6 +16,7 @@ import { AskAi } from "@/components/ai/AskAi";
 import { OfficialActions } from "@/components/official/OfficialActions";
 import { Button } from "@/components/ui/button";
 import { serviceDetailQuery } from "@/lib/queries";
+import { breadcrumbSchema, governmentServiceSchema, jsonLdScript } from "@/lib/structured-data";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -25,13 +26,36 @@ export const Route = createFileRoute("/government-services/$slug")({
     if (!data) throw notFound();
     return data;
   },
-  head: ({ loaderData }) => ({
+  head: ({ loaderData, params }) => ({
     meta: [
       { title: `${loaderData?.service.title ?? "Service"} — NyayaMate AI` },
       { name: "description", content: loaderData?.service.description ?? "Government service guide." },
       { property: "og:title", content: `${loaderData?.service.title ?? "Service"} — NyayaMate AI` },
       { property: "og:description", content: loaderData?.service.description ?? "" },
+      { property: "og:type", content: "article" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
+    scripts: loaderData?.service
+      ? [
+          jsonLdScript(
+            governmentServiceSchema({
+              title: loaderData.service.title,
+              description: loaderData.service.description ?? "",
+              slug: params.slug,
+              category: loaderData.service.category,
+              providerName: (loaderData as any).source?.authority ?? null,
+              providerUrl: (loaderData as any).source?.source_url ?? null,
+            }),
+          ),
+          jsonLdScript(
+            breadcrumbSchema([
+              { name: "Home", path: "/" },
+              { name: "Government Services", path: "/government-services" },
+              { name: loaderData.service.title, path: `/government-services/${params.slug}` },
+            ]),
+          ),
+        ]
+      : [],
   }),
   component: ServiceDetail,
   notFoundComponent: () => (

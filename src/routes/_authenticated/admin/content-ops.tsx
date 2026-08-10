@@ -375,9 +375,27 @@ function LinksTab() {
     staleTime: 30_000,
   });
 
+  const [progress, setProgress] = useState<{ done: number; total: number } | null>(null);
+
+  // Verification runs in resumable batches so long source lists never time out.
   const verify = useMutation({
-    mutationFn: () => verifyFn({ data: {} }),
-    onSuccess: () => qc.invalidateQueries({ queryKey: ["contentops_links"] }),
+    mutationFn: async () => {
+      let offset: number | null = 0;
+      let done = 0;
+      while (offset !== null) {
+        const r: { processed: number; total: number; nextOffset: number | null } = await verifyFn({
+          data: { offset, limit: 10 },
+        });
+        done += r.processed;
+        setProgress({ done, total: r.total });
+        offset = r.nextOffset;
+      }
+      return done;
+    },
+    onSettled: () => {
+      setProgress(null);
+      qc.invalidateQueries({ queryKey: ["contentops_links"] });
+    },
   });
 
   if (isLoading) return <p className="text-sm text-muted-foreground">Loading link statuses…</p>;
@@ -399,7 +417,11 @@ function LinksTab() {
           </div>
           <Button onClick={() => verify.mutate()} disabled={verify.isPending}>
             <RefreshCw className={cn("mr-2 h-4 w-4", verify.isPending && "animate-spin")} />
-            {verify.isPending ? "Verifying…" : "Verify All Links"}
+            {verify.isPending
+              ? progress
+                ? `Verifying ${progress.done}/${progress.total}…`
+                : "Verifying…"
+              : "Verify All Links"}
           </Button>
         </div>
         <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-5">

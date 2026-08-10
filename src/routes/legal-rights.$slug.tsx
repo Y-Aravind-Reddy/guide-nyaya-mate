@@ -14,6 +14,7 @@ import {
 import { legalTopicDetailQuery } from "@/lib/queries";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
+import { breadcrumbSchema, jsonLdScript } from "@/lib/structured-data";
 
 export const Route = createFileRoute("/legal-rights/$slug")({
   loader: async ({ context, params }) => {
@@ -21,12 +22,23 @@ export const Route = createFileRoute("/legal-rights/$slug")({
     if (!data) throw notFound();
     return data;
   },
-  head: ({ loaderData }) => ({
+  head: ({ loaderData, params }) => ({
     meta: [
       { title: `${loaderData?.title ?? "Legal Topic"} — NyayaMate AI` },
       { name: "description", content: loaderData?.description ?? "Legal rights guide." },
       { property: "og:title", content: `${loaderData?.title ?? "Legal Topic"} — NyayaMate AI` },
       { property: "og:description", content: loaderData?.description ?? "" },
+      { property: "og:type", content: "article" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+    scripts: [
+      jsonLdScript(
+        breadcrumbSchema([
+          { name: "Home", path: "/" },
+          { name: "Legal Rights", path: "/legal-rights" },
+          { name: loaderData?.title ?? "Topic", path: `/legal-rights/${params.slug}` },
+        ]),
+      ),
     ],
   }),
   component: TopicDetail,

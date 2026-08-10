@@ -10,9 +10,11 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { faqsQuery } from "@/lib/queries";
+import { breadcrumbSchema, faqPageSchema, jsonLdScript } from "@/lib/structured-data";
 
 export const Route = createFileRoute("/faqs")({
-  head: () => ({
+  loader: ({ context }) => context.queryClient.ensureQueryData(faqsQuery()),
+  head: ({ loaderData }) => ({
     meta: [
       { title: "FAQs — NyayaMate AI" },
       {
@@ -28,8 +30,23 @@ export const Route = createFileRoute("/faqs")({
       { property: "og:url", content: "https://guide-nyaya-mate.lovable.app/faqs" },
     ],
     links: [{ rel: "canonical", href: "https://guide-nyaya-mate.lovable.app/faqs" }],
+    scripts: [
+      jsonLdScript(
+        faqPageSchema(
+          (loaderData ?? []).map((f: { question: string; answer: string }) => ({
+            question: f.question,
+            answer: f.answer,
+          })),
+        ),
+      ),
+      jsonLdScript(
+        breadcrumbSchema([
+          { name: "Home", path: "/" },
+          { name: "FAQs", path: "/faqs" },
+        ]),
+      ),
+    ],
   }),
-  loader: ({ context }) => context.queryClient.ensureQueryData(faqsQuery()),
   component: FaqsPage,
 });
 

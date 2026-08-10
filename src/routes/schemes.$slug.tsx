@@ -11,6 +11,7 @@ import { PageShell } from "@/components/layouts/PageShell";
 import { VerifiedBadge } from "@/components/trust/VerifiedBadge";
 import { OfficialActions } from "@/components/official/OfficialActions";
 import { schemeDetailQuery } from "@/lib/queries";
+import { breadcrumbSchema, jsonLdScript } from "@/lib/structured-data";
 
 export const Route = createFileRoute("/schemes/$slug")({
   loader: async ({ context, params }) => {
@@ -29,6 +30,15 @@ export const Route = createFileRoute("/schemes/$slug")({
     ],
     links: [
       { rel: "canonical", href: `https://guide-nyaya-mate.lovable.app/schemes/${params.slug}` },
+    ],
+    scripts: [
+      jsonLdScript(
+        breadcrumbSchema([
+          { name: "Home", path: "/" },
+          { name: "Schemes", path: "/schemes" },
+          { name: loaderData?.title ?? "Scheme", path: `/schemes/${params.slug}` },
+        ]),
+      ),
     ],
   }),
   component: SchemeDetail,
