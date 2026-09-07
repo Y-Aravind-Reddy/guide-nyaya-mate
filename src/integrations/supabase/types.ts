@@ -222,6 +222,39 @@ export type Database = {
         }
         Relationships: []
       }
+      content_feedback: {
+        Row: {
+          comment: string | null
+          content_slug: string
+          content_title: string | null
+          content_type: string
+          created_at: string
+          helpful: boolean
+          id: string
+          user_id: string | null
+        }
+        Insert: {
+          comment?: string | null
+          content_slug: string
+          content_title?: string | null
+          content_type: string
+          created_at?: string
+          helpful: boolean
+          id?: string
+          user_id?: string | null
+        }
+        Update: {
+          comment?: string | null
+          content_slug?: string
+          content_title?: string | null
+          content_type?: string
+          created_at?: string
+          helpful?: boolean
+          id?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       conversations: {
         Row: {
           context_slug: string | null
