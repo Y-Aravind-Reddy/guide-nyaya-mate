@@ -3,6 +3,8 @@ import { useQuery, useQueryClient, useSuspenseQuery } from "@tanstack/react-quer
 import { ArrowLeft, Bookmark, BookmarkCheck, FileText, HelpCircle, Link2 } from "lucide-react";
 import { toast } from "sonner";
 import { PageShell } from "@/components/layouts/PageShell";
+import { Breadcrumbs } from "@/components/nav/Breadcrumbs";
+import { HelpfulFeedback } from "@/components/feedback/HelpfulFeedback";
 import { AskAi } from "@/components/ai/AskAi";
 import { Button } from "@/components/ui/button";
 import {
@@ -118,6 +120,7 @@ function TopicDetail() {
       </section>
 
       <section className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
+        <Breadcrumbs items={[{ label: "Home", to: "/" }, { label: "Legal Rights", to: "/legal-rights" }, { label: {topic.title} }]} />
         {topic.overview && (
           <div className="rounded-2xl border border-border bg-card p-6 shadow-card">
             <h2 className="text-xl font-bold text-foreground">Overview</h2>
@@ -197,6 +200,7 @@ function TopicDetail() {
             ]}
           />
         </div>
+        <HelpfulFeedback contentType="legal_topic" contentSlug={slug} contentTitle={topic.title} />
       </section>
     </PageShell>
   );

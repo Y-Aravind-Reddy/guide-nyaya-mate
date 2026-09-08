@@ -12,6 +12,8 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { PageShell } from "@/components/layouts/PageShell";
+import { Breadcrumbs } from "@/components/nav/Breadcrumbs";
+import { HelpfulFeedback } from "@/components/feedback/HelpfulFeedback";
 import { AskAi } from "@/components/ai/AskAi";
 import { OfficialActions } from "@/components/official/OfficialActions";
 import { Button } from "@/components/ui/button";
@@ -138,6 +140,7 @@ function ServiceDetail() {
       </section>
 
       <section className="mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:px-8">
+        <Breadcrumbs items={[{ label: "Home", to: "/" }, { label: "Government Services", to: "/government-services" }, { label: {service.title} }]} />
         <div className="grid gap-4 sm:grid-cols-3">
           {[
             { icon: BadgeCheck, label: "Eligibility", value: service.eligibility },
@@ -208,6 +211,7 @@ function ServiceDetail() {
             ]}
           />
         </div>
+        <HelpfulFeedback contentType="service" contentSlug={service.slug} contentTitle={service.title} />
       </section>
     </PageShell>
   );
