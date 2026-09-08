@@ -15,6 +15,7 @@ import { Route as SignupRouteImport } from './routes/signup'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
+import { Route as OfficialSourcesRouteImport } from './routes/official-sources'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as GlossaryRouteImport } from './routes/glossary'
 import { Route as FaqsRouteImport } from './routes/faqs'
@@ -81,6 +82,11 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
 const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
   id: '/privacy-policy',
   path: '/privacy-policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OfficialSourcesRoute = OfficialSourcesRouteImport.update({
+  id: '/official-sources',
+  path: '/official-sources',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -291,6 +297,7 @@ export interface FileRoutesByFullPath {
   '/faqs': typeof FaqsRoute
   '/glossary': typeof GlossaryRoute
   '/login': typeof LoginRoute
+  '/official-sources': typeof OfficialSourcesRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/reset-password': typeof ResetPasswordRoute
   '/search': typeof SearchRoute
@@ -335,6 +342,7 @@ export interface FileRoutesByTo {
   '/faqs': typeof FaqsRoute
   '/glossary': typeof GlossaryRoute
   '/login': typeof LoginRoute
+  '/official-sources': typeof OfficialSourcesRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/reset-password': typeof ResetPasswordRoute
   '/search': typeof SearchRoute
@@ -381,6 +389,7 @@ export interface FileRoutesById {
   '/faqs': typeof FaqsRoute
   '/glossary': typeof GlossaryRoute
   '/login': typeof LoginRoute
+  '/official-sources': typeof OfficialSourcesRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/reset-password': typeof ResetPasswordRoute
   '/search': typeof SearchRoute
@@ -427,6 +436,7 @@ export interface FileRouteTypes {
     | '/faqs'
     | '/glossary'
     | '/login'
+    | '/official-sources'
     | '/privacy-policy'
     | '/reset-password'
     | '/search'
@@ -471,6 +481,7 @@ export interface FileRouteTypes {
     | '/faqs'
     | '/glossary'
     | '/login'
+    | '/official-sources'
     | '/privacy-policy'
     | '/reset-password'
     | '/search'
@@ -516,6 +527,7 @@ export interface FileRouteTypes {
     | '/faqs'
     | '/glossary'
     | '/login'
+    | '/official-sources'
     | '/privacy-policy'
     | '/reset-password'
     | '/search'
@@ -562,6 +574,7 @@ export interface RootRouteChildren {
   FaqsRoute: typeof FaqsRoute
   GlossaryRoute: typeof GlossaryRoute
   LoginRoute: typeof LoginRoute
+  OfficialSourcesRoute: typeof OfficialSourcesRoute
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   SearchRoute: typeof SearchRoute
@@ -621,6 +634,13 @@ declare module '@tanstack/react-router' {
       path: '/privacy-policy'
       fullPath: '/privacy-policy'
       preLoaderRoute: typeof PrivacyPolicyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/official-sources': {
+      id: '/official-sources'
+      path: '/official-sources'
+      fullPath: '/official-sources'
+      preLoaderRoute: typeof OfficialSourcesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -945,6 +965,7 @@ const rootRouteChildren: RootRouteChildren = {
   FaqsRoute: FaqsRoute,
   GlossaryRoute: GlossaryRoute,
   LoginRoute: LoginRoute,
+  OfficialSourcesRoute: OfficialSourcesRoute,
   PrivacyPolicyRoute: PrivacyPolicyRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   SearchRoute: SearchRoute,
