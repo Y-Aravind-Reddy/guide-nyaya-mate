@@ -59,7 +59,7 @@ const ADMIN_NAV = [
   { icon: Gauge, label: "AI Usage", to: "/admin/ai-usage" },
   { icon: RefreshCw, label: "KB Sync", to: "/admin/kb-sync" },
   { icon: Database, label: "Knowledge Base", to: "/knowledge-base" },
-  { icon: ShieldCheck, label: "Official Sources", to: "/official-sources" },
+  { icon: ShieldCheck, label: "Official Sources", to: "/admin/official-sources" },
   { icon: Activity, label: "Retrieval Analytics", to: "/retrieval-analytics" },
 ] as const;
 

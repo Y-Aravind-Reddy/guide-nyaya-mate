@@ -23,7 +23,7 @@ import {
   deleteOfficialSource,
 } from "@/lib/content.functions";
 
-export const Route = createFileRoute("/_authenticated/official-sources")({
+export const Route = createFileRoute("/_authenticated/admin/official-sources")({
   head: () => ({ meta: [{ title: "Official Sources — NyayaMate AI" }] }),
   component: OfficialSourcesPage,
 });
