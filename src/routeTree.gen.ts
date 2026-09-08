@@ -15,6 +15,7 @@ import { Route as SignupRouteImport } from './routes/signup'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
+import { Route as OfficialSourcesRouteImport } from './routes/official-sources'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as GlossaryRouteImport } from './routes/glossary'
 import { Route as FaqsRouteImport } from './routes/faqs'
@@ -35,7 +36,6 @@ import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedSavedRouteImport } from './routes/_authenticated/saved'
 import { Route as AuthenticatedRetrievalAnalyticsRouteImport } from './routes/_authenticated/retrieval-analytics'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
-import { Route as AuthenticatedOfficialSourcesRouteImport } from './routes/_authenticated/official-sources'
 import { Route as AuthenticatedKnowledgeHealthRouteImport } from './routes/_authenticated/knowledge-health'
 import { Route as AuthenticatedKnowledgeBaseRouteImport } from './routes/_authenticated/knowledge-base'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
@@ -44,6 +44,7 @@ import { Route as AuthenticatedAiChatRouteImport } from './routes/_authenticated
 import { Route as ApiPublicVerifyLinksRouteImport } from './routes/api/public/verify-links'
 import { Route as ApiPublicKbSyncRouteImport } from './routes/api/public/kb-sync'
 import { Route as AuthenticatedAdminReviewQueueRouteImport } from './routes/_authenticated/admin/review-queue'
+import { Route as AuthenticatedAdminOfficialSourcesRouteImport } from './routes/_authenticated/admin/official-sources'
 import { Route as AuthenticatedAdminNotificationsRouteImport } from './routes/_authenticated/admin/notifications'
 import { Route as AuthenticatedAdminLaunchReadinessRouteImport } from './routes/_authenticated/admin/launch-readiness'
 import { Route as AuthenticatedAdminKnowledgeHealthRouteImport } from './routes/_authenticated/admin/knowledge-health'
@@ -81,6 +82,11 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
 const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
   id: '/privacy-policy',
   path: '/privacy-policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OfficialSourcesRoute = OfficialSourcesRouteImport.update({
+  id: '/official-sources',
+  path: '/official-sources',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -183,12 +189,6 @@ const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
   path: '/profile',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const AuthenticatedOfficialSourcesRoute =
-  AuthenticatedOfficialSourcesRouteImport.update({
-    id: '/official-sources',
-    path: '/official-sources',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
 const AuthenticatedKnowledgeHealthRoute =
   AuthenticatedKnowledgeHealthRouteImport.update({
     id: '/knowledge-health',
@@ -231,6 +231,12 @@ const AuthenticatedAdminReviewQueueRoute =
   AuthenticatedAdminReviewQueueRouteImport.update({
     id: '/admin/review-queue',
     path: '/admin/review-queue',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminOfficialSourcesRoute =
+  AuthenticatedAdminOfficialSourcesRouteImport.update({
+    id: '/admin/official-sources',
+    path: '/admin/official-sources',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedAdminNotificationsRoute =
@@ -291,6 +297,7 @@ export interface FileRoutesByFullPath {
   '/faqs': typeof FaqsRoute
   '/glossary': typeof GlossaryRoute
   '/login': typeof LoginRoute
+  '/official-sources': typeof OfficialSourcesRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/reset-password': typeof ResetPasswordRoute
   '/search': typeof SearchRoute
@@ -302,7 +309,6 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/knowledge-base': typeof AuthenticatedKnowledgeBaseRoute
   '/knowledge-health': typeof AuthenticatedKnowledgeHealthRoute
-  '/official-sources': typeof AuthenticatedOfficialSourcesRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/retrieval-analytics': typeof AuthenticatedRetrievalAnalyticsRoute
   '/saved': typeof AuthenticatedSavedRoute
@@ -322,6 +328,7 @@ export interface FileRoutesByFullPath {
   '/admin/knowledge-health': typeof AuthenticatedAdminKnowledgeHealthRoute
   '/admin/launch-readiness': typeof AuthenticatedAdminLaunchReadinessRoute
   '/admin/notifications': typeof AuthenticatedAdminNotificationsRoute
+  '/admin/official-sources': typeof AuthenticatedAdminOfficialSourcesRoute
   '/admin/review-queue': typeof AuthenticatedAdminReviewQueueRoute
   '/api/public/kb-sync': typeof ApiPublicKbSyncRoute
   '/api/public/verify-links': typeof ApiPublicVerifyLinksRoute
@@ -335,6 +342,7 @@ export interface FileRoutesByTo {
   '/faqs': typeof FaqsRoute
   '/glossary': typeof GlossaryRoute
   '/login': typeof LoginRoute
+  '/official-sources': typeof OfficialSourcesRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/reset-password': typeof ResetPasswordRoute
   '/search': typeof SearchRoute
@@ -346,7 +354,6 @@ export interface FileRoutesByTo {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/knowledge-base': typeof AuthenticatedKnowledgeBaseRoute
   '/knowledge-health': typeof AuthenticatedKnowledgeHealthRoute
-  '/official-sources': typeof AuthenticatedOfficialSourcesRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/retrieval-analytics': typeof AuthenticatedRetrievalAnalyticsRoute
   '/saved': typeof AuthenticatedSavedRoute
@@ -366,6 +373,7 @@ export interface FileRoutesByTo {
   '/admin/knowledge-health': typeof AuthenticatedAdminKnowledgeHealthRoute
   '/admin/launch-readiness': typeof AuthenticatedAdminLaunchReadinessRoute
   '/admin/notifications': typeof AuthenticatedAdminNotificationsRoute
+  '/admin/official-sources': typeof AuthenticatedAdminOfficialSourcesRoute
   '/admin/review-queue': typeof AuthenticatedAdminReviewQueueRoute
   '/api/public/kb-sync': typeof ApiPublicKbSyncRoute
   '/api/public/verify-links': typeof ApiPublicVerifyLinksRoute
@@ -381,6 +389,7 @@ export interface FileRoutesById {
   '/faqs': typeof FaqsRoute
   '/glossary': typeof GlossaryRoute
   '/login': typeof LoginRoute
+  '/official-sources': typeof OfficialSourcesRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/reset-password': typeof ResetPasswordRoute
   '/search': typeof SearchRoute
@@ -392,7 +401,6 @@ export interface FileRoutesById {
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/knowledge-base': typeof AuthenticatedKnowledgeBaseRoute
   '/_authenticated/knowledge-health': typeof AuthenticatedKnowledgeHealthRoute
-  '/_authenticated/official-sources': typeof AuthenticatedOfficialSourcesRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/retrieval-analytics': typeof AuthenticatedRetrievalAnalyticsRoute
   '/_authenticated/saved': typeof AuthenticatedSavedRoute
@@ -412,6 +420,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/knowledge-health': typeof AuthenticatedAdminKnowledgeHealthRoute
   '/_authenticated/admin/launch-readiness': typeof AuthenticatedAdminLaunchReadinessRoute
   '/_authenticated/admin/notifications': typeof AuthenticatedAdminNotificationsRoute
+  '/_authenticated/admin/official-sources': typeof AuthenticatedAdminOfficialSourcesRoute
   '/_authenticated/admin/review-queue': typeof AuthenticatedAdminReviewQueueRoute
   '/api/public/kb-sync': typeof ApiPublicKbSyncRoute
   '/api/public/verify-links': typeof ApiPublicVerifyLinksRoute
@@ -427,6 +436,7 @@ export interface FileRouteTypes {
     | '/faqs'
     | '/glossary'
     | '/login'
+    | '/official-sources'
     | '/privacy-policy'
     | '/reset-password'
     | '/search'
@@ -438,7 +448,6 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/knowledge-base'
     | '/knowledge-health'
-    | '/official-sources'
     | '/profile'
     | '/retrieval-analytics'
     | '/saved'
@@ -458,6 +467,7 @@ export interface FileRouteTypes {
     | '/admin/knowledge-health'
     | '/admin/launch-readiness'
     | '/admin/notifications'
+    | '/admin/official-sources'
     | '/admin/review-queue'
     | '/api/public/kb-sync'
     | '/api/public/verify-links'
@@ -471,6 +481,7 @@ export interface FileRouteTypes {
     | '/faqs'
     | '/glossary'
     | '/login'
+    | '/official-sources'
     | '/privacy-policy'
     | '/reset-password'
     | '/search'
@@ -482,7 +493,6 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/knowledge-base'
     | '/knowledge-health'
-    | '/official-sources'
     | '/profile'
     | '/retrieval-analytics'
     | '/saved'
@@ -502,6 +512,7 @@ export interface FileRouteTypes {
     | '/admin/knowledge-health'
     | '/admin/launch-readiness'
     | '/admin/notifications'
+    | '/admin/official-sources'
     | '/admin/review-queue'
     | '/api/public/kb-sync'
     | '/api/public/verify-links'
@@ -516,6 +527,7 @@ export interface FileRouteTypes {
     | '/faqs'
     | '/glossary'
     | '/login'
+    | '/official-sources'
     | '/privacy-policy'
     | '/reset-password'
     | '/search'
@@ -527,7 +539,6 @@ export interface FileRouteTypes {
     | '/_authenticated/dashboard'
     | '/_authenticated/knowledge-base'
     | '/_authenticated/knowledge-health'
-    | '/_authenticated/official-sources'
     | '/_authenticated/profile'
     | '/_authenticated/retrieval-analytics'
     | '/_authenticated/saved'
@@ -547,6 +558,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/knowledge-health'
     | '/_authenticated/admin/launch-readiness'
     | '/_authenticated/admin/notifications'
+    | '/_authenticated/admin/official-sources'
     | '/_authenticated/admin/review-queue'
     | '/api/public/kb-sync'
     | '/api/public/verify-links'
@@ -562,6 +574,7 @@ export interface RootRouteChildren {
   FaqsRoute: typeof FaqsRoute
   GlossaryRoute: typeof GlossaryRoute
   LoginRoute: typeof LoginRoute
+  OfficialSourcesRoute: typeof OfficialSourcesRoute
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   SearchRoute: typeof SearchRoute
@@ -621,6 +634,13 @@ declare module '@tanstack/react-router' {
       path: '/privacy-policy'
       fullPath: '/privacy-policy'
       preLoaderRoute: typeof PrivacyPolicyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/official-sources': {
+      id: '/official-sources'
+      path: '/official-sources'
+      fullPath: '/official-sources'
+      preLoaderRoute: typeof OfficialSourcesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -763,13 +783,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedProfileRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/official-sources': {
-      id: '/_authenticated/official-sources'
-      path: '/official-sources'
-      fullPath: '/official-sources'
-      preLoaderRoute: typeof AuthenticatedOfficialSourcesRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
     '/_authenticated/knowledge-health': {
       id: '/_authenticated/knowledge-health'
       path: '/knowledge-health'
@@ -824,6 +837,13 @@ declare module '@tanstack/react-router' {
       path: '/admin/review-queue'
       fullPath: '/admin/review-queue'
       preLoaderRoute: typeof AuthenticatedAdminReviewQueueRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/official-sources': {
+      id: '/_authenticated/admin/official-sources'
+      path: '/admin/official-sources'
+      fullPath: '/admin/official-sources'
+      preLoaderRoute: typeof AuthenticatedAdminOfficialSourcesRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/admin/notifications': {
@@ -891,7 +911,6 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedKnowledgeBaseRoute: typeof AuthenticatedKnowledgeBaseRoute
   AuthenticatedKnowledgeHealthRoute: typeof AuthenticatedKnowledgeHealthRoute
-  AuthenticatedOfficialSourcesRoute: typeof AuthenticatedOfficialSourcesRoute
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
   AuthenticatedRetrievalAnalyticsRoute: typeof AuthenticatedRetrievalAnalyticsRoute
   AuthenticatedSavedRoute: typeof AuthenticatedSavedRoute
@@ -904,6 +923,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminKnowledgeHealthRoute: typeof AuthenticatedAdminKnowledgeHealthRoute
   AuthenticatedAdminLaunchReadinessRoute: typeof AuthenticatedAdminLaunchReadinessRoute
   AuthenticatedAdminNotificationsRoute: typeof AuthenticatedAdminNotificationsRoute
+  AuthenticatedAdminOfficialSourcesRoute: typeof AuthenticatedAdminOfficialSourcesRoute
   AuthenticatedAdminReviewQueueRoute: typeof AuthenticatedAdminReviewQueueRoute
 }
 
@@ -913,7 +933,6 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedKnowledgeBaseRoute: AuthenticatedKnowledgeBaseRoute,
   AuthenticatedKnowledgeHealthRoute: AuthenticatedKnowledgeHealthRoute,
-  AuthenticatedOfficialSourcesRoute: AuthenticatedOfficialSourcesRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
   AuthenticatedRetrievalAnalyticsRoute: AuthenticatedRetrievalAnalyticsRoute,
   AuthenticatedSavedRoute: AuthenticatedSavedRoute,
@@ -928,6 +947,8 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminLaunchReadinessRoute:
     AuthenticatedAdminLaunchReadinessRoute,
   AuthenticatedAdminNotificationsRoute: AuthenticatedAdminNotificationsRoute,
+  AuthenticatedAdminOfficialSourcesRoute:
+    AuthenticatedAdminOfficialSourcesRoute,
   AuthenticatedAdminReviewQueueRoute: AuthenticatedAdminReviewQueueRoute,
 }
 
@@ -944,6 +965,7 @@ const rootRouteChildren: RootRouteChildren = {
   FaqsRoute: FaqsRoute,
   GlossaryRoute: GlossaryRoute,
   LoginRoute: LoginRoute,
+  OfficialSourcesRoute: OfficialSourcesRoute,
   PrivacyPolicyRoute: PrivacyPolicyRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   SearchRoute: SearchRoute,

@@ -2,102 +2,142 @@ import { Link } from "@tanstack/react-router";
 import { Facebook, Instagram, Linkedin, Twitter, Youtube } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { Button } from "@/components/ui/button";
+import { TrustBadges } from "@/components/trust/TrustBadges";
 
-const COLUMNS = [
-  {
-    title: "Company",
-    links: ["About", "Careers", "Press", "Contact"],
-  },
+const COLUMNS: { title: string; links: { label: string; to: string }[] }[] = [
   {
     title: "Explore",
-    links: ["Services", "Legal Rights", "Government Schemes", "Documents"],
+    links: [
+      { label: "Government Services", to: "/government-services" },
+      { label: "Legal Rights", to: "/legal-rights" },
+      { label: "Schemes", to: "/schemes" },
+      { label: "Glossary", to: "/glossary" },
+    ],
   },
   {
-    title: "Resources",
-    links: ["Blog", "Guides", "Help Center", "Community"],
+    title: "Company",
+    links: [
+      { label: "About", to: "/about" },
+      { label: "Contact", to: "/contact" },
+      { label: "Official Sources", to: "/official-sources" },
+      { label: "Search", to: "/search" },
+    ],
+  },
+  {
+    title: "Legal & Policies",
+    links: [
+      { label: "Privacy Policy", to: "/privacy-policy" },
+      { label: "Terms & Conditions", to: "/terms" },
+      { label: "Disclaimer", to: "/disclaimer" },
+      { label: "Accessibility", to: "/accessibility" },
+    ],
   },
   {
     title: "Support",
-    links: ["FAQ", "Privacy Policy", "Terms of Service", "Security"],
+    links: [
+      { label: "FAQs", to: "/faqs" },
+      { label: "Help & Contact", to: "/contact" },
+      { label: "Accessibility Help", to: "/accessibility" },
+      { label: "Login", to: "/login" },
+    ],
   },
 ];
 
-const SOCIALS = [Twitter, Linkedin, Facebook, Instagram, Youtube];
+const SOCIALS = [
+  { Icon: Twitter, label: "NyayaMate AI on X" },
+  { Icon: Linkedin, label: "NyayaMate AI on LinkedIn" },
+  { Icon: Facebook, label: "NyayaMate AI on Facebook" },
+  { Icon: Instagram, label: "NyayaMate AI on Instagram" },
+  { Icon: Youtube, label: "NyayaMate AI on YouTube" },
+];
 
 export function Footer() {
   return (
-    <footer style={{ backgroundColor: "var(--navy)" }} className="text-white">
+    <footer
+      style={{ backgroundColor: "var(--navy)" }}
+      className="text-white"
+      aria-labelledby="footer-heading"
+    >
+      <h2 id="footer-heading" className="sr-only">
+        Site footer
+      </h2>
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="grid gap-12 lg:grid-cols-[1.4fr_2fr_1.4fr]">
+        <div className="grid gap-12 lg:grid-cols-[1.4fr_2.4fr_1.2fr]">
           {/* Brand */}
           <div>
             <Logo light />
-            <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/60">
-              Your trusted AI guide for legal rights and government services — simple,
-              secure, and always available.
+            <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/70">
+              Your trusted AI guide for legal rights and government services — simple, secure and
+              always available.
             </p>
-            <div className="mt-6 flex gap-2.5">
-              {SOCIALS.map((Icon, i) => (
-                <a
-                  key={i}
-                  href="#"
-                  className="grid h-9 w-9 place-items-center rounded-lg bg-white/10 text-white/80 transition-colors hover:bg-secondary hover:text-white"
-                  aria-label="Social link"
-                >
-                  <Icon className="h-4 w-4" />
-                </a>
+            <TrustBadges light className="mt-6" />
+            <ul className="mt-6 flex gap-2.5">
+              {SOCIALS.map(({ Icon, label }) => (
+                <li key={label}>
+                  <a
+                    href="#"
+                    className="grid h-11 w-11 place-items-center rounded-lg bg-white/10 text-white/80 transition-colors hover:bg-secondary hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--navy)]"
+                    aria-label={label}
+                  >
+                    <Icon className="h-4 w-4" aria-hidden="true" />
+                  </a>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
 
           {/* Link columns */}
-          <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
+          <nav aria-label="Footer" className="grid grid-cols-2 gap-8 sm:grid-cols-4">
             {COLUMNS.map((col) => (
               <div key={col.title}>
-                <h4 className="text-sm font-bold text-white">{col.title}</h4>
-                <ul className="mt-4 space-y-3">
+                <h3 className="text-sm font-bold text-white">{col.title}</h3>
+                <ul className="mt-4 space-y-1">
                   {col.links.map((l) => (
-                    <li key={l}>
-                      <a href="#" className="text-sm text-white/60 transition-colors hover:text-secondary">
-                        {l}
-                      </a>
+                    <li key={`${col.title}-${l.label}`}>
+                      <Link
+                        to={l.to}
+                        className="inline-flex min-h-11 items-center text-sm text-white/70 transition-colors hover:text-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--navy)]"
+                      >
+                        {l.label}
+                      </Link>
                     </li>
                   ))}
                 </ul>
               </div>
             ))}
-          </div>
+          </nav>
 
           {/* Newsletter */}
           <div>
-            <h4 className="text-sm font-bold text-white">Newsletter</h4>
-            <p className="mt-4 text-sm text-white/60">
+            <h3 className="text-sm font-bold text-white">Newsletter</h3>
+            <p className="mt-4 text-sm text-white/70">
               Get the latest guides and citizen updates.
             </p>
-            <form
-              className="mt-4 flex flex-col gap-2.5"
-              onSubmit={(e) => e.preventDefault()}
-            >
+            <form className="mt-4 flex flex-col gap-2.5" onSubmit={(e) => e.preventDefault()}>
+              <label htmlFor="footer-email" className="sr-only">
+                Email address
+              </label>
               <input
+                id="footer-email"
                 type="email"
                 placeholder="Your email address"
-                className="rounded-lg border border-white/15 bg-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/40 focus:border-secondary focus:outline-none"
+                className="min-h-11 rounded-lg border border-white/20 bg-white/10 px-4 text-sm text-white placeholder:text-white/50 focus:border-secondary focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
               />
-              <Button className="bg-secondary font-semibold text-secondary-foreground hover:bg-secondary/90">
+              <Button className="min-h-11 bg-secondary font-semibold text-secondary-foreground hover:bg-secondary/90">
                 Subscribe
               </Button>
             </form>
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-6 sm:flex-row">
-          <p className="text-xs text-white/50">
+        <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-white/10 pt-6 sm:flex-row">
+          <p className="text-xs text-white/60">
             © {new Date().getFullYear()} NyayaMate AI. All rights reserved.
           </p>
-          <p className="text-xs text-white/50">
-            Made for citizens with{" "}
-            <Link to="/login" className="font-semibold text-secondary hover:underline">
-              trust & care
+          <p className="max-w-xl text-center text-xs text-white/60 sm:text-right">
+            NyayaMate AI provides informational guidance only and is not a government website.{" "}
+            <Link to="/disclaimer" className="font-semibold text-secondary hover:underline">
+              Read the full disclaimer
             </Link>
             .
           </p>
