@@ -215,3 +215,64 @@ export const faqsQuery = () =>
     },
   });
 
+
+// ---------- Laws (Law Explorer) ----------
+export type Law = {
+  id: string;
+  slug: string;
+  short_name: string;
+  title: string;
+  description: string;
+  enacted_year: number | null;
+  category: string | null;
+  official_url: string | null;
+  related_topics: string[];
+  last_updated: string;
+};
+
+export type LawSection = {
+  id: string;
+  section_number: string;
+  title: string;
+  summary: string;
+  topic_tags: string[];
+};
+
+const LAW_COLS =
+  "id, slug, short_name, title, description, enacted_year, category, official_url, related_topics, last_updated, sort_order";
+
+export const lawsQuery = () =>
+  queryOptions({
+    queryKey: ["public_laws"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("laws")
+        .select(LAW_COLS)
+        .order("sort_order");
+      if (error) throw error;
+      return (data ?? []) as unknown as Law[];
+    },
+  });
+
+export const lawDetailQuery = (slug: string) =>
+  queryOptions({
+    queryKey: ["public_law", slug],
+    queryFn: async () => {
+      const { data: law, error } = await supabase
+        .from("laws")
+        .select(LAW_COLS)
+        .eq("slug", slug)
+        .maybeSingle();
+      if (error) throw error;
+      if (!law) return null;
+      const { data: sections } = await supabase
+        .from("law_sections")
+        .select("id, section_number, title, summary, topic_tags")
+        .eq("law_id", (law as { id: string }).id)
+        .order("sort_order");
+      return {
+        law: law as unknown as Law,
+        sections: (sections ?? []) as unknown as LawSection[],
+      };
+    },
+  });
