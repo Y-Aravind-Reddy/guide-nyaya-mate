@@ -120,7 +120,7 @@ function TopicDetail() {
       </section>
 
       <section className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
-        <Breadcrumbs items={[{ label: "Home", to: "/" }, { label: "Legal Rights", to: "/legal-rights" }, { label: {topic.title} }]} />
+        <Breadcrumbs items={[{ label: "Home", to: "/" }, { label: "Legal Rights", to: "/legal-rights" }, { label: topic.title }]} />
         {topic.overview && (
           <div className="rounded-2xl border border-border bg-card p-6 shadow-card">
             <h2 className="text-xl font-bold text-foreground">Overview</h2>

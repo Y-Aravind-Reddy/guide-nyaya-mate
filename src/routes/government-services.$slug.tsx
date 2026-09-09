@@ -140,7 +140,7 @@ function ServiceDetail() {
       </section>
 
       <section className="mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:px-8">
-        <Breadcrumbs items={[{ label: "Home", to: "/" }, { label: "Government Services", to: "/government-services" }, { label: {service.title} }]} />
+        <Breadcrumbs items={[{ label: "Home", to: "/" }, { label: "Government Services", to: "/government-services" }, { label: service.title }]} />
         <div className="grid gap-4 sm:grid-cols-3">
           {[
             { icon: BadgeCheck, label: "Eligibility", value: service.eligibility },
