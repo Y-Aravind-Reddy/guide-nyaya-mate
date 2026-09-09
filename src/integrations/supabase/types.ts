@@ -752,6 +752,103 @@ export type Database = {
           },
         ]
       }
+      law_sections: {
+        Row: {
+          created_at: string
+          id: string
+          law_id: string
+          section_number: string
+          sort_order: number
+          summary: string
+          title: string
+          topic_tags: Json
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          law_id: string
+          section_number: string
+          sort_order?: number
+          summary: string
+          title: string
+          topic_tags?: Json
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          law_id?: string
+          section_number?: string
+          sort_order?: number
+          summary?: string
+          title?: string
+          topic_tags?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "law_sections_law_id_fkey"
+            columns: ["law_id"]
+            isOneToOne: false
+            referencedRelation: "laws"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      laws: {
+        Row: {
+          category: string | null
+          created_at: string
+          description: string
+          enacted_year: number | null
+          id: string
+          last_updated: string
+          official_url: string | null
+          related_topics: Json
+          short_name: string
+          slug: string
+          sort_order: number
+          source_id: string | null
+          title: string
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string
+          description: string
+          enacted_year?: number | null
+          id?: string
+          last_updated?: string
+          official_url?: string | null
+          related_topics?: Json
+          short_name: string
+          slug: string
+          sort_order?: number
+          source_id?: string | null
+          title: string
+        }
+        Update: {
+          category?: string | null
+          created_at?: string
+          description?: string
+          enacted_year?: number | null
+          id?: string
+          last_updated?: string
+          official_url?: string | null
+          related_topics?: Json
+          short_name?: string
+          slug?: string
+          sort_order?: number
+          source_id?: string | null
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "laws_source_id_fkey"
+            columns: ["source_id"]
+            isOneToOne: false
+            referencedRelation: "official_sources"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       legal_topics: {
         Row: {
           category: string
@@ -761,6 +858,9 @@ export type Database = {
           faq: Json
           icon: string
           id: string
+          important_sections: Json
+          key_rights: Json
+          last_updated: string
           overview: string | null
           procedure: string | null
           related: Json
@@ -776,6 +876,9 @@ export type Database = {
           faq?: Json
           icon?: string
           id?: string
+          important_sections?: Json
+          key_rights?: Json
+          last_updated?: string
           overview?: string | null
           procedure?: string | null
           related?: Json
@@ -791,6 +894,9 @@ export type Database = {
           faq?: Json
           icon?: string
           id?: string
+          important_sections?: Json
+          key_rights?: Json
+          last_updated?: string
           overview?: string | null
           procedure?: string | null
           related?: Json
