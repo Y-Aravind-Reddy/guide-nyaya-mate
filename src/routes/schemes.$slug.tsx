@@ -87,7 +87,7 @@ function SchemeDetail() {
       </section>
 
       <section className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
-        <Breadcrumbs items={[{ label: "Home", to: "/" }, { label: "Schemes", to: "/schemes" }, { label: {scheme.title} }]} />
+        <Breadcrumbs items={[{ label: "Home", to: "/" }, { label: "Schemes", to: "/schemes" }, { label: scheme.title }]} />
         <div className="grid gap-4">
           {sections.map((s) => (
             <div key={s.title} className="rounded-[20px] border border-border bg-card p-6 shadow-card">
