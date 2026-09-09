@@ -17,6 +17,7 @@ import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
 import { Route as OfficialSourcesRouteImport } from './routes/official-sources'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as LegalKnowledgeRouteImport } from './routes/legal-knowledge'
 import { Route as GlossaryRouteImport } from './routes/glossary'
 import { Route as FaqsRouteImport } from './routes/faqs'
 import { Route as DisclaimerRouteImport } from './routes/disclaimer'
@@ -27,9 +28,11 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SchemesIndexRouteImport } from './routes/schemes.index'
 import { Route as LegalRightsIndexRouteImport } from './routes/legal-rights.index'
+import { Route as LawsIndexRouteImport } from './routes/laws.index'
 import { Route as GovernmentServicesIndexRouteImport } from './routes/government-services.index'
 import { Route as SchemesSlugRouteImport } from './routes/schemes.$slug'
 import { Route as LegalRightsSlugRouteImport } from './routes/legal-rights.$slug'
+import { Route as LawsSlugRouteImport } from './routes/laws.$slug'
 import { Route as GovernmentServicesSlugRouteImport } from './routes/government-services.$slug'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
@@ -94,6 +97,11 @@ const LoginRoute = LoginRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LegalKnowledgeRoute = LegalKnowledgeRouteImport.update({
+  id: '/legal-knowledge',
+  path: '/legal-knowledge',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const GlossaryRoute = GlossaryRouteImport.update({
   id: '/glossary',
   path: '/glossary',
@@ -143,6 +151,11 @@ const LegalRightsIndexRoute = LegalRightsIndexRouteImport.update({
   path: '/legal-rights/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LawsIndexRoute = LawsIndexRouteImport.update({
+  id: '/laws/',
+  path: '/laws/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const GovernmentServicesIndexRoute = GovernmentServicesIndexRouteImport.update({
   id: '/government-services/',
   path: '/government-services/',
@@ -156,6 +169,11 @@ const SchemesSlugRoute = SchemesSlugRouteImport.update({
 const LegalRightsSlugRoute = LegalRightsSlugRouteImport.update({
   id: '/legal-rights/$slug',
   path: '/legal-rights/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LawsSlugRoute = LawsSlugRouteImport.update({
+  id: '/laws/$slug',
+  path: '/laws/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GovernmentServicesSlugRoute = GovernmentServicesSlugRouteImport.update({
@@ -296,6 +314,7 @@ export interface FileRoutesByFullPath {
   '/disclaimer': typeof DisclaimerRoute
   '/faqs': typeof FaqsRoute
   '/glossary': typeof GlossaryRoute
+  '/legal-knowledge': typeof LegalKnowledgeRoute
   '/login': typeof LoginRoute
   '/official-sources': typeof OfficialSourcesRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
@@ -315,9 +334,11 @@ export interface FileRoutesByFullPath {
   '/settings': typeof AuthenticatedSettingsRoute
   '/api/chat': typeof ApiChatRoute
   '/government-services/$slug': typeof GovernmentServicesSlugRoute
+  '/laws/$slug': typeof LawsSlugRoute
   '/legal-rights/$slug': typeof LegalRightsSlugRoute
   '/schemes/$slug': typeof SchemesSlugRoute
   '/government-services/': typeof GovernmentServicesIndexRoute
+  '/laws/': typeof LawsIndexRoute
   '/legal-rights/': typeof LegalRightsIndexRoute
   '/schemes/': typeof SchemesIndexRoute
   '/admin/ai-usage': typeof AuthenticatedAdminAiUsageRoute
@@ -341,6 +362,7 @@ export interface FileRoutesByTo {
   '/disclaimer': typeof DisclaimerRoute
   '/faqs': typeof FaqsRoute
   '/glossary': typeof GlossaryRoute
+  '/legal-knowledge': typeof LegalKnowledgeRoute
   '/login': typeof LoginRoute
   '/official-sources': typeof OfficialSourcesRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
@@ -360,9 +382,11 @@ export interface FileRoutesByTo {
   '/settings': typeof AuthenticatedSettingsRoute
   '/api/chat': typeof ApiChatRoute
   '/government-services/$slug': typeof GovernmentServicesSlugRoute
+  '/laws/$slug': typeof LawsSlugRoute
   '/legal-rights/$slug': typeof LegalRightsSlugRoute
   '/schemes/$slug': typeof SchemesSlugRoute
   '/government-services': typeof GovernmentServicesIndexRoute
+  '/laws': typeof LawsIndexRoute
   '/legal-rights': typeof LegalRightsIndexRoute
   '/schemes': typeof SchemesIndexRoute
   '/admin/ai-usage': typeof AuthenticatedAdminAiUsageRoute
@@ -388,6 +412,7 @@ export interface FileRoutesById {
   '/disclaimer': typeof DisclaimerRoute
   '/faqs': typeof FaqsRoute
   '/glossary': typeof GlossaryRoute
+  '/legal-knowledge': typeof LegalKnowledgeRoute
   '/login': typeof LoginRoute
   '/official-sources': typeof OfficialSourcesRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
@@ -407,9 +432,11 @@ export interface FileRoutesById {
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/api/chat': typeof ApiChatRoute
   '/government-services/$slug': typeof GovernmentServicesSlugRoute
+  '/laws/$slug': typeof LawsSlugRoute
   '/legal-rights/$slug': typeof LegalRightsSlugRoute
   '/schemes/$slug': typeof SchemesSlugRoute
   '/government-services/': typeof GovernmentServicesIndexRoute
+  '/laws/': typeof LawsIndexRoute
   '/legal-rights/': typeof LegalRightsIndexRoute
   '/schemes/': typeof SchemesIndexRoute
   '/_authenticated/admin/ai-usage': typeof AuthenticatedAdminAiUsageRoute
@@ -435,6 +462,7 @@ export interface FileRouteTypes {
     | '/disclaimer'
     | '/faqs'
     | '/glossary'
+    | '/legal-knowledge'
     | '/login'
     | '/official-sources'
     | '/privacy-policy'
@@ -454,9 +482,11 @@ export interface FileRouteTypes {
     | '/settings'
     | '/api/chat'
     | '/government-services/$slug'
+    | '/laws/$slug'
     | '/legal-rights/$slug'
     | '/schemes/$slug'
     | '/government-services/'
+    | '/laws/'
     | '/legal-rights/'
     | '/schemes/'
     | '/admin/ai-usage'
@@ -480,6 +510,7 @@ export interface FileRouteTypes {
     | '/disclaimer'
     | '/faqs'
     | '/glossary'
+    | '/legal-knowledge'
     | '/login'
     | '/official-sources'
     | '/privacy-policy'
@@ -499,9 +530,11 @@ export interface FileRouteTypes {
     | '/settings'
     | '/api/chat'
     | '/government-services/$slug'
+    | '/laws/$slug'
     | '/legal-rights/$slug'
     | '/schemes/$slug'
     | '/government-services'
+    | '/laws'
     | '/legal-rights'
     | '/schemes'
     | '/admin/ai-usage'
@@ -526,6 +559,7 @@ export interface FileRouteTypes {
     | '/disclaimer'
     | '/faqs'
     | '/glossary'
+    | '/legal-knowledge'
     | '/login'
     | '/official-sources'
     | '/privacy-policy'
@@ -545,9 +579,11 @@ export interface FileRouteTypes {
     | '/_authenticated/settings'
     | '/api/chat'
     | '/government-services/$slug'
+    | '/laws/$slug'
     | '/legal-rights/$slug'
     | '/schemes/$slug'
     | '/government-services/'
+    | '/laws/'
     | '/legal-rights/'
     | '/schemes/'
     | '/_authenticated/admin/ai-usage'
@@ -573,6 +609,7 @@ export interface RootRouteChildren {
   DisclaimerRoute: typeof DisclaimerRoute
   FaqsRoute: typeof FaqsRoute
   GlossaryRoute: typeof GlossaryRoute
+  LegalKnowledgeRoute: typeof LegalKnowledgeRoute
   LoginRoute: typeof LoginRoute
   OfficialSourcesRoute: typeof OfficialSourcesRoute
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
@@ -583,9 +620,11 @@ export interface RootRouteChildren {
   TermsRoute: typeof TermsRoute
   ApiChatRoute: typeof ApiChatRoute
   GovernmentServicesSlugRoute: typeof GovernmentServicesSlugRoute
+  LawsSlugRoute: typeof LawsSlugRoute
   LegalRightsSlugRoute: typeof LegalRightsSlugRoute
   SchemesSlugRoute: typeof SchemesSlugRoute
   GovernmentServicesIndexRoute: typeof GovernmentServicesIndexRoute
+  LawsIndexRoute: typeof LawsIndexRoute
   LegalRightsIndexRoute: typeof LegalRightsIndexRoute
   SchemesIndexRoute: typeof SchemesIndexRoute
   ApiPublicKbSyncRoute: typeof ApiPublicKbSyncRoute
@@ -648,6 +687,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legal-knowledge': {
+      id: '/legal-knowledge'
+      path: '/legal-knowledge'
+      fullPath: '/legal-knowledge'
+      preLoaderRoute: typeof LegalKnowledgeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/glossary': {
@@ -720,6 +766,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LegalRightsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/laws/': {
+      id: '/laws/'
+      path: '/laws'
+      fullPath: '/laws/'
+      preLoaderRoute: typeof LawsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/government-services/': {
       id: '/government-services/'
       path: '/government-services'
@@ -739,6 +792,13 @@ declare module '@tanstack/react-router' {
       path: '/legal-rights/$slug'
       fullPath: '/legal-rights/$slug'
       preLoaderRoute: typeof LegalRightsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/laws/$slug': {
+      id: '/laws/$slug'
+      path: '/laws/$slug'
+      fullPath: '/laws/$slug'
+      preLoaderRoute: typeof LawsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/government-services/$slug': {
@@ -964,6 +1024,7 @@ const rootRouteChildren: RootRouteChildren = {
   DisclaimerRoute: DisclaimerRoute,
   FaqsRoute: FaqsRoute,
   GlossaryRoute: GlossaryRoute,
+  LegalKnowledgeRoute: LegalKnowledgeRoute,
   LoginRoute: LoginRoute,
   OfficialSourcesRoute: OfficialSourcesRoute,
   PrivacyPolicyRoute: PrivacyPolicyRoute,
@@ -974,9 +1035,11 @@ const rootRouteChildren: RootRouteChildren = {
   TermsRoute: TermsRoute,
   ApiChatRoute: ApiChatRoute,
   GovernmentServicesSlugRoute: GovernmentServicesSlugRoute,
+  LawsSlugRoute: LawsSlugRoute,
   LegalRightsSlugRoute: LegalRightsSlugRoute,
   SchemesSlugRoute: SchemesSlugRoute,
   GovernmentServicesIndexRoute: GovernmentServicesIndexRoute,
+  LawsIndexRoute: LawsIndexRoute,
   LegalRightsIndexRoute: LegalRightsIndexRoute,
   SchemesIndexRoute: SchemesIndexRoute,
   ApiPublicKbSyncRoute: ApiPublicKbSyncRoute,
