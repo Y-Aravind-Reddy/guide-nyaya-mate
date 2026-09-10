@@ -30,6 +30,7 @@ import { Route as SchemesIndexRouteImport } from './routes/schemes.index'
 import { Route as LegalRightsIndexRouteImport } from './routes/legal-rights.index'
 import { Route as LawsIndexRouteImport } from './routes/laws.index'
 import { Route as GovernmentServicesIndexRouteImport } from './routes/government-services.index'
+import { Route as ComplaintTemplatesIndexRouteImport } from './routes/complaint-templates.index'
 import { Route as SchemesSlugRouteImport } from './routes/schemes.$slug'
 import { Route as LegalRightsSlugRouteImport } from './routes/legal-rights.$slug'
 import { Route as LawsSlugRouteImport } from './routes/laws.$slug'
@@ -159,6 +160,11 @@ const LawsIndexRoute = LawsIndexRouteImport.update({
 const GovernmentServicesIndexRoute = GovernmentServicesIndexRouteImport.update({
   id: '/government-services/',
   path: '/government-services/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ComplaintTemplatesIndexRoute = ComplaintTemplatesIndexRouteImport.update({
+  id: '/complaint-templates/',
+  path: '/complaint-templates/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SchemesSlugRoute = SchemesSlugRouteImport.update({
@@ -337,6 +343,7 @@ export interface FileRoutesByFullPath {
   '/laws/$slug': typeof LawsSlugRoute
   '/legal-rights/$slug': typeof LegalRightsSlugRoute
   '/schemes/$slug': typeof SchemesSlugRoute
+  '/complaint-templates/': typeof ComplaintTemplatesIndexRoute
   '/government-services/': typeof GovernmentServicesIndexRoute
   '/laws/': typeof LawsIndexRoute
   '/legal-rights/': typeof LegalRightsIndexRoute
@@ -385,6 +392,7 @@ export interface FileRoutesByTo {
   '/laws/$slug': typeof LawsSlugRoute
   '/legal-rights/$slug': typeof LegalRightsSlugRoute
   '/schemes/$slug': typeof SchemesSlugRoute
+  '/complaint-templates': typeof ComplaintTemplatesIndexRoute
   '/government-services': typeof GovernmentServicesIndexRoute
   '/laws': typeof LawsIndexRoute
   '/legal-rights': typeof LegalRightsIndexRoute
@@ -435,6 +443,7 @@ export interface FileRoutesById {
   '/laws/$slug': typeof LawsSlugRoute
   '/legal-rights/$slug': typeof LegalRightsSlugRoute
   '/schemes/$slug': typeof SchemesSlugRoute
+  '/complaint-templates/': typeof ComplaintTemplatesIndexRoute
   '/government-services/': typeof GovernmentServicesIndexRoute
   '/laws/': typeof LawsIndexRoute
   '/legal-rights/': typeof LegalRightsIndexRoute
@@ -485,6 +494,7 @@ export interface FileRouteTypes {
     | '/laws/$slug'
     | '/legal-rights/$slug'
     | '/schemes/$slug'
+    | '/complaint-templates/'
     | '/government-services/'
     | '/laws/'
     | '/legal-rights/'
@@ -533,6 +543,7 @@ export interface FileRouteTypes {
     | '/laws/$slug'
     | '/legal-rights/$slug'
     | '/schemes/$slug'
+    | '/complaint-templates'
     | '/government-services'
     | '/laws'
     | '/legal-rights'
@@ -582,6 +593,7 @@ export interface FileRouteTypes {
     | '/laws/$slug'
     | '/legal-rights/$slug'
     | '/schemes/$slug'
+    | '/complaint-templates/'
     | '/government-services/'
     | '/laws/'
     | '/legal-rights/'
@@ -623,6 +635,7 @@ export interface RootRouteChildren {
   LawsSlugRoute: typeof LawsSlugRoute
   LegalRightsSlugRoute: typeof LegalRightsSlugRoute
   SchemesSlugRoute: typeof SchemesSlugRoute
+  ComplaintTemplatesIndexRoute: typeof ComplaintTemplatesIndexRoute
   GovernmentServicesIndexRoute: typeof GovernmentServicesIndexRoute
   LawsIndexRoute: typeof LawsIndexRoute
   LegalRightsIndexRoute: typeof LegalRightsIndexRoute
@@ -778,6 +791,13 @@ declare module '@tanstack/react-router' {
       path: '/government-services'
       fullPath: '/government-services/'
       preLoaderRoute: typeof GovernmentServicesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/complaint-templates/': {
+      id: '/complaint-templates/'
+      path: '/complaint-templates'
+      fullPath: '/complaint-templates/'
+      preLoaderRoute: typeof ComplaintTemplatesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/schemes/$slug': {
@@ -1038,6 +1058,7 @@ const rootRouteChildren: RootRouteChildren = {
   LawsSlugRoute: LawsSlugRoute,
   LegalRightsSlugRoute: LegalRightsSlugRoute,
   SchemesSlugRoute: SchemesSlugRoute,
+  ComplaintTemplatesIndexRoute: ComplaintTemplatesIndexRoute,
   GovernmentServicesIndexRoute: GovernmentServicesIndexRoute,
   LawsIndexRoute: LawsIndexRoute,
   LegalRightsIndexRoute: LegalRightsIndexRoute,
