@@ -5,7 +5,7 @@ import { ArrowRight, BookOpen, Landmark, Scale, Search, ShieldCheck } from "luci
 import * as Icons from "lucide-react";
 import { PageShell } from "@/components/layouts/PageShell";
 import { Breadcrumbs } from "@/components/nav/Breadcrumbs";
-import { legalTopicsQuery, lawsQuery, officialSourcesQuery } from "@/lib/queries";
+import { legalTopicsQuery, lawsQuery } from "@/lib/queries";
 import { breadcrumbSchema, jsonLdScript } from "@/lib/structured-data";
 
 export const Route = createFileRoute("/legal-knowledge")({
