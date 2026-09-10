@@ -35,6 +35,7 @@ import { Route as SchemesSlugRouteImport } from './routes/schemes.$slug'
 import { Route as LegalRightsSlugRouteImport } from './routes/legal-rights.$slug'
 import { Route as LawsSlugRouteImport } from './routes/laws.$slug'
 import { Route as GovernmentServicesSlugRouteImport } from './routes/government-services.$slug'
+import { Route as ComplaintTemplatesIdRouteImport } from './routes/complaint-templates.$id'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
 import { Route as AuthenticatedSavedRouteImport } from './routes/_authenticated/saved'
@@ -185,6 +186,11 @@ const LawsSlugRoute = LawsSlugRouteImport.update({
 const GovernmentServicesSlugRoute = GovernmentServicesSlugRouteImport.update({
   id: '/government-services/$slug',
   path: '/government-services/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ComplaintTemplatesIdRoute = ComplaintTemplatesIdRouteImport.update({
+  id: '/complaint-templates/$id',
+  path: '/complaint-templates/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiChatRoute = ApiChatRouteImport.update({
@@ -339,6 +345,7 @@ export interface FileRoutesByFullPath {
   '/saved': typeof AuthenticatedSavedRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/api/chat': typeof ApiChatRoute
+  '/complaint-templates/$id': typeof ComplaintTemplatesIdRoute
   '/government-services/$slug': typeof GovernmentServicesSlugRoute
   '/laws/$slug': typeof LawsSlugRoute
   '/legal-rights/$slug': typeof LegalRightsSlugRoute
@@ -388,6 +395,7 @@ export interface FileRoutesByTo {
   '/saved': typeof AuthenticatedSavedRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/api/chat': typeof ApiChatRoute
+  '/complaint-templates/$id': typeof ComplaintTemplatesIdRoute
   '/government-services/$slug': typeof GovernmentServicesSlugRoute
   '/laws/$slug': typeof LawsSlugRoute
   '/legal-rights/$slug': typeof LegalRightsSlugRoute
@@ -439,6 +447,7 @@ export interface FileRoutesById {
   '/_authenticated/saved': typeof AuthenticatedSavedRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/api/chat': typeof ApiChatRoute
+  '/complaint-templates/$id': typeof ComplaintTemplatesIdRoute
   '/government-services/$slug': typeof GovernmentServicesSlugRoute
   '/laws/$slug': typeof LawsSlugRoute
   '/legal-rights/$slug': typeof LegalRightsSlugRoute
@@ -490,6 +499,7 @@ export interface FileRouteTypes {
     | '/saved'
     | '/settings'
     | '/api/chat'
+    | '/complaint-templates/$id'
     | '/government-services/$slug'
     | '/laws/$slug'
     | '/legal-rights/$slug'
@@ -539,6 +549,7 @@ export interface FileRouteTypes {
     | '/saved'
     | '/settings'
     | '/api/chat'
+    | '/complaint-templates/$id'
     | '/government-services/$slug'
     | '/laws/$slug'
     | '/legal-rights/$slug'
@@ -589,6 +600,7 @@ export interface FileRouteTypes {
     | '/_authenticated/saved'
     | '/_authenticated/settings'
     | '/api/chat'
+    | '/complaint-templates/$id'
     | '/government-services/$slug'
     | '/laws/$slug'
     | '/legal-rights/$slug'
@@ -631,6 +643,7 @@ export interface RootRouteChildren {
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
   ApiChatRoute: typeof ApiChatRoute
+  ComplaintTemplatesIdRoute: typeof ComplaintTemplatesIdRoute
   GovernmentServicesSlugRoute: typeof GovernmentServicesSlugRoute
   LawsSlugRoute: typeof LawsSlugRoute
   LegalRightsSlugRoute: typeof LegalRightsSlugRoute
@@ -826,6 +839,13 @@ declare module '@tanstack/react-router' {
       path: '/government-services/$slug'
       fullPath: '/government-services/$slug'
       preLoaderRoute: typeof GovernmentServicesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/complaint-templates/$id': {
+      id: '/complaint-templates/$id'
+      path: '/complaint-templates/$id'
+      fullPath: '/complaint-templates/$id'
+      preLoaderRoute: typeof ComplaintTemplatesIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/chat': {
@@ -1054,6 +1074,7 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,
   ApiChatRoute: ApiChatRoute,
+  ComplaintTemplatesIdRoute: ComplaintTemplatesIdRoute,
   GovernmentServicesSlugRoute: GovernmentServicesSlugRoute,
   LawsSlugRoute: LawsSlugRoute,
   LegalRightsSlugRoute: LegalRightsSlugRoute,
