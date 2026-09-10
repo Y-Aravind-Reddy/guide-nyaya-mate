@@ -276,3 +276,45 @@ export const lawDetailQuery = (slug: string) =>
       };
     },
   });
+
+// ---------- Complaint templates ----------
+export type TemplateField = { key: string; label: string };
+
+export type ComplaintTemplate = {
+  id: string;
+  type: string;
+  title: string;
+  description: string | null;
+  template_body: string;
+  fields: TemplateField[];
+  jurisdiction: string | null;
+};
+
+const TEMPLATE_COLS = "id, type, title, description, template_body, fields, jurisdiction";
+
+export const complaintTemplatesQuery = () =>
+  queryOptions({
+    queryKey: ["complaint_templates"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("complaint_templates")
+        .select(TEMPLATE_COLS)
+        .order("title");
+      if (error) throw error;
+      return (data ?? []) as unknown as ComplaintTemplate[];
+    },
+  });
+
+export const complaintTemplateDetailQuery = (id: string) =>
+  queryOptions({
+    queryKey: ["complaint_template", id],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("complaint_templates")
+        .select(TEMPLATE_COLS)
+        .eq("id", id)
+        .maybeSingle();
+      if (error) throw error;
+      return (data as unknown as ComplaintTemplate) ?? null;
+    },
+  });
