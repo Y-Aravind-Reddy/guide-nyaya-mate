@@ -30,10 +30,12 @@ import { Route as SchemesIndexRouteImport } from './routes/schemes.index'
 import { Route as LegalRightsIndexRouteImport } from './routes/legal-rights.index'
 import { Route as LawsIndexRouteImport } from './routes/laws.index'
 import { Route as GovernmentServicesIndexRouteImport } from './routes/government-services.index'
+import { Route as ComplaintTemplatesIndexRouteImport } from './routes/complaint-templates.index'
 import { Route as SchemesSlugRouteImport } from './routes/schemes.$slug'
 import { Route as LegalRightsSlugRouteImport } from './routes/legal-rights.$slug'
 import { Route as LawsSlugRouteImport } from './routes/laws.$slug'
 import { Route as GovernmentServicesSlugRouteImport } from './routes/government-services.$slug'
+import { Route as ComplaintTemplatesIdRouteImport } from './routes/complaint-templates.$id'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
 import { Route as AuthenticatedSavedRouteImport } from './routes/_authenticated/saved'
@@ -161,6 +163,11 @@ const GovernmentServicesIndexRoute = GovernmentServicesIndexRouteImport.update({
   path: '/government-services/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ComplaintTemplatesIndexRoute = ComplaintTemplatesIndexRouteImport.update({
+  id: '/complaint-templates/',
+  path: '/complaint-templates/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SchemesSlugRoute = SchemesSlugRouteImport.update({
   id: '/schemes/$slug',
   path: '/schemes/$slug',
@@ -179,6 +186,11 @@ const LawsSlugRoute = LawsSlugRouteImport.update({
 const GovernmentServicesSlugRoute = GovernmentServicesSlugRouteImport.update({
   id: '/government-services/$slug',
   path: '/government-services/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ComplaintTemplatesIdRoute = ComplaintTemplatesIdRouteImport.update({
+  id: '/complaint-templates/$id',
+  path: '/complaint-templates/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiChatRoute = ApiChatRouteImport.update({
@@ -333,10 +345,12 @@ export interface FileRoutesByFullPath {
   '/saved': typeof AuthenticatedSavedRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/api/chat': typeof ApiChatRoute
+  '/complaint-templates/$id': typeof ComplaintTemplatesIdRoute
   '/government-services/$slug': typeof GovernmentServicesSlugRoute
   '/laws/$slug': typeof LawsSlugRoute
   '/legal-rights/$slug': typeof LegalRightsSlugRoute
   '/schemes/$slug': typeof SchemesSlugRoute
+  '/complaint-templates/': typeof ComplaintTemplatesIndexRoute
   '/government-services/': typeof GovernmentServicesIndexRoute
   '/laws/': typeof LawsIndexRoute
   '/legal-rights/': typeof LegalRightsIndexRoute
@@ -381,10 +395,12 @@ export interface FileRoutesByTo {
   '/saved': typeof AuthenticatedSavedRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/api/chat': typeof ApiChatRoute
+  '/complaint-templates/$id': typeof ComplaintTemplatesIdRoute
   '/government-services/$slug': typeof GovernmentServicesSlugRoute
   '/laws/$slug': typeof LawsSlugRoute
   '/legal-rights/$slug': typeof LegalRightsSlugRoute
   '/schemes/$slug': typeof SchemesSlugRoute
+  '/complaint-templates': typeof ComplaintTemplatesIndexRoute
   '/government-services': typeof GovernmentServicesIndexRoute
   '/laws': typeof LawsIndexRoute
   '/legal-rights': typeof LegalRightsIndexRoute
@@ -431,10 +447,12 @@ export interface FileRoutesById {
   '/_authenticated/saved': typeof AuthenticatedSavedRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/api/chat': typeof ApiChatRoute
+  '/complaint-templates/$id': typeof ComplaintTemplatesIdRoute
   '/government-services/$slug': typeof GovernmentServicesSlugRoute
   '/laws/$slug': typeof LawsSlugRoute
   '/legal-rights/$slug': typeof LegalRightsSlugRoute
   '/schemes/$slug': typeof SchemesSlugRoute
+  '/complaint-templates/': typeof ComplaintTemplatesIndexRoute
   '/government-services/': typeof GovernmentServicesIndexRoute
   '/laws/': typeof LawsIndexRoute
   '/legal-rights/': typeof LegalRightsIndexRoute
@@ -481,10 +499,12 @@ export interface FileRouteTypes {
     | '/saved'
     | '/settings'
     | '/api/chat'
+    | '/complaint-templates/$id'
     | '/government-services/$slug'
     | '/laws/$slug'
     | '/legal-rights/$slug'
     | '/schemes/$slug'
+    | '/complaint-templates/'
     | '/government-services/'
     | '/laws/'
     | '/legal-rights/'
@@ -529,10 +549,12 @@ export interface FileRouteTypes {
     | '/saved'
     | '/settings'
     | '/api/chat'
+    | '/complaint-templates/$id'
     | '/government-services/$slug'
     | '/laws/$slug'
     | '/legal-rights/$slug'
     | '/schemes/$slug'
+    | '/complaint-templates'
     | '/government-services'
     | '/laws'
     | '/legal-rights'
@@ -578,10 +600,12 @@ export interface FileRouteTypes {
     | '/_authenticated/saved'
     | '/_authenticated/settings'
     | '/api/chat'
+    | '/complaint-templates/$id'
     | '/government-services/$slug'
     | '/laws/$slug'
     | '/legal-rights/$slug'
     | '/schemes/$slug'
+    | '/complaint-templates/'
     | '/government-services/'
     | '/laws/'
     | '/legal-rights/'
@@ -619,10 +643,12 @@ export interface RootRouteChildren {
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
   ApiChatRoute: typeof ApiChatRoute
+  ComplaintTemplatesIdRoute: typeof ComplaintTemplatesIdRoute
   GovernmentServicesSlugRoute: typeof GovernmentServicesSlugRoute
   LawsSlugRoute: typeof LawsSlugRoute
   LegalRightsSlugRoute: typeof LegalRightsSlugRoute
   SchemesSlugRoute: typeof SchemesSlugRoute
+  ComplaintTemplatesIndexRoute: typeof ComplaintTemplatesIndexRoute
   GovernmentServicesIndexRoute: typeof GovernmentServicesIndexRoute
   LawsIndexRoute: typeof LawsIndexRoute
   LegalRightsIndexRoute: typeof LegalRightsIndexRoute
@@ -780,6 +806,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GovernmentServicesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/complaint-templates/': {
+      id: '/complaint-templates/'
+      path: '/complaint-templates'
+      fullPath: '/complaint-templates/'
+      preLoaderRoute: typeof ComplaintTemplatesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/schemes/$slug': {
       id: '/schemes/$slug'
       path: '/schemes/$slug'
@@ -806,6 +839,13 @@ declare module '@tanstack/react-router' {
       path: '/government-services/$slug'
       fullPath: '/government-services/$slug'
       preLoaderRoute: typeof GovernmentServicesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/complaint-templates/$id': {
+      id: '/complaint-templates/$id'
+      path: '/complaint-templates/$id'
+      fullPath: '/complaint-templates/$id'
+      preLoaderRoute: typeof ComplaintTemplatesIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/chat': {
@@ -1034,10 +1074,12 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,
   ApiChatRoute: ApiChatRoute,
+  ComplaintTemplatesIdRoute: ComplaintTemplatesIdRoute,
   GovernmentServicesSlugRoute: GovernmentServicesSlugRoute,
   LawsSlugRoute: LawsSlugRoute,
   LegalRightsSlugRoute: LegalRightsSlugRoute,
   SchemesSlugRoute: SchemesSlugRoute,
+  ComplaintTemplatesIndexRoute: ComplaintTemplatesIndexRoute,
   GovernmentServicesIndexRoute: GovernmentServicesIndexRoute,
   LawsIndexRoute: LawsIndexRoute,
   LegalRightsIndexRoute: LegalRightsIndexRoute,
