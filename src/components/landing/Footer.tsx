@@ -15,6 +15,15 @@ const COLUMNS: { title: string; links: { label: string; to: string }[] }[] = [
     ],
   },
   {
+    title: "Resources",
+    links: [
+      { label: "Legal Knowledge Center", to: "/legal-knowledge" },
+      { label: "Law Explorer", to: "/laws" },
+      { label: "Complaint Templates", to: "/complaint-templates" },
+      { label: "FAQs", to: "/faqs" },
+    ],
+  },
+  {
     title: "Company",
     links: [
       { label: "About", to: "/about" },

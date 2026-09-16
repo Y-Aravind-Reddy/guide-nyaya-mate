@@ -10,7 +10,14 @@ export function HelpfulFeedback({
   contentSlug,
   contentTitle,
 }: {
-  contentType: "service" | "legal_topic" | "scheme" | "faq" | "page";
+  contentType:
+    | "service"
+    | "legal_topic"
+    | "scheme"
+    | "faq"
+    | "law"
+    | "complaint_template"
+    | "page";
   contentSlug: string;
   contentTitle?: string;
 }) {
