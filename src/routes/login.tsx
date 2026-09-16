@@ -12,9 +12,7 @@ import {
   Mail,
   Scale,
   ShieldCheck,
-  Smartphone,
   Sparkles,
-  UserRound,
 } from "lucide-react";
 import { z } from "zod";
 import { toast } from "sonner";
