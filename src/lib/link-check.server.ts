@@ -48,6 +48,9 @@ export async function checkUrl(url: string | null | undefined): Promise<UrlCheck
     const redirectUrl = res.headers.get("location");
     if (code >= 200 && code < 300) return { state: "verified", code, redirectUrl: null, error: null };
     if (code >= 300 && code < 400) return { state: "redirected", code, redirectUrl, error: null };
+    if (BOT_BLOCK_CODES.has(code))
+      return { state: "blocked", code, redirectUrl: null, error: `HTTP ${code} (automated request blocked)` };
+    if (code >= 500) return { state: "unavailable", code, redirectUrl: null, error: `HTTP ${code}` };
     return { state: "broken", code, redirectUrl: null, error: `HTTP ${code}` };
   } catch (e) {
     const msg = e instanceof Error ? e.message : "request failed";
