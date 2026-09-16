@@ -71,6 +71,8 @@ function toLegacy(state: LinkState): string {
   if (state === "verified") return "healthy";
   if (state === "redirected") return "redirected";
   if (state === "broken") return "broken";
+  if (state === "blocked") return "blocked";
+  if (state === "unavailable") return "unavailable";
   if (state === "none") return "none";
   return "needs_review";
 }
@@ -81,6 +83,8 @@ function overall(states: LinkState[]): LinkState {
   if (real.includes("broken")) return "broken";
   if (real.includes("timeout")) return "timeout";
   if (real.includes("unreachable")) return "unreachable";
+  if (real.includes("unavailable")) return "unavailable";
+  if (real.includes("blocked")) return "blocked";
   if (real.includes("redirected")) return "redirected";
   return "verified";
 }
