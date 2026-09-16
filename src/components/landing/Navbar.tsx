@@ -12,9 +12,10 @@ const NAV_LINKS = [
   { key: "nav.home", label: "Home", to: "/" },
   { key: "nav.services", label: "Government Services", to: "/government-services" },
   { key: "nav.rights", label: "Legal Rights", to: "/legal-rights" },
+  { key: "nav.knowledge", label: "Legal Knowledge", to: "/legal-knowledge" },
   { key: "nav.schemes", label: "Schemes", to: "/schemes" },
+  { key: "nav.templates", label: "Complaint Templates", to: "/complaint-templates" },
   { key: "nav.faqs", label: "FAQs", to: "/faqs" },
-  { key: "nav.glossary", label: "Glossary", to: "/glossary" },
   { key: "nav.about", label: "About", to: "/about" },
   { key: "nav.contact", label: "Contact", to: "/contact" },
 ] as const;

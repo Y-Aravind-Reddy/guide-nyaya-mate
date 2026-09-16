@@ -15,6 +15,15 @@ const COLUMNS: { title: string; links: { label: string; to: string }[] }[] = [
     ],
   },
   {
+    title: "Resources",
+    links: [
+      { label: "Legal Knowledge Center", to: "/legal-knowledge" },
+      { label: "Law Explorer", to: "/laws" },
+      { label: "Complaint Templates", to: "/complaint-templates" },
+      { label: "FAQs", to: "/faqs" },
+    ],
+  },
+  {
     title: "Company",
     links: [
       { label: "About", to: "/about" },
@@ -87,7 +96,7 @@ export function Footer() {
           </div>
 
           {/* Link columns */}
-          <nav aria-label="Footer" className="grid grid-cols-2 gap-8 sm:grid-cols-4">
+          <nav aria-label="Footer" className="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:grid-cols-5">
             {COLUMNS.map((col) => (
               <div key={col.title}>
                 <h3 className="text-sm font-bold text-white">{col.title}</h3>

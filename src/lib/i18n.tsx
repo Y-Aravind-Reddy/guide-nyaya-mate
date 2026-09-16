@@ -27,6 +27,8 @@ const DICTIONARY: Record<string, Partial<Record<LanguageCode, string>>> = {
   "nav.services": { en: "Government Services", hi: "सरकारी सेवाएँ" },
   "nav.rights": { en: "Legal Rights", hi: "कानूनी अधिकार" },
   "nav.schemes": { en: "Schemes", hi: "योजनाएँ" },
+  "nav.knowledge": { en: "Legal Knowledge", hi: "कानूनी ज्ञान" },
+  "nav.templates": { en: "Complaint Templates", hi: "शिकायत प्रारूप" },
   "nav.faqs": { en: "FAQs", hi: "सामान्य प्रश्न" },
   "nav.glossary": { en: "Glossary", hi: "शब्दावली" },
   "nav.about": { en: "About", hi: "हमारे बारे में" },

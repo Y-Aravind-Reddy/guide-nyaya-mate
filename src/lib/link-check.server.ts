@@ -4,10 +4,19 @@
 export type LinkState =
   | "verified"
   | "redirected"
+  | "blocked"
+  | "unavailable"
   | "timeout"
   | "broken"
   | "unreachable"
   | "none";
+
+/**
+ * Codes that government portals return to automated clients (WAF / bot
+ * protection). The page works fine in a real browser, so these must never be
+ * reported as broken links.
+ */
+const BOT_BLOCK_CODES = new Set([400, 401, 403, 406, 409, 418, 429]);
 
 export type UrlCheck = {
   state: LinkState;
@@ -39,6 +48,9 @@ export async function checkUrl(url: string | null | undefined): Promise<UrlCheck
     const redirectUrl = res.headers.get("location");
     if (code >= 200 && code < 300) return { state: "verified", code, redirectUrl: null, error: null };
     if (code >= 300 && code < 400) return { state: "redirected", code, redirectUrl, error: null };
+    if (BOT_BLOCK_CODES.has(code))
+      return { state: "blocked", code, redirectUrl: null, error: `HTTP ${code} (automated request blocked)` };
+    if (code >= 500) return { state: "unavailable", code, redirectUrl: null, error: `HTTP ${code}` };
     return { state: "broken", code, redirectUrl: null, error: `HTTP ${code}` };
   } catch (e) {
     const msg = e instanceof Error ? e.message : "request failed";
@@ -59,6 +71,8 @@ function toLegacy(state: LinkState): string {
   if (state === "verified") return "healthy";
   if (state === "redirected") return "redirected";
   if (state === "broken") return "broken";
+  if (state === "blocked") return "blocked";
+  if (state === "unavailable") return "unavailable";
   if (state === "none") return "none";
   return "needs_review";
 }
@@ -69,6 +83,8 @@ function overall(states: LinkState[]): LinkState {
   if (real.includes("broken")) return "broken";
   if (real.includes("timeout")) return "timeout";
   if (real.includes("unreachable")) return "unreachable";
+  if (real.includes("unavailable")) return "unavailable";
+  if (real.includes("blocked")) return "blocked";
   if (real.includes("redirected")) return "redirected";
   return "verified";
 }

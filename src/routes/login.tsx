@@ -12,9 +12,7 @@ import {
   Mail,
   Scale,
   ShieldCheck,
-  Smartphone,
   Sparkles,
-  UserRound,
 } from "lucide-react";
 import { z } from "zod";
 import { toast } from "sonner";
@@ -273,37 +271,15 @@ function LoginPage() {
             <button onClick={handleGoogle} className="flex w-full items-center justify-center gap-2.5 rounded-xl border border-border bg-background py-2.5 text-sm font-semibold text-foreground transition-colors hover:bg-muted">
               <GoogleIcon /> Continue with Google
             </button>
-            <button
-              onClick={() => toast.info("DigiLocker integration is coming soon.")}
-              className="flex w-full items-center justify-center gap-2.5 rounded-xl border border-border bg-background py-2.5 text-sm font-semibold text-foreground transition-colors hover:bg-muted"
-            >
-              <ShieldCheck className="h-5 w-5 text-secondary" /> Continue with DigiLocker
-            </button>
-            <button
-              onClick={() => toast.info("OTP login is coming soon.")}
-              className="flex w-full items-center justify-center gap-2.5 rounded-xl border border-border bg-background py-2.5 text-sm font-semibold text-foreground transition-colors hover:bg-muted"
-            >
-              <Smartphone className="h-5 w-5 text-primary" /> Continue with OTP
-            </button>
           </div>
 
-
-          <div className="mt-6 grid grid-cols-2 gap-2.5">
+          <div className="mt-6">
             <Button
               asChild
               variant="outline"
-              className="h-11 border-primary/30 text-sm font-semibold text-primary hover:bg-primary/5"
+              className="h-11 w-full border-primary/30 text-sm font-semibold text-primary hover:bg-primary/5"
             >
               <Link to="/signup">Create Account</Link>
-            </Button>
-            <Button
-              asChild
-              variant="outline"
-              className="h-11 border-border text-sm font-semibold text-foreground"
-            >
-              <Link to="/dashboard">
-                <UserRound className="h-4 w-4" /> Guest Access
-              </Link>
             </Button>
           </div>
 

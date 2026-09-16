@@ -132,6 +132,15 @@ function DashboardPage() {
             <Link to="/legal-rights" className="flex w-full items-center justify-between rounded-xl border border-border bg-background px-4 py-3 text-left text-sm font-medium text-foreground transition-colors hover:border-primary/40">
               Legal Topics <ChevronRight className="h-4 w-4 text-muted-foreground" />
             </Link>
+            <Link to="/legal-knowledge" className="flex w-full items-center justify-between rounded-xl border border-border bg-background px-4 py-3 text-left text-sm font-medium text-foreground transition-colors hover:border-primary/40">
+              Legal Knowledge Center <ChevronRight className="h-4 w-4 text-muted-foreground" />
+            </Link>
+            <Link to="/laws" className="flex w-full items-center justify-between rounded-xl border border-border bg-background px-4 py-3 text-left text-sm font-medium text-foreground transition-colors hover:border-primary/40">
+              Law Explorer <ChevronRight className="h-4 w-4 text-muted-foreground" />
+            </Link>
+            <Link to="/complaint-templates" className="flex w-full items-center justify-between rounded-xl border border-border bg-background px-4 py-3 text-left text-sm font-medium text-foreground transition-colors hover:border-primary/40">
+              Complaint Templates <ChevronRight className="h-4 w-4 text-muted-foreground" />
+            </Link>
             <Link to="/saved" className="flex w-full items-center justify-between rounded-xl border border-border bg-background px-4 py-3 text-left text-sm font-medium text-foreground transition-colors hover:border-primary/40">
               Saved Items <ChevronRight className="h-4 w-4 text-muted-foreground" />
             </Link>

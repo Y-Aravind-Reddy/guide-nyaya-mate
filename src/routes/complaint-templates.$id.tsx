@@ -166,7 +166,11 @@ function TemplateDetail() {
           >
             <FileText className="h-4 w-4" /> Browse all templates
           </Link>
-          <HelpfulFeedback contentType="complaint_template" contentId={tpl.id} />
+          <HelpfulFeedback
+            contentType="complaint_template"
+            contentSlug={tpl.id}
+            contentTitle={tpl.title}
+          />
         </div>
       </section>
     </PageShell>
