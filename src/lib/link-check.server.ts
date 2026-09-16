@@ -4,10 +4,19 @@
 export type LinkState =
   | "verified"
   | "redirected"
+  | "blocked"
+  | "unavailable"
   | "timeout"
   | "broken"
   | "unreachable"
   | "none";
+
+/**
+ * Codes that government portals return to automated clients (WAF / bot
+ * protection). The page works fine in a real browser, so these must never be
+ * reported as broken links.
+ */
+const BOT_BLOCK_CODES = new Set([400, 401, 403, 406, 409, 418, 429]);
 
 export type UrlCheck = {
   state: LinkState;
