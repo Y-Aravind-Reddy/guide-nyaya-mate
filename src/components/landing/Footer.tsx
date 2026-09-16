@@ -96,7 +96,7 @@ export function Footer() {
           </div>
 
           {/* Link columns */}
-          <nav aria-label="Footer" className="grid grid-cols-2 gap-8 sm:grid-cols-4">
+          <nav aria-label="Footer" className="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:grid-cols-5">
             {COLUMNS.map((col) => (
               <div key={col.title}>
                 <h3 className="text-sm font-bold text-white">{col.title}</h3>
