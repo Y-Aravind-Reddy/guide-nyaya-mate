@@ -1487,6 +1487,48 @@ export type Database = {
           },
         ]
       }
+      seed_service_content: {
+        Row: {
+          category: string | null
+          description: string | null
+          docs: string[]
+          eligibility: string | null
+          fees: string | null
+          icon: string | null
+          processing_time: string | null
+          slug: string
+          src: string | null
+          steps: string[]
+          title: string | null
+        }
+        Insert: {
+          category?: string | null
+          description?: string | null
+          docs?: string[]
+          eligibility?: string | null
+          fees?: string | null
+          icon?: string | null
+          processing_time?: string | null
+          slug: string
+          src?: string | null
+          steps?: string[]
+          title?: string | null
+        }
+        Update: {
+          category?: string | null
+          description?: string | null
+          docs?: string[]
+          eligibility?: string | null
+          fees?: string | null
+          icon?: string | null
+          processing_time?: string | null
+          slug?: string
+          src?: string | null
+          steps?: string[]
+          title?: string | null
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
