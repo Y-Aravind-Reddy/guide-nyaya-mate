@@ -154,6 +154,8 @@ export async function composeDoc(
       line("Overview", t.overview) +
       line("Procedure", t.procedure) +
       (t.documents ? `## Documents\n${jsonArrayToText(t.documents)}\n` : "") +
+      (t.key_rights ? `## Key Rights\n${jsonArrayToText(t.key_rights)}\n` : "") +
+      (t.important_sections ? `## Important Legal Sections\n${jsonArrayToText(t.important_sections)}\n` : "") +
       (t.faq ? `## FAQs\n${jsonArrayToText(t.faq)}\n` : "") +
       (t.related ? `## Related\n${jsonArrayToText(t.related)}\n` : "") +
       (await sourceBlock(sb, t.source_id));

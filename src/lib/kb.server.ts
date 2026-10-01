@@ -52,7 +52,7 @@ export type Chunk = {
  * chunks share an overlap block so facts split across a boundary stay
  * retrievable from either side.
  */
-export function chunkText(text: string, maxTokens = 300, overlapTokens = 60): Chunk[] {
+export function chunkText(text: string, maxTokens = 280, overlapTokens = 45): Chunk[] {
   if (!text.trim()) return [];
 
   const blocks = text
