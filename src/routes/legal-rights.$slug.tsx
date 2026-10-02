@@ -124,14 +124,33 @@ function TopicDetail() {
         {topic.overview && (
           <div className="rounded-2xl border border-border bg-card p-6 shadow-card">
             <h2 className="text-xl font-bold text-foreground">Overview</h2>
-            <p className="mt-3 text-muted-foreground">{topic.overview}</p>
+            <p className="mt-3 whitespace-pre-line text-muted-foreground">{topic.overview}</p>
           </div>
         )}
+
+        {((topic as any).key_rights as string[] | undefined)?.length ? (
+          <div className="mt-6 rounded-2xl border border-border bg-card p-6 shadow-card">
+            <h2 className="text-xl font-bold text-foreground">Key Rights</h2>
+            <ul className="mt-3 list-disc space-y-1.5 pl-5 text-muted-foreground">
+              {((topic as any).key_rights as string[]).map((r) => <li key={r}>{r}</li>)}
+            </ul>
+          </div>
+        ) : null}
+
+        {((topic as any).important_sections as string[] | undefined)?.length ? (
+          <div className="mt-6 rounded-2xl border border-border bg-card p-6 shadow-card">
+            <h2 className="text-xl font-bold text-foreground">Important Laws & Sections</h2>
+            <ul className="mt-3 list-disc space-y-1.5 pl-5 text-muted-foreground">
+              {((topic as any).important_sections as string[]).map((r) => <li key={r}>{r}</li>)}
+            </ul>
+            <p className="mt-3 text-xs text-muted-foreground">Last updated: {new Date((topic as any).last_updated).toLocaleDateString("en-IN")}</p>
+          </div>
+        ) : null}
 
         {topic.procedure && (
           <div className="mt-6 rounded-2xl border border-border bg-card p-6 shadow-card">
             <h2 className="text-xl font-bold text-foreground">Procedure</h2>
-            <p className="mt-3 text-muted-foreground">{topic.procedure}</p>
+            <p className="mt-3 whitespace-pre-line text-muted-foreground">{topic.procedure}</p>
           </div>
         )}
 
