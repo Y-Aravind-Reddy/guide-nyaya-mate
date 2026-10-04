@@ -9,124 +9,63 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as TermsRouteImport } from './routes/terms'
-import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
-import { Route as SignupRouteImport } from './routes/signup'
-import { Route as SearchRouteImport } from './routes/search'
-import { Route as ResetPasswordRouteImport } from './routes/reset-password'
-import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
-import { Route as OfficialSourcesRouteImport } from './routes/official-sources'
-import { Route as LoginRouteImport } from './routes/login'
-import { Route as LegalKnowledgeRouteImport } from './routes/legal-knowledge'
-import { Route as GlossaryRouteImport } from './routes/glossary'
-import { Route as FaqsRouteImport } from './routes/faqs'
-import { Route as DisclaimerRouteImport } from './routes/disclaimer'
-import { Route as ContactRouteImport } from './routes/contact'
-import { Route as AccessibilityRouteImport } from './routes/accessibility'
-import { Route as AboutRouteImport } from './routes/about'
-import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as SchemesIndexRouteImport } from './routes/schemes.index'
-import { Route as LegalRightsIndexRouteImport } from './routes/legal-rights.index'
-import { Route as LawsIndexRouteImport } from './routes/laws.index'
-import { Route as GovernmentServicesIndexRouteImport } from './routes/government-services.index'
-import { Route as ComplaintTemplatesIndexRouteImport } from './routes/complaint-templates.index'
-import { Route as SchemesSlugRouteImport } from './routes/schemes.$slug'
-import { Route as LegalRightsSlugRouteImport } from './routes/legal-rights.$slug'
-import { Route as LawsSlugRouteImport } from './routes/laws.$slug'
-import { Route as GovernmentServicesSlugRouteImport } from './routes/government-services.$slug'
-import { Route as ComplaintTemplatesIdRouteImport } from './routes/complaint-templates.$id'
-import { Route as ApiChatRouteImport } from './routes/api/chat'
-import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
-import { Route as AuthenticatedSavedRouteImport } from './routes/_authenticated/saved'
-import { Route as AuthenticatedRetrievalAnalyticsRouteImport } from './routes/_authenticated/retrieval-analytics'
-import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
-import { Route as AuthenticatedKnowledgeHealthRouteImport } from './routes/_authenticated/knowledge-health'
-import { Route as AuthenticatedKnowledgeBaseRouteImport } from './routes/_authenticated/knowledge-base'
-import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
-import { Route as AuthenticatedChatHistoryRouteImport } from './routes/_authenticated/chat-history'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as AccessibilityRouteImport } from './routes/accessibility'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as DisclaimerRouteImport } from './routes/disclaimer'
+import { Route as FaqsRouteImport } from './routes/faqs'
+import { Route as GlossaryRouteImport } from './routes/glossary'
+import { Route as LegalKnowledgeRouteImport } from './routes/legal-knowledge'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as OfficialSourcesRouteImport } from './routes/official-sources'
+import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as SearchRouteImport } from './routes/search'
+import { Route as SignupRouteImport } from './routes/signup'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as TermsRouteImport } from './routes/terms'
 import { Route as AuthenticatedAiChatRouteImport } from './routes/_authenticated/ai-chat'
-import { Route as ApiPublicVerifyLinksRouteImport } from './routes/api/public/verify-links'
-import { Route as ApiPublicKbSyncRouteImport } from './routes/api/public/kb-sync'
-import { Route as AuthenticatedAdminReviewQueueRouteImport } from './routes/_authenticated/admin/review-queue'
-import { Route as AuthenticatedAdminOfficialSourcesRouteImport } from './routes/_authenticated/admin/official-sources'
-import { Route as AuthenticatedAdminNotificationsRouteImport } from './routes/_authenticated/admin/notifications'
-import { Route as AuthenticatedAdminLaunchReadinessRouteImport } from './routes/_authenticated/admin/launch-readiness'
-import { Route as AuthenticatedAdminKnowledgeHealthRouteImport } from './routes/_authenticated/admin/knowledge-health'
-import { Route as AuthenticatedAdminKbSyncRouteImport } from './routes/_authenticated/admin/kb-sync'
-import { Route as AuthenticatedAdminContentOpsRouteImport } from './routes/_authenticated/admin/content-ops'
-import { Route as AuthenticatedAdminContentHealthRouteImport } from './routes/_authenticated/admin/content-health'
-import { Route as AuthenticatedAdminAnalyticsRouteImport } from './routes/_authenticated/admin/analytics'
+import { Route as AuthenticatedChatHistoryRouteImport } from './routes/_authenticated/chat-history'
+import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedKnowledgeBaseRouteImport } from './routes/_authenticated/knowledge-base'
+import { Route as AuthenticatedKnowledgeHealthRouteImport } from './routes/_authenticated/knowledge-health'
+import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
+import { Route as AuthenticatedRetrievalAnalyticsRouteImport } from './routes/_authenticated/retrieval-analytics'
+import { Route as AuthenticatedSavedRouteImport } from './routes/_authenticated/saved'
+import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
+import { Route as ApiChatRouteImport } from './routes/api/chat'
+import { Route as ComplaintTemplatesIndexRouteImport } from './routes/complaint-templates.index'
+import { Route as ComplaintTemplatesIdRouteImport } from './routes/complaint-templates.$id'
+import { Route as GovernmentServicesIndexRouteImport } from './routes/government-services.index'
+import { Route as GovernmentServicesSlugRouteImport } from './routes/government-services.$slug'
+import { Route as LawsIndexRouteImport } from './routes/laws.index'
+import { Route as LawsSlugRouteImport } from './routes/laws.$slug'
+import { Route as LegalRightsIndexRouteImport } from './routes/legal-rights.index'
+import { Route as LegalRightsSlugRouteImport } from './routes/legal-rights.$slug'
+import { Route as SchemesIndexRouteImport } from './routes/schemes.index'
+import { Route as SchemesSlugRouteImport } from './routes/schemes.$slug'
 import { Route as AuthenticatedAdminAiUsageRouteImport } from './routes/_authenticated/admin/ai-usage'
+import { Route as AuthenticatedAdminAnalyticsRouteImport } from './routes/_authenticated/admin/analytics'
+import { Route as AuthenticatedAdminContentHealthRouteImport } from './routes/_authenticated/admin/content-health'
+import { Route as AuthenticatedAdminContentOpsRouteImport } from './routes/_authenticated/admin/content-ops'
+import { Route as AuthenticatedAdminKbSyncRouteImport } from './routes/_authenticated/admin/kb-sync'
+import { Route as AuthenticatedAdminKnowledgeHealthRouteImport } from './routes/_authenticated/admin/knowledge-health'
+import { Route as AuthenticatedAdminLaunchReadinessRouteImport } from './routes/_authenticated/admin/launch-readiness'
+import { Route as AuthenticatedAdminNotificationsRouteImport } from './routes/_authenticated/admin/notifications'
+import { Route as AuthenticatedAdminOfficialSourcesRouteImport } from './routes/_authenticated/admin/official-sources'
+import { Route as AuthenticatedAdminReviewQueueRouteImport } from './routes/_authenticated/admin/review-queue'
+import { Route as ApiPublicKbSyncRouteImport } from './routes/api/public/kb-sync'
+import { Route as ApiPublicVerifyLinksRouteImport } from './routes/api/public/verify-links'
 
-const TermsRoute = TermsRouteImport.update({
-  id: '/terms',
-  path: '/terms',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
-  id: '/sitemap.xml',
-  path: '/sitemap.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SignupRoute = SignupRouteImport.update({
-  id: '/signup',
-  path: '/signup',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SearchRoute = SearchRouteImport.update({
-  id: '/search',
-  path: '/search',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ResetPasswordRoute = ResetPasswordRouteImport.update({
-  id: '/reset-password',
-  path: '/reset-password',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
-  id: '/privacy-policy',
-  path: '/privacy-policy',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const OfficialSourcesRoute = OfficialSourcesRouteImport.update({
-  id: '/official-sources',
-  path: '/official-sources',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LoginRoute = LoginRouteImport.update({
-  id: '/login',
-  path: '/login',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LegalKnowledgeRoute = LegalKnowledgeRouteImport.update({
-  id: '/legal-knowledge',
-  path: '/legal-knowledge',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const GlossaryRoute = GlossaryRouteImport.update({
-  id: '/glossary',
-  path: '/glossary',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const FaqsRoute = FaqsRouteImport.update({
-  id: '/faqs',
-  path: '/faqs',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DisclaimerRoute = DisclaimerRouteImport.update({
-  id: '/disclaimer',
-  path: '/disclaimer',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ContactRoute = ContactRouteImport.update({
-  id: '/contact',
-  path: '/contact',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AccessibilityRoute = AccessibilityRouteImport.update({
-  id: '/accessibility',
-  path: '/accessibility',
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -134,106 +73,79 @@ const AboutRoute = AboutRouteImport.update({
   path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
-  id: '/_authenticated',
+const AccessibilityRoute = AccessibilityRouteImport.update({
+  id: '/accessibility',
+  path: '/accessibility',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SchemesIndexRoute = SchemesIndexRouteImport.update({
-  id: '/schemes/',
-  path: '/schemes/',
+const DisclaimerRoute = DisclaimerRouteImport.update({
+  id: '/disclaimer',
+  path: '/disclaimer',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LegalRightsIndexRoute = LegalRightsIndexRouteImport.update({
-  id: '/legal-rights/',
-  path: '/legal-rights/',
+const FaqsRoute = FaqsRouteImport.update({
+  id: '/faqs',
+  path: '/faqs',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LawsIndexRoute = LawsIndexRouteImport.update({
-  id: '/laws/',
-  path: '/laws/',
+const GlossaryRoute = GlossaryRouteImport.update({
+  id: '/glossary',
+  path: '/glossary',
   getParentRoute: () => rootRouteImport,
 } as any)
-const GovernmentServicesIndexRoute = GovernmentServicesIndexRouteImport.update({
-  id: '/government-services/',
-  path: '/government-services/',
+const LegalKnowledgeRoute = LegalKnowledgeRouteImport.update({
+  id: '/legal-knowledge',
+  path: '/legal-knowledge',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ComplaintTemplatesIndexRoute = ComplaintTemplatesIndexRouteImport.update({
-  id: '/complaint-templates/',
-  path: '/complaint-templates/',
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SchemesSlugRoute = SchemesSlugRouteImport.update({
-  id: '/schemes/$slug',
-  path: '/schemes/$slug',
+const OfficialSourcesRoute = OfficialSourcesRouteImport.update({
+  id: '/official-sources',
+  path: '/official-sources',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LegalRightsSlugRoute = LegalRightsSlugRouteImport.update({
-  id: '/legal-rights/$slug',
-  path: '/legal-rights/$slug',
+const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
+  id: '/privacy-policy',
+  path: '/privacy-policy',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LawsSlugRoute = LawsSlugRouteImport.update({
-  id: '/laws/$slug',
-  path: '/laws/$slug',
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
-const GovernmentServicesSlugRoute = GovernmentServicesSlugRouteImport.update({
-  id: '/government-services/$slug',
-  path: '/government-services/$slug',
+const SearchRoute = SearchRouteImport.update({
+  id: '/search',
+  path: '/search',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ComplaintTemplatesIdRoute = ComplaintTemplatesIdRouteImport.update({
-  id: '/complaint-templates/$id',
-  path: '/complaint-templates/$id',
+const SignupRoute = SignupRouteImport.update({
+  id: '/signup',
+  path: '/signup',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiChatRoute = ApiChatRouteImport.update({
-  id: '/api/chat',
-  path: '/api/chat',
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
-  id: '/settings',
-  path: '/settings',
-  getParentRoute: () => AuthenticatedRouteRoute,
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedSavedRoute = AuthenticatedSavedRouteImport.update({
-  id: '/saved',
-  path: '/saved',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedRetrievalAnalyticsRoute =
-  AuthenticatedRetrievalAnalyticsRouteImport.update({
-    id: '/retrieval-analytics',
-    path: '/retrieval-analytics',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
-  id: '/profile',
-  path: '/profile',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedKnowledgeHealthRoute =
-  AuthenticatedKnowledgeHealthRouteImport.update({
-    id: '/knowledge-health',
-    path: '/knowledge-health',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedKnowledgeBaseRoute =
-  AuthenticatedKnowledgeBaseRouteImport.update({
-    id: '/knowledge-base',
-    path: '/knowledge-base',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
+const AuthenticatedAiChatRoute = AuthenticatedAiChatRouteImport.update({
+  id: '/ai-chat',
+  path: '/ai-chat',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedChatHistoryRoute =
@@ -242,67 +154,103 @@ const AuthenticatedChatHistoryRoute =
     path: '/chat-history',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
-const AuthenticatedAiChatRoute = AuthenticatedAiChatRouteImport.update({
-  id: '/ai-chat',
-  path: '/ai-chat',
+const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const ApiPublicVerifyLinksRoute = ApiPublicVerifyLinksRouteImport.update({
-  id: '/api/public/verify-links',
-  path: '/api/public/verify-links',
+const AuthenticatedKnowledgeBaseRoute =
+  AuthenticatedKnowledgeBaseRouteImport.update({
+    id: '/knowledge-base',
+    path: '/knowledge-base',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedKnowledgeHealthRoute =
+  AuthenticatedKnowledgeHealthRouteImport.update({
+    id: '/knowledge-health',
+    path: '/knowledge-health',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedRetrievalAnalyticsRoute =
+  AuthenticatedRetrievalAnalyticsRouteImport.update({
+    id: '/retrieval-analytics',
+    path: '/retrieval-analytics',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedSavedRoute = AuthenticatedSavedRouteImport.update({
+  id: '/saved',
+  path: '/saved',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const ApiChatRoute = ApiChatRouteImport.update({
+  id: '/api/chat',
+  path: '/api/chat',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiPublicKbSyncRoute = ApiPublicKbSyncRouteImport.update({
-  id: '/api/public/kb-sync',
-  path: '/api/public/kb-sync',
+const ComplaintTemplatesIndexRoute = ComplaintTemplatesIndexRouteImport.update({
+  id: '/complaint-templates/',
+  path: '/complaint-templates/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedAdminReviewQueueRoute =
-  AuthenticatedAdminReviewQueueRouteImport.update({
-    id: '/admin/review-queue',
-    path: '/admin/review-queue',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedAdminOfficialSourcesRoute =
-  AuthenticatedAdminOfficialSourcesRouteImport.update({
-    id: '/admin/official-sources',
-    path: '/admin/official-sources',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedAdminNotificationsRoute =
-  AuthenticatedAdminNotificationsRouteImport.update({
-    id: '/admin/notifications',
-    path: '/admin/notifications',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedAdminLaunchReadinessRoute =
-  AuthenticatedAdminLaunchReadinessRouteImport.update({
-    id: '/admin/launch-readiness',
-    path: '/admin/launch-readiness',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedAdminKnowledgeHealthRoute =
-  AuthenticatedAdminKnowledgeHealthRouteImport.update({
-    id: '/admin/knowledge-health',
-    path: '/admin/knowledge-health',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedAdminKbSyncRoute =
-  AuthenticatedAdminKbSyncRouteImport.update({
-    id: '/admin/kb-sync',
-    path: '/admin/kb-sync',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedAdminContentOpsRoute =
-  AuthenticatedAdminContentOpsRouteImport.update({
-    id: '/admin/content-ops',
-    path: '/admin/content-ops',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedAdminContentHealthRoute =
-  AuthenticatedAdminContentHealthRouteImport.update({
-    id: '/admin/content-health',
-    path: '/admin/content-health',
+const ComplaintTemplatesIdRoute = ComplaintTemplatesIdRouteImport.update({
+  id: '/complaint-templates/$id',
+  path: '/complaint-templates/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GovernmentServicesIndexRoute = GovernmentServicesIndexRouteImport.update({
+  id: '/government-services/',
+  path: '/government-services/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GovernmentServicesSlugRoute = GovernmentServicesSlugRouteImport.update({
+  id: '/government-services/$slug',
+  path: '/government-services/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LawsIndexRoute = LawsIndexRouteImport.update({
+  id: '/laws/',
+  path: '/laws/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LawsSlugRoute = LawsSlugRouteImport.update({
+  id: '/laws/$slug',
+  path: '/laws/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalRightsIndexRoute = LegalRightsIndexRouteImport.update({
+  id: '/legal-rights/',
+  path: '/legal-rights/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalRightsSlugRoute = LegalRightsSlugRouteImport.update({
+  id: '/legal-rights/$slug',
+  path: '/legal-rights/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SchemesIndexRoute = SchemesIndexRouteImport.update({
+  id: '/schemes/',
+  path: '/schemes/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SchemesSlugRoute = SchemesSlugRouteImport.update({
+  id: '/schemes/$slug',
+  path: '/schemes/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedAdminAiUsageRoute =
+  AuthenticatedAdminAiUsageRouteImport.update({
+    id: '/admin/ai-usage',
+    path: '/admin/ai-usage',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedAdminAnalyticsRoute =
@@ -311,12 +259,64 @@ const AuthenticatedAdminAnalyticsRoute =
     path: '/admin/analytics',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
-const AuthenticatedAdminAiUsageRoute =
-  AuthenticatedAdminAiUsageRouteImport.update({
-    id: '/admin/ai-usage',
-    path: '/admin/ai-usage',
+const AuthenticatedAdminContentHealthRoute =
+  AuthenticatedAdminContentHealthRouteImport.update({
+    id: '/admin/content-health',
+    path: '/admin/content-health',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAdminContentOpsRoute =
+  AuthenticatedAdminContentOpsRouteImport.update({
+    id: '/admin/content-ops',
+    path: '/admin/content-ops',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminKbSyncRoute =
+  AuthenticatedAdminKbSyncRouteImport.update({
+    id: '/admin/kb-sync',
+    path: '/admin/kb-sync',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminKnowledgeHealthRoute =
+  AuthenticatedAdminKnowledgeHealthRouteImport.update({
+    id: '/admin/knowledge-health',
+    path: '/admin/knowledge-health',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminLaunchReadinessRoute =
+  AuthenticatedAdminLaunchReadinessRouteImport.update({
+    id: '/admin/launch-readiness',
+    path: '/admin/launch-readiness',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminNotificationsRoute =
+  AuthenticatedAdminNotificationsRouteImport.update({
+    id: '/admin/notifications',
+    path: '/admin/notifications',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminOfficialSourcesRoute =
+  AuthenticatedAdminOfficialSourcesRouteImport.update({
+    id: '/admin/official-sources',
+    path: '/admin/official-sources',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminReviewQueueRoute =
+  AuthenticatedAdminReviewQueueRouteImport.update({
+    id: '/admin/review-queue',
+    path: '/admin/review-queue',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const ApiPublicKbSyncRoute = ApiPublicKbSyncRouteImport.update({
+  id: '/api/public/kb-sync',
+  path: '/api/public/kb-sync',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicVerifyLinksRoute = ApiPublicVerifyLinksRouteImport.update({
+  id: '/api/public/verify-links',
+  path: '/api/public/verify-links',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -659,109 +659,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/terms': {
-      id: '/terms'
-      path: '/terms'
-      fullPath: '/terms'
-      preLoaderRoute: typeof TermsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sitemap.xml': {
-      id: '/sitemap.xml'
-      path: '/sitemap.xml'
-      fullPath: '/sitemap.xml'
-      preLoaderRoute: typeof SitemapDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/signup': {
-      id: '/signup'
-      path: '/signup'
-      fullPath: '/signup'
-      preLoaderRoute: typeof SignupRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/search': {
-      id: '/search'
-      path: '/search'
-      fullPath: '/search'
-      preLoaderRoute: typeof SearchRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/reset-password': {
-      id: '/reset-password'
-      path: '/reset-password'
-      fullPath: '/reset-password'
-      preLoaderRoute: typeof ResetPasswordRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/privacy-policy': {
-      id: '/privacy-policy'
-      path: '/privacy-policy'
-      fullPath: '/privacy-policy'
-      preLoaderRoute: typeof PrivacyPolicyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/official-sources': {
-      id: '/official-sources'
-      path: '/official-sources'
-      fullPath: '/official-sources'
-      preLoaderRoute: typeof OfficialSourcesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/login': {
-      id: '/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/legal-knowledge': {
-      id: '/legal-knowledge'
-      path: '/legal-knowledge'
-      fullPath: '/legal-knowledge'
-      preLoaderRoute: typeof LegalKnowledgeRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/glossary': {
-      id: '/glossary'
-      path: '/glossary'
-      fullPath: '/glossary'
-      preLoaderRoute: typeof GlossaryRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/faqs': {
-      id: '/faqs'
-      path: '/faqs'
-      fullPath: '/faqs'
-      preLoaderRoute: typeof FaqsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/disclaimer': {
-      id: '/disclaimer'
-      path: '/disclaimer'
-      fullPath: '/disclaimer'
-      preLoaderRoute: typeof DisclaimerRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/contact': {
-      id: '/contact'
-      path: '/contact'
-      fullPath: '/contact'
-      preLoaderRoute: typeof ContactRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/accessibility': {
-      id: '/accessibility'
-      path: '/accessibility'
-      fullPath: '/accessibility'
-      preLoaderRoute: typeof AccessibilityRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated': {
@@ -771,137 +673,116 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/schemes/': {
-      id: '/schemes/'
-      path: '/schemes'
-      fullPath: '/schemes/'
-      preLoaderRoute: typeof SchemesIndexRouteImport
+    '/accessibility': {
+      id: '/accessibility'
+      path: '/accessibility'
+      fullPath: '/accessibility'
+      preLoaderRoute: typeof AccessibilityRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/legal-rights/': {
-      id: '/legal-rights/'
-      path: '/legal-rights'
-      fullPath: '/legal-rights/'
-      preLoaderRoute: typeof LegalRightsIndexRouteImport
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/laws/': {
-      id: '/laws/'
-      path: '/laws'
-      fullPath: '/laws/'
-      preLoaderRoute: typeof LawsIndexRouteImport
+    '/disclaimer': {
+      id: '/disclaimer'
+      path: '/disclaimer'
+      fullPath: '/disclaimer'
+      preLoaderRoute: typeof DisclaimerRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/government-services/': {
-      id: '/government-services/'
-      path: '/government-services'
-      fullPath: '/government-services/'
-      preLoaderRoute: typeof GovernmentServicesIndexRouteImport
+    '/faqs': {
+      id: '/faqs'
+      path: '/faqs'
+      fullPath: '/faqs'
+      preLoaderRoute: typeof FaqsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/complaint-templates/': {
-      id: '/complaint-templates/'
-      path: '/complaint-templates'
-      fullPath: '/complaint-templates/'
-      preLoaderRoute: typeof ComplaintTemplatesIndexRouteImport
+    '/glossary': {
+      id: '/glossary'
+      path: '/glossary'
+      fullPath: '/glossary'
+      preLoaderRoute: typeof GlossaryRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/schemes/$slug': {
-      id: '/schemes/$slug'
-      path: '/schemes/$slug'
-      fullPath: '/schemes/$slug'
-      preLoaderRoute: typeof SchemesSlugRouteImport
+    '/legal-knowledge': {
+      id: '/legal-knowledge'
+      path: '/legal-knowledge'
+      fullPath: '/legal-knowledge'
+      preLoaderRoute: typeof LegalKnowledgeRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/legal-rights/$slug': {
-      id: '/legal-rights/$slug'
-      path: '/legal-rights/$slug'
-      fullPath: '/legal-rights/$slug'
-      preLoaderRoute: typeof LegalRightsSlugRouteImport
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/laws/$slug': {
-      id: '/laws/$slug'
-      path: '/laws/$slug'
-      fullPath: '/laws/$slug'
-      preLoaderRoute: typeof LawsSlugRouteImport
+    '/official-sources': {
+      id: '/official-sources'
+      path: '/official-sources'
+      fullPath: '/official-sources'
+      preLoaderRoute: typeof OfficialSourcesRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/government-services/$slug': {
-      id: '/government-services/$slug'
-      path: '/government-services/$slug'
-      fullPath: '/government-services/$slug'
-      preLoaderRoute: typeof GovernmentServicesSlugRouteImport
+    '/privacy-policy': {
+      id: '/privacy-policy'
+      path: '/privacy-policy'
+      fullPath: '/privacy-policy'
+      preLoaderRoute: typeof PrivacyPolicyRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/complaint-templates/$id': {
-      id: '/complaint-templates/$id'
-      path: '/complaint-templates/$id'
-      fullPath: '/complaint-templates/$id'
-      preLoaderRoute: typeof ComplaintTemplatesIdRouteImport
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/chat': {
-      id: '/api/chat'
-      path: '/api/chat'
-      fullPath: '/api/chat'
-      preLoaderRoute: typeof ApiChatRouteImport
+    '/search': {
+      id: '/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof SearchRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/settings': {
-      id: '/_authenticated/settings'
-      path: '/settings'
-      fullPath: '/settings'
-      preLoaderRoute: typeof AuthenticatedSettingsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+    '/signup': {
+      id: '/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof SignupRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/saved': {
-      id: '/_authenticated/saved'
-      path: '/saved'
-      fullPath: '/saved'
-      preLoaderRoute: typeof AuthenticatedSavedRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/retrieval-analytics': {
-      id: '/_authenticated/retrieval-analytics'
-      path: '/retrieval-analytics'
-      fullPath: '/retrieval-analytics'
-      preLoaderRoute: typeof AuthenticatedRetrievalAnalyticsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/profile': {
-      id: '/_authenticated/profile'
-      path: '/profile'
-      fullPath: '/profile'
-      preLoaderRoute: typeof AuthenticatedProfileRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/knowledge-health': {
-      id: '/_authenticated/knowledge-health'
-      path: '/knowledge-health'
-      fullPath: '/knowledge-health'
-      preLoaderRoute: typeof AuthenticatedKnowledgeHealthRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/knowledge-base': {
-      id: '/_authenticated/knowledge-base'
-      path: '/knowledge-base'
-      fullPath: '/knowledge-base'
-      preLoaderRoute: typeof AuthenticatedKnowledgeBaseRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/dashboard': {
-      id: '/_authenticated/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof AuthenticatedDashboardRouteImport
+    '/_authenticated/ai-chat': {
+      id: '/_authenticated/ai-chat'
+      path: '/ai-chat'
+      fullPath: '/ai-chat'
+      preLoaderRoute: typeof AuthenticatedAiChatRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/chat-history': {
@@ -911,81 +792,137 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedChatHistoryRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/ai-chat': {
-      id: '/_authenticated/ai-chat'
-      path: '/ai-chat'
-      fullPath: '/ai-chat'
-      preLoaderRoute: typeof AuthenticatedAiChatRouteImport
+    '/_authenticated/dashboard': {
+      id: '/_authenticated/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AuthenticatedDashboardRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/api/public/verify-links': {
-      id: '/api/public/verify-links'
-      path: '/api/public/verify-links'
-      fullPath: '/api/public/verify-links'
-      preLoaderRoute: typeof ApiPublicVerifyLinksRouteImport
+    '/_authenticated/knowledge-base': {
+      id: '/_authenticated/knowledge-base'
+      path: '/knowledge-base'
+      fullPath: '/knowledge-base'
+      preLoaderRoute: typeof AuthenticatedKnowledgeBaseRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/knowledge-health': {
+      id: '/_authenticated/knowledge-health'
+      path: '/knowledge-health'
+      fullPath: '/knowledge-health'
+      preLoaderRoute: typeof AuthenticatedKnowledgeHealthRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/profile': {
+      id: '/_authenticated/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof AuthenticatedProfileRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/retrieval-analytics': {
+      id: '/_authenticated/retrieval-analytics'
+      path: '/retrieval-analytics'
+      fullPath: '/retrieval-analytics'
+      preLoaderRoute: typeof AuthenticatedRetrievalAnalyticsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/saved': {
+      id: '/_authenticated/saved'
+      path: '/saved'
+      fullPath: '/saved'
+      preLoaderRoute: typeof AuthenticatedSavedRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/settings': {
+      id: '/_authenticated/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AuthenticatedSettingsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/api/chat': {
+      id: '/api/chat'
+      path: '/api/chat'
+      fullPath: '/api/chat'
+      preLoaderRoute: typeof ApiChatRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/public/kb-sync': {
-      id: '/api/public/kb-sync'
-      path: '/api/public/kb-sync'
-      fullPath: '/api/public/kb-sync'
-      preLoaderRoute: typeof ApiPublicKbSyncRouteImport
+    '/complaint-templates/': {
+      id: '/complaint-templates/'
+      path: '/complaint-templates'
+      fullPath: '/complaint-templates/'
+      preLoaderRoute: typeof ComplaintTemplatesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/admin/review-queue': {
-      id: '/_authenticated/admin/review-queue'
-      path: '/admin/review-queue'
-      fullPath: '/admin/review-queue'
-      preLoaderRoute: typeof AuthenticatedAdminReviewQueueRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+    '/complaint-templates/$id': {
+      id: '/complaint-templates/$id'
+      path: '/complaint-templates/$id'
+      fullPath: '/complaint-templates/$id'
+      preLoaderRoute: typeof ComplaintTemplatesIdRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/admin/official-sources': {
-      id: '/_authenticated/admin/official-sources'
-      path: '/admin/official-sources'
-      fullPath: '/admin/official-sources'
-      preLoaderRoute: typeof AuthenticatedAdminOfficialSourcesRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+    '/government-services/': {
+      id: '/government-services/'
+      path: '/government-services'
+      fullPath: '/government-services/'
+      preLoaderRoute: typeof GovernmentServicesIndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/admin/notifications': {
-      id: '/_authenticated/admin/notifications'
-      path: '/admin/notifications'
-      fullPath: '/admin/notifications'
-      preLoaderRoute: typeof AuthenticatedAdminNotificationsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+    '/government-services/$slug': {
+      id: '/government-services/$slug'
+      path: '/government-services/$slug'
+      fullPath: '/government-services/$slug'
+      preLoaderRoute: typeof GovernmentServicesSlugRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/admin/launch-readiness': {
-      id: '/_authenticated/admin/launch-readiness'
-      path: '/admin/launch-readiness'
-      fullPath: '/admin/launch-readiness'
-      preLoaderRoute: typeof AuthenticatedAdminLaunchReadinessRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+    '/laws/': {
+      id: '/laws/'
+      path: '/laws'
+      fullPath: '/laws/'
+      preLoaderRoute: typeof LawsIndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/admin/knowledge-health': {
-      id: '/_authenticated/admin/knowledge-health'
-      path: '/admin/knowledge-health'
-      fullPath: '/admin/knowledge-health'
-      preLoaderRoute: typeof AuthenticatedAdminKnowledgeHealthRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+    '/laws/$slug': {
+      id: '/laws/$slug'
+      path: '/laws/$slug'
+      fullPath: '/laws/$slug'
+      preLoaderRoute: typeof LawsSlugRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/admin/kb-sync': {
-      id: '/_authenticated/admin/kb-sync'
-      path: '/admin/kb-sync'
-      fullPath: '/admin/kb-sync'
-      preLoaderRoute: typeof AuthenticatedAdminKbSyncRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+    '/legal-rights/': {
+      id: '/legal-rights/'
+      path: '/legal-rights'
+      fullPath: '/legal-rights/'
+      preLoaderRoute: typeof LegalRightsIndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/admin/content-ops': {
-      id: '/_authenticated/admin/content-ops'
-      path: '/admin/content-ops'
-      fullPath: '/admin/content-ops'
-      preLoaderRoute: typeof AuthenticatedAdminContentOpsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+    '/legal-rights/$slug': {
+      id: '/legal-rights/$slug'
+      path: '/legal-rights/$slug'
+      fullPath: '/legal-rights/$slug'
+      preLoaderRoute: typeof LegalRightsSlugRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/admin/content-health': {
-      id: '/_authenticated/admin/content-health'
-      path: '/admin/content-health'
-      fullPath: '/admin/content-health'
-      preLoaderRoute: typeof AuthenticatedAdminContentHealthRouteImport
+    '/schemes/': {
+      id: '/schemes/'
+      path: '/schemes'
+      fullPath: '/schemes/'
+      preLoaderRoute: typeof SchemesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/schemes/$slug': {
+      id: '/schemes/$slug'
+      path: '/schemes/$slug'
+      fullPath: '/schemes/$slug'
+      preLoaderRoute: typeof SchemesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/admin/ai-usage': {
+      id: '/_authenticated/admin/ai-usage'
+      path: '/admin/ai-usage'
+      fullPath: '/admin/ai-usage'
+      preLoaderRoute: typeof AuthenticatedAdminAiUsageRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/admin/analytics': {
@@ -995,12 +932,75 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminAnalyticsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/admin/ai-usage': {
-      id: '/_authenticated/admin/ai-usage'
-      path: '/admin/ai-usage'
-      fullPath: '/admin/ai-usage'
-      preLoaderRoute: typeof AuthenticatedAdminAiUsageRouteImport
+    '/_authenticated/admin/content-health': {
+      id: '/_authenticated/admin/content-health'
+      path: '/admin/content-health'
+      fullPath: '/admin/content-health'
+      preLoaderRoute: typeof AuthenticatedAdminContentHealthRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/content-ops': {
+      id: '/_authenticated/admin/content-ops'
+      path: '/admin/content-ops'
+      fullPath: '/admin/content-ops'
+      preLoaderRoute: typeof AuthenticatedAdminContentOpsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/kb-sync': {
+      id: '/_authenticated/admin/kb-sync'
+      path: '/admin/kb-sync'
+      fullPath: '/admin/kb-sync'
+      preLoaderRoute: typeof AuthenticatedAdminKbSyncRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/knowledge-health': {
+      id: '/_authenticated/admin/knowledge-health'
+      path: '/admin/knowledge-health'
+      fullPath: '/admin/knowledge-health'
+      preLoaderRoute: typeof AuthenticatedAdminKnowledgeHealthRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/launch-readiness': {
+      id: '/_authenticated/admin/launch-readiness'
+      path: '/admin/launch-readiness'
+      fullPath: '/admin/launch-readiness'
+      preLoaderRoute: typeof AuthenticatedAdminLaunchReadinessRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/notifications': {
+      id: '/_authenticated/admin/notifications'
+      path: '/admin/notifications'
+      fullPath: '/admin/notifications'
+      preLoaderRoute: typeof AuthenticatedAdminNotificationsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/official-sources': {
+      id: '/_authenticated/admin/official-sources'
+      path: '/admin/official-sources'
+      fullPath: '/admin/official-sources'
+      preLoaderRoute: typeof AuthenticatedAdminOfficialSourcesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/review-queue': {
+      id: '/_authenticated/admin/review-queue'
+      path: '/admin/review-queue'
+      fullPath: '/admin/review-queue'
+      preLoaderRoute: typeof AuthenticatedAdminReviewQueueRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/api/public/kb-sync': {
+      id: '/api/public/kb-sync'
+      path: '/api/public/kb-sync'
+      fullPath: '/api/public/kb-sync'
+      preLoaderRoute: typeof ApiPublicKbSyncRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/verify-links': {
+      id: '/api/public/verify-links'
+      path: '/api/public/verify-links'
+      fullPath: '/api/public/verify-links'
+      preLoaderRoute: typeof ApiPublicVerifyLinksRouteImport
+      parentRoute: typeof rootRouteImport
     }
   }
 }
