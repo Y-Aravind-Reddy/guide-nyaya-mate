@@ -65,11 +65,48 @@ function ContentHealthPage() {
       </div>
 
       <GlassCard className="mt-6">
-        <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-between">
-          <ScoreRing score={data?.overallCompletion ?? 0} label="Overall Completion" />
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <Database className="h-4 w-4" /> {data?.sections.length ?? 0} content modules tracked
-          </div>
+        <div className="grid gap-6 sm:grid-cols-3">
+          <ScoreRing score={data?.summary.coverageScore ?? 0} label="Coverage Score" />
+          <ScoreRing score={data?.summary.verificationScore ?? 0} label="Verification Score" />
+          <ScoreRing score={data?.summary.aiReadinessScore ?? 0} label="AI Readiness Score" />
+        </div>
+        <div className="mt-6 grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-7">
+          {(
+            [
+              ["Services", data?.summary.services],
+              ["Topics", data?.summary.topics],
+              ["FAQs", data?.summary.faqs],
+              ["Glossary", data?.summary.glossary],
+              ["Sources", data?.summary.sources],
+              ["Documents", data?.summary.documents],
+              ["Chunks", data?.summary.chunks],
+            ] as const
+          ).map(([label, v]) => (
+            <div key={label} className="rounded-xl border border-border bg-background px-3 py-3 text-center">
+              <p className="text-lg font-extrabold text-foreground">{v ?? 0}</p>
+              <p className="text-[11px] text-muted-foreground">{label}</p>
+            </div>
+          ))}
+        </div>
+        <div className="mt-4 flex items-center gap-2 text-sm text-muted-foreground">
+          <Database className="h-4 w-4" /> Overall field completion {data?.overallCompletion ?? 0}% ·{" "}
+          {data?.summary.pendingJobs ?? 0} sync jobs pending
+        </div>
+      </GlassCard>
+
+      <GlassCard className="mt-6">
+        <h3 className="text-base font-bold text-foreground">Content Verification Status</h3>
+        <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {(data?.verification ?? []).map((v) => (
+            <div key={v.key} className="rounded-xl border border-border bg-background p-4">
+              <p className="text-sm font-semibold capitalize text-foreground">{v.key.replace(/_/g, " ")}</p>
+              <div className="mt-2 space-y-1 text-xs">
+                <p className="flex justify-between"><span className="text-secondary">Verified</span><b>{v.verified}</b></p>
+                <p className="flex justify-between"><span className="text-accent">Under Review</span><b>{v.under_review}</b></p>
+                <p className="flex justify-between"><span className="text-muted-foreground">Draft</span><b>{v.draft}</b></p>
+              </div>
+            </div>
+          ))}
         </div>
       </GlassCard>
 

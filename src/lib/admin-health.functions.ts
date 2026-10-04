@@ -303,7 +303,66 @@ export const contentHealthReport = createServerFn({ method: "GET" })
       ? Math.round(sections.reduce((s, x) => s + x.completion, 0) / sections.length)
       : 0;
 
-    return { sections, overallCompletion };
+    // ---- Launch summary metrics ----
+    const count = countHelper(sb);
+    const [docs, processedDocs, chunks, embedded, pendingJobs, vs] = await Promise.all([
+      count("knowledge_documents"),
+      count("knowledge_documents", (q) => q.eq("status", "processed")),
+      count("rag_chunks"),
+      count("rag_chunks", (q) => q.not("embedding", "is", null)),
+      count("ingestion_jobs", (q) => q.in("status", ["processing", "pending", "failed"])),
+      Promise.all(
+        (["government_services", "legal_topics", "faqs", "glossary"] as const).map(async (t) => {
+          const { data } = await sb.from(t).select("verification_status");
+          const rows = (data ?? []) as { verification_status: string }[];
+          return {
+            key: t,
+            verified: rows.filter((r) => r.verification_status === "verified").length,
+            under_review: rows.filter((r) => r.verification_status === "under_review").length,
+            draft: rows.filter((r) => r.verification_status === "draft").length,
+            total: rows.length,
+          };
+        }),
+      ),
+    ]);
+    const activeSources = osRows.filter((r) => r.is_active !== false).length;
+    const targets = { services: 40, topics: 25, faqs: 80, glossary: 60, sources: 40 };
+    const counts = {
+      services: (gs.data ?? []).length,
+      topics: (lt.data ?? []).length,
+      faqs: (fq.data ?? []).length,
+      glossary: (gl.data ?? []).length,
+      sources: activeSources,
+    };
+    const coverageScore = Math.round(
+      (Object.keys(targets) as (keyof typeof targets)[]).reduce(
+        (s, k) => s + Math.min(1, counts[k] / targets[k]),
+        0,
+      ) * 20,
+    );
+    const vTotal = vs.reduce((s, x) => s + x.total, 0);
+    const vVerified = vs.reduce((s, x) => s + x.verified, 0);
+    const verificationScore = pct(vVerified, vTotal);
+    const aiReadinessScore = Math.round(
+      pct(processedDocs, docs) * 0.4 +
+        pct(embedded, chunks) * 0.4 +
+        (pendingJobs === 0 ? 100 : Math.max(0, 100 - pendingJobs)) * 0.2,
+    );
+
+    return {
+      sections,
+      overallCompletion,
+      summary: {
+        ...counts,
+        documents: docs,
+        chunks,
+        pendingJobs,
+        coverageScore,
+        verificationScore,
+        aiReadinessScore,
+      },
+      verification: vs,
+    };
   });
 
 // ================================================================
