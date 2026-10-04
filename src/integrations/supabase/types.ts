@@ -345,6 +345,7 @@ export type Database = {
           question: string
           source_id: string | null
           updated_at: string
+          verification_status: Database["public"]["Enums"]["content_verification_status"]
         }
         Insert: {
           answer: string
@@ -355,6 +356,7 @@ export type Database = {
           question: string
           source_id?: string | null
           updated_at?: string
+          verification_status?: Database["public"]["Enums"]["content_verification_status"]
         }
         Update: {
           answer?: string
@@ -365,6 +367,7 @@ export type Database = {
           question?: string
           source_id?: string | null
           updated_at?: string
+          verification_status?: Database["public"]["Enums"]["content_verification_status"]
         }
         Relationships: [
           {
@@ -385,6 +388,7 @@ export type Database = {
           source_id: string | null
           term: string
           updated_at: string
+          verification_status: Database["public"]["Enums"]["content_verification_status"]
         }
         Insert: {
           category?: string | null
@@ -394,6 +398,7 @@ export type Database = {
           source_id?: string | null
           term: string
           updated_at?: string
+          verification_status?: Database["public"]["Enums"]["content_verification_status"]
         }
         Update: {
           category?: string | null
@@ -403,6 +408,7 @@ export type Database = {
           source_id?: string | null
           term?: string
           updated_at?: string
+          verification_status?: Database["public"]["Enums"]["content_verification_status"]
         }
         Relationships: [
           {
@@ -427,6 +433,7 @@ export type Database = {
           slug: string
           source_id: string | null
           title: string
+          verification_status: Database["public"]["Enums"]["content_verification_status"]
         }
         Insert: {
           category: string
@@ -440,6 +447,7 @@ export type Database = {
           slug: string
           source_id?: string | null
           title: string
+          verification_status?: Database["public"]["Enums"]["content_verification_status"]
         }
         Update: {
           category?: string
@@ -453,6 +461,7 @@ export type Database = {
           slug?: string
           source_id?: string | null
           title?: string
+          verification_status?: Database["public"]["Enums"]["content_verification_status"]
         }
         Relationships: [
           {
@@ -867,6 +876,7 @@ export type Database = {
           slug: string
           source_id: string | null
           title: string
+          verification_status: Database["public"]["Enums"]["content_verification_status"]
         }
         Insert: {
           category: string
@@ -885,6 +895,7 @@ export type Database = {
           slug: string
           source_id?: string | null
           title: string
+          verification_status?: Database["public"]["Enums"]["content_verification_status"]
         }
         Update: {
           category?: string
@@ -903,6 +914,7 @@ export type Database = {
           slug?: string
           source_id?: string | null
           title?: string
+          verification_status?: Database["public"]["Enums"]["content_verification_status"]
         }
         Relationships: [
           {
@@ -1602,6 +1614,7 @@ export type Database = {
         | "draft"
         | "community"
         | "imported"
+      content_verification_status: "verified" | "under_review" | "draft"
       doc_review_status: "up_to_date" | "needs_review" | "expired" | "archived"
       knowledge_source_type:
         | "official_government"
@@ -1755,6 +1768,7 @@ export const Constants = {
         "community",
         "imported",
       ],
+      content_verification_status: ["verified", "under_review", "draft"],
       doc_review_status: ["up_to_date", "needs_review", "expired", "archived"],
       knowledge_source_type: [
         "official_government",
