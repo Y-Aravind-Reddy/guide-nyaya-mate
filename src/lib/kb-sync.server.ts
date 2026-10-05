@@ -263,6 +263,21 @@ export async function ingestCmsRecord(
     visibility: "internal",
   };
   if (uploadedBy) docPayload.uploaded_by = uploadedBy;
+  // Carry the record's official source URL so AI answers can cite it.
+  if (type !== "complaint_templates") {
+    const cfg = SYNC_TYPES.find((t) => t.type === type);
+    const { data: rec } = cfg
+      ? await sb.from(cfg.table).select("source_id").eq("id", id).maybeSingle()
+      : { data: null };
+    if (rec?.source_id) {
+      const { data: src } = await sb
+        .from("official_sources")
+        .select("source_url, is_active")
+        .eq("id", rec.source_id)
+        .maybeSingle();
+      if (src?.source_url && src.is_active !== false) docPayload.source_url = src.source_url;
+    }
+  }
 
   if (documentId) {
     await sb.from("knowledge_documents").update(docPayload).eq("id", documentId);
