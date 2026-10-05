@@ -8,3 +8,6 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Content verification uses a `verification_status` field (verified/under_review/draft) on services, topics, FAQs and glossary; "verified" means linked to a verified official source. Why: one trust signal for dashboards and reviewers.
+- CMS→KB sync copies the record's active official source URL onto its knowledge document. Why: AI citations need a real link.
