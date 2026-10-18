@@ -5,6 +5,7 @@ import { ArrowRight, Clock, Search } from "lucide-react";
 import * as Icons from "lucide-react";
 import { PageShell } from "@/components/layouts/PageShell";
 import { servicesQuery } from "@/lib/queries";
+import { categoryTint } from "@/lib/category-colors";
 
 export const Route = createFileRoute("/government-services/")({
   head: () => ({
@@ -96,10 +97,16 @@ function ServicesPage() {
               className="group rounded-[20px] border border-border bg-card p-6 shadow-card transition-all hover:-translate-y-1 hover:shadow-premium"
             >
               <div className="flex items-center justify-between">
-                <span className="grid h-12 w-12 place-items-center rounded-2xl bg-primary/10 text-primary">
+                <span
+                  className="grid h-12 w-12 place-items-center rounded-2xl"
+                  style={categoryTint(s.category)}
+                >
                   <DynIcon name={s.icon} className="h-6 w-6" />
                 </span>
-                <span className="rounded-full bg-muted px-3 py-1 text-xs font-semibold text-muted-foreground">
+                <span
+                  className="rounded-full px-3 py-1 text-xs font-semibold"
+                  style={categoryTint(s.category)}
+                >
                   {s.category}
                 </span>
               </div>

@@ -56,14 +56,14 @@ function RobotIllustration() {
       <defs>
         <linearGradient id="body" x1="0" y1="0" x2="1" y2="1">
           <stop offset="0%" stopColor="#2563eb" />
-          <stop offset="100%" stopColor="#0b3d91" />
+          <stop offset="100%" stopColor="#2563eb" />
         </linearGradient>
       </defs>
       <ellipse cx="120" cy="216" rx="64" ry="12" fill="#000" opacity="0.12" />
       <rect x="108" y="38" width="24" height="22" rx="6" fill="#94a3b8" />
       <circle cx="120" cy="34" r="9" fill="#10b981" />
       <rect x="58" y="58" width="124" height="100" rx="32" fill="url(#body)" />
-      <rect x="74" y="80" width="92" height="56" rx="22" fill="#0a2c66" />
+      <rect x="74" y="80" width="92" height="56" rx="22" fill="#111827" />
       <circle cx="102" cy="108" r="11" fill="#10b981" />
       <circle cx="138" cy="108" r="11" fill="#10b981" />
       <circle cx="105" cy="105" r="3.5" fill="#fff" />

@@ -168,7 +168,7 @@ export function ChatPanel({
       return;
     }
     w.document.write(
-      `<!doctype html><html><head><title>NyayaMate AI</title><meta charset="utf-8"><style>body{font-family:system-ui,sans-serif;max-width:720px;margin:40px auto;padding:0 20px;line-height:1.6;color:#0f172a}</style></head><body><h1>NyayaMate AI</h1><pre style="white-space:pre-wrap;font-family:inherit">${text
+      `<!doctype html><html><head><title>NyayaMate AI</title><meta charset="utf-8"><style>body{font-family:system-ui,sans-serif;max-width:720px;margin:40px auto;padding:0 20px;line-height:1.6;color:#111827}</style></head><body><h1>NyayaMate AI</h1><pre style="white-space:pre-wrap;font-family:inherit">${text
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;")}</pre></body></html>`,

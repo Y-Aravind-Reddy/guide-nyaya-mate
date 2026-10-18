@@ -34,6 +34,13 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
   --color-navy: var(--navy);
+  --color-secondary-strong: var(--secondary-strong);
+  --color-legal: var(--legal);
+  --color-status-verified: var(--status-verified);
+  --color-status-review: var(--status-review);
+  --color-status-broken: var(--status-broken);
+  --color-status-draft: var(--status-draft);
+  --color-status-info: var(--status-info);
 
   --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
@@ -46,36 +53,52 @@
 :root {
   --radius: 0.875rem;
 
+  /* Charcoal text on soft white — premium citizen-first identity */
   --background: #f8fafc;
-  --foreground: #0f172a;
+  --foreground: #111827;
 
   --card: #ffffff;
-  --card-foreground: #0f172a;
+  --card-foreground: #111827;
 
   --popover: #ffffff;
-  --popover-foreground: #0f172a;
+  --popover-foreground: #111827;
 
-  --primary: #0b3d91;
+  /* Bright blue reserved for primary links, CTAs and information states */
+  --primary: #2563eb;
   --primary-foreground: #ffffff;
-  --primary-light: #e8effb;
+  --primary-light: #eff6ff;
 
+  /* Emerald — AI accent, success, verified */
   --secondary: #10b981;
   --secondary-foreground: #ffffff;
+  --secondary-strong: #059669;
 
+  /* Saffron — highlights and warnings */
   --accent: #f59e0b;
   --accent-foreground: #ffffff;
 
-  --navy: #0a2c66;
+  /* Charcoal — deep surfaces (was deep blue) */
+  --navy: #111827;
 
   --muted: #f1f5f9;
   --muted-foreground: #64748b;
 
-  --destructive: #ef4444;
+  --destructive: #dc2626;
   --destructive-foreground: #ffffff;
 
   --border: #e5e7eb;
   --input: #e5e7eb;
-  --ring: #0b3d91;
+  --ring: #2563eb;
+
+  /* Legal content accent (violet) */
+  --legal: #7c3aed;
+
+  /* Verification & status colours */
+  --status-verified: #059669;
+  --status-review: #d97706;
+  --status-broken: #dc2626;
+  --status-draft: #64748b;
+  --status-info: #2563eb;
 }
 
 @layer base {
@@ -98,7 +121,7 @@
 
 /* ---------- Gradients & utilities ---------- */
 @utility text-gradient-primary {
-  background: linear-gradient(90deg, #0b3d91, #2563eb);
+  background: linear-gradient(90deg, #1d4ed8, #2563eb);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
