@@ -3,23 +3,23 @@ import { cn } from "@/lib/utils";
 const MAP: Record<string, { label: string; dot: string; cls: string }> = {
   processed: {
     label: "Processed",
-    dot: "bg-secondary",
-    cls: "bg-secondary/10 text-secondary border-secondary/20",
+    dot: "bg-status-verified",
+    cls: "bg-status-verified/10 text-status-verified border-status-verified/20",
   },
   processing: {
     label: "Processing",
-    dot: "bg-accent",
-    cls: "bg-accent/10 text-accent border-accent/20",
+    dot: "bg-status-info",
+    cls: "bg-status-info/10 text-status-info border-status-info/20",
   },
   failed: {
     label: "Failed",
-    dot: "bg-destructive",
-    cls: "bg-destructive/10 text-destructive border-destructive/20",
+    dot: "bg-status-broken",
+    cls: "bg-status-broken/10 text-status-broken border-status-broken/20",
   },
   pending: {
     label: "Pending",
-    dot: "bg-muted-foreground",
-    cls: "bg-muted text-muted-foreground border-border",
+    dot: "bg-status-draft",
+    cls: "bg-muted text-status-draft border-border",
   },
 };
 

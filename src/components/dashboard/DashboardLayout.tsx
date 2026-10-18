@@ -115,7 +115,7 @@ export function DashboardLayout({
                 onClick={() => setOpen(false)}
                 className={`flex w-full items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-medium transition-colors ${
                   active
-                    ? "bg-primary text-primary-foreground shadow-soft"
+                    ? "bg-secondary/10 text-secondary-strong shadow-soft"
                     : "text-muted-foreground hover:bg-muted hover:text-foreground"
                 }`}
               >
@@ -139,7 +139,7 @@ export function DashboardLayout({
                     onClick={() => setOpen(false)}
                     className={`flex w-full items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-medium transition-colors ${
                       active
-                        ? "bg-primary text-primary-foreground shadow-soft"
+                        ? "bg-secondary/10 text-secondary-strong shadow-soft"
                         : "text-muted-foreground hover:bg-muted hover:text-foreground"
                     }`}
                   >

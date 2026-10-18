@@ -20,7 +20,7 @@ export function VerifiedBadge({ label = "Verified", date, className, size = "sm"
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1 rounded-full bg-secondary/10 font-semibold text-secondary",
+        "inline-flex items-center gap-1 rounded-full bg-secondary/10 font-semibold text-secondary-strong",
         size === "sm" ? "px-2 py-0.5 text-[11px]" : "px-2.5 py-1 text-xs",
         className,
       )}

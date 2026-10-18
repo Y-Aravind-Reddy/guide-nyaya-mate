@@ -154,7 +154,7 @@ function LegalKnowledgeCenter() {
             to="/official-sources"
             className="group rounded-[20px] border border-border bg-card p-6 shadow-card transition-all hover:-translate-y-1 hover:shadow-premium"
           >
-            <span className="grid h-12 w-12 place-items-center rounded-2xl bg-emerald-500/10 text-emerald-600">
+            <span className="grid h-12 w-12 place-items-center rounded-2xl bg-legal/10 text-legal">
               <ShieldCheck className="h-6 w-6" />
             </span>
             <h2 className="mt-4 text-lg font-bold text-foreground">Official Sources</h2>
