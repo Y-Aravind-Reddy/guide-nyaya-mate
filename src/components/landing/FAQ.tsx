@@ -33,7 +33,7 @@ function CourthouseShield() {
     <svg viewBox="0 0 400 360" className="h-auto w-full max-w-md" role="img" aria-label="Courthouse and security shield illustration">
       <defs>
         <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#e8effb" />
+          <stop offset="0%" stopColor="#eff6ff" />
           <stop offset="100%" stopColor="#f8fafc" />
         </linearGradient>
         <linearGradient id="shield" x1="0" y1="0" x2="1" y2="1">
@@ -43,7 +43,7 @@ function CourthouseShield() {
       </defs>
       <rect x="20" y="20" width="360" height="320" rx="28" fill="url(#sky)" />
       {/* courthouse */}
-      <g fill="#0b3d91">
+      <g fill="#2563eb">
         <polygon points="120,90 280,90 200,50" />
         <rect x="120" y="92" width="160" height="14" rx="3" />
         <rect x="132" y="112" width="14" height="120" />
@@ -52,7 +52,7 @@ function CourthouseShield() {
         <rect x="254" y="112" width="14" height="120" />
         <rect x="116" y="236" width="168" height="16" rx="3" />
       </g>
-      <rect x="116" y="252" width="168" height="8" rx="3" fill="#0a2c66" />
+      <rect x="116" y="252" width="168" height="8" rx="3" fill="#111827" />
       {/* steps */}
       <rect x="104" y="262" width="192" height="9" rx="3" fill="#cbd5e1" />
       <rect x="92" y="273" width="216" height="9" rx="3" fill="#e2e8f0" />
