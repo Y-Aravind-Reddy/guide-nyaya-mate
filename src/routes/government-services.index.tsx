@@ -5,6 +5,7 @@ import { ArrowRight, Clock, Search } from "lucide-react";
 import * as Icons from "lucide-react";
 import { PageShell } from "@/components/layouts/PageShell";
 import { servicesQuery } from "@/lib/queries";
+import { categoryTint } from "@/lib/category-colors";
 
 export const Route = createFileRoute("/government-services/")({
   head: () => ({
