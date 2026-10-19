@@ -126,7 +126,7 @@ function LoginPage() {
       {/* Left panel */}
       <div
         className="relative hidden overflow-hidden p-10 text-white lg:flex lg:flex-col xl:p-14"
-        style={{ background: "linear-gradient(150deg, var(--navy), var(--primary))" }}
+        style={{ background: "linear-gradient(150deg, var(--navy), #1f2937)" }}
       >
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(16,185,129,0.28),transparent_45%)]" />
         <div className="relative z-10">
