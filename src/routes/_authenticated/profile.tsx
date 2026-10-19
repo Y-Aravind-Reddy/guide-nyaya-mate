@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Loader2, Save, UserRound } from "lucide-react";
 import { toast } from "sonner";
-import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -75,7 +74,6 @@ function ProfilePage() {
   };
 
   return (
-    <DashboardLayout title="Profile">
       <div className="mx-auto max-w-2xl">
         <h2 className="text-2xl font-extrabold text-foreground">Your Profile</h2>
         <p className="mt-1 text-sm text-muted-foreground">Manage your personal details.</p>
@@ -147,6 +145,5 @@ function ProfilePage() {
           </Button>
         </div>
       </div>
-    </DashboardLayout>
   );
 }

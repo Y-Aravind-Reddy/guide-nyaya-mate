@@ -2,7 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useQuery, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { ArrowLeft, Bookmark, BookmarkCheck, FileText, HelpCircle, Link2 } from "lucide-react";
 import { toast } from "sonner";
-import { PageShell } from "@/components/layouts/PageShell";
+import { PublicLayout } from "@/components/layouts/PublicLayout";
 import { Breadcrumbs } from "@/components/nav/Breadcrumbs";
 import { HelpfulFeedback } from "@/components/feedback/HelpfulFeedback";
 import { AskAi } from "@/components/ai/AskAi";
@@ -45,14 +45,14 @@ export const Route = createFileRoute("/legal-rights/$slug")({
   }),
   component: TopicDetail,
   notFoundComponent: () => (
-    <PageShell>
+    <PublicLayout>
       <div className="mx-auto max-w-2xl px-4 py-24 text-center">
         <h1 className="text-2xl font-bold">Topic not found</h1>
         <Link to="/legal-rights" className="mt-4 inline-block text-primary hover:underline">
           Back to legal rights
         </Link>
       </div>
-    </PageShell>
+    </PublicLayout>
   ),
 });
 
@@ -94,7 +94,7 @@ function TopicDetail() {
   };
 
   return (
-    <PageShell>
+    <PublicLayout>
       <section className="bg-navy py-14 text-white">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
           <Link
@@ -221,6 +221,6 @@ function TopicDetail() {
         </div>
         <HelpfulFeedback contentType="legal_topic" contentSlug={slug} contentTitle={topic.title} />
       </section>
-    </PageShell>
+    </PublicLayout>
   );
 }

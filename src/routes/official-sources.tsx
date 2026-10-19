@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { BadgeCheck, ExternalLink, Search, ShieldCheck } from "lucide-react";
-import { PageShell } from "@/components/layouts/PageShell";
+import { PublicLayout } from "@/components/layouts/PublicLayout";
 import { Breadcrumbs } from "@/components/nav/Breadcrumbs";
 import { TrustBadges } from "@/components/trust/TrustBadges";
 import { supabase } from "@/integrations/supabase/client";
@@ -83,7 +83,7 @@ function PublicSourcesPage() {
   }, [data, q, category]);
 
   return (
-    <PageShell>
+    <PublicLayout>
       <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
         <Breadcrumbs items={[{ label: "Home", to: "/" }, { label: "Official Sources" }]} />
         <span className="inline-flex items-center gap-2 rounded-full bg-primary-light px-3.5 py-1.5 text-xs font-semibold text-primary">
@@ -181,6 +181,6 @@ function PublicSourcesPage() {
           </p>
         )}
       </div>
-    </PageShell>
+    </PublicLayout>
   );
 }

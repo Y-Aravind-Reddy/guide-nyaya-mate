@@ -11,7 +11,7 @@ import {
   ListChecks,
 } from "lucide-react";
 import { toast } from "sonner";
-import { PageShell } from "@/components/layouts/PageShell";
+import { PublicLayout } from "@/components/layouts/PublicLayout";
 import { Breadcrumbs } from "@/components/nav/Breadcrumbs";
 import { HelpfulFeedback } from "@/components/feedback/HelpfulFeedback";
 import { AskAi } from "@/components/ai/AskAi";
@@ -61,14 +61,14 @@ export const Route = createFileRoute("/government-services/$slug")({
   }),
   component: ServiceDetail,
   notFoundComponent: () => (
-    <PageShell>
+    <PublicLayout>
       <div className="mx-auto max-w-2xl px-4 py-24 text-center">
         <h1 className="text-2xl font-bold">Service not found</h1>
         <Link to="/government-services" className="mt-4 inline-block text-primary hover:underline">
           Back to services
         </Link>
       </div>
-    </PageShell>
+    </PublicLayout>
   ),
 });
 
@@ -111,7 +111,7 @@ function ServiceDetail() {
   };
 
   return (
-    <PageShell>
+    <PublicLayout>
       <section className="bg-navy py-14 text-white">
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
           <Link
@@ -213,6 +213,6 @@ function ServiceDetail() {
         </div>
         <HelpfulFeedback contentType="service" contentSlug={service.slug} contentTitle={service.title} />
       </section>
-    </PageShell>
+    </PublicLayout>
   );
 }

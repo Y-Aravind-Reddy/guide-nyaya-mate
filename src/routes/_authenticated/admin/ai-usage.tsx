@@ -23,7 +23,6 @@ import {
   Tooltip,
   CartesianGrid,
 } from "recharts";
-import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
 import { adminAiUsage } from "@/lib/ai-usage.functions";
 import { cn } from "@/lib/utils";
@@ -76,11 +75,9 @@ function AiUsagePage() {
 
   if (isLoading) {
     return (
-      <DashboardLayout title="AI Usage">
         <div className="grid place-items-center py-24">
           <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
         </div>
-      </DashboardLayout>
     );
   }
   if (!isAdmin) {

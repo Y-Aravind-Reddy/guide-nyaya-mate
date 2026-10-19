@@ -2,7 +2,6 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Bookmark, FileText, Save, Trash2 } from "lucide-react";
 import { toast } from "sonner";
-import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -50,7 +49,6 @@ function SavedPage() {
   };
 
   return (
-    <DashboardLayout title="Saved Items">
       <h2 className="text-2xl font-extrabold text-foreground">Saved Items</h2>
       <p className="mt-1 text-sm text-muted-foreground">Your saved services and bookmarked legal topics.</p>
 
@@ -110,7 +108,6 @@ function SavedPage() {
           </div>
         </div>
       </div>
-    </DashboardLayout>
   );
 }
 

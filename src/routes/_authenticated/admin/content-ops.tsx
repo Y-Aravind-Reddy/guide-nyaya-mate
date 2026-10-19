@@ -13,7 +13,6 @@ import {
   ShieldOff,
   FileWarning,
 } from "lucide-react";
-import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
 import { Button } from "@/components/ui/button";
 import {
@@ -54,7 +53,6 @@ function ContentOpsPage() {
 
   if (!adminLoading && !isAdmin) {
     return (
-      <DashboardLayout title="Content Operations">
         <div className="grid place-items-center rounded-[20px] border border-border bg-card p-16 text-center shadow-card">
           <Gauge className="h-10 w-10 text-muted-foreground" />
           <h2 className="mt-4 text-lg font-bold text-foreground">Admin access required</h2>
@@ -62,7 +60,6 @@ function ContentOpsPage() {
             Back to Dashboard
           </Button>
         </div>
-      </DashboardLayout>
     );
   }
 

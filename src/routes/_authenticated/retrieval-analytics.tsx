@@ -2,7 +2,6 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { Activity, Clock, Search, XCircle, Zap, TrendingUp } from "lucide-react";
-import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
 import { Button } from "@/components/ui/button";
 import { retrievalAnalytics } from "@/lib/kb.functions";
@@ -33,7 +32,6 @@ function RetrievalAnalyticsPage() {
 
   if (!adminLoading && !isAdmin) {
     return (
-      <DashboardLayout title="Retrieval Analytics">
         <div className="grid place-items-center rounded-[20px] border border-border bg-card p-16 text-center shadow-card">
           <Activity className="h-10 w-10 text-muted-foreground" />
           <h2 className="mt-4 text-lg font-bold text-foreground">Admin access required</h2>
@@ -41,7 +39,6 @@ function RetrievalAnalyticsPage() {
             Back to Dashboard
           </Button>
         </div>
-      </DashboardLayout>
     );
   }
 

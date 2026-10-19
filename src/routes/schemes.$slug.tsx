@@ -7,7 +7,7 @@ import {
   ListChecks,
   ShieldCheck,
 } from "lucide-react";
-import { PageShell } from "@/components/layouts/PageShell";
+import { PublicLayout } from "@/components/layouts/PublicLayout";
 import { Breadcrumbs } from "@/components/nav/Breadcrumbs";
 import { HelpfulFeedback } from "@/components/feedback/HelpfulFeedback";
 import { VerifiedBadge } from "@/components/trust/VerifiedBadge";
@@ -45,14 +45,14 @@ export const Route = createFileRoute("/schemes/$slug")({
   }),
   component: SchemeDetail,
   notFoundComponent: () => (
-    <PageShell>
+    <PublicLayout>
       <div className="mx-auto max-w-2xl px-4 py-24 text-center">
         <h1 className="text-2xl font-bold">Scheme not found</h1>
         <Link to="/schemes" className="mt-4 inline-block text-primary hover:underline">
           Back to schemes
         </Link>
       </div>
-    </PageShell>
+    </PublicLayout>
   ),
 });
 
@@ -69,7 +69,7 @@ function SchemeDetail() {
   ].filter((s) => s.body);
 
   return (
-    <PageShell>
+    <PublicLayout>
       <section className="bg-navy py-14 text-white">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
           <Link
@@ -124,6 +124,6 @@ function SchemeDetail() {
         )}
         <HelpfulFeedback contentType="scheme" contentSlug={scheme.slug} contentTitle={scheme.title} />
       </section>
-    </PageShell>
+    </PublicLayout>
   );
 }
