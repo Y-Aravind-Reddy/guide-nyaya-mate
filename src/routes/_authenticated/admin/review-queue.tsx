@@ -56,7 +56,6 @@ function ReviewQueuePage() {
   const s = data?.summary;
 
   return (
-    <DashboardLayout title="AI Review Queue">
       <div>
         <h2 className="text-2xl font-extrabold text-foreground sm:text-3xl">AI Review Queue</h2>
         <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
@@ -144,6 +143,5 @@ function ReviewQueuePage() {
           </GlassCard>
         </div>
       </div>
-    </DashboardLayout>
   );
 }

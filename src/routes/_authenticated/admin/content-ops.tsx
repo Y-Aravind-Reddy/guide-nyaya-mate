@@ -70,7 +70,6 @@ function ContentOpsPage() {
   ];
 
   return (
-    <DashboardLayout title="Content Operations">
       <div>
         <h2 className="text-2xl font-extrabold text-foreground sm:text-3xl">Content Operations</h2>
         <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
@@ -101,7 +100,6 @@ function ContentOpsPage() {
         {tab === "coverage" && isAdmin ? <CoverageTab /> : null}
         {tab === "links" && isAdmin ? <LinksTab /> : null}
       </div>
-    </DashboardLayout>
   );
 }
 

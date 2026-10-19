@@ -189,7 +189,6 @@ function OfficialSourcesPage() {
   );
 
   return (
-    <DashboardLayout title="Official Sources">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h2 className="text-2xl font-extrabold text-foreground sm:text-3xl">Official Sources</h2>
@@ -456,6 +455,5 @@ function OfficialSourcesPage() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </DashboardLayout>
   );
 }

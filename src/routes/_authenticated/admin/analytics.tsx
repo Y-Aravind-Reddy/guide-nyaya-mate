@@ -87,7 +87,6 @@ function AnalyticsPage() {
   }
 
   return (
-    <DashboardLayout title="Analytics">
       <div>
         <h2 className="text-2xl font-extrabold text-foreground sm:text-3xl">Analytics</h2>
         <p className="mt-1 max-w-xl text-sm text-muted-foreground">
@@ -144,6 +143,5 @@ function AnalyticsPage() {
           items={portal?.topServices ?? []}
         />
       </div>
-    </DashboardLayout>
   );
 }

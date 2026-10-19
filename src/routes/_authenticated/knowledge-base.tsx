@@ -315,7 +315,6 @@ function KnowledgeBasePage() {
   ];
 
   return (
-    <DashboardLayout title="Knowledge Base">
       {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div>
@@ -547,7 +546,6 @@ function KnowledgeBasePage() {
         onSubmit={(form) => saveMeta.mutate(form)}
       />
       <DocumentPreviewDialog doc={previewDoc} open={previewOpen} onOpenChange={setPreviewOpen} />
-    </DashboardLayout>
   );
 }
 

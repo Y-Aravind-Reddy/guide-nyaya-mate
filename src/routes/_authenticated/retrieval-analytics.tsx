@@ -50,7 +50,6 @@ function RetrievalAnalyticsPage() {
   ];
 
   return (
-    <DashboardLayout title="Retrieval Analytics">
       <div>
         <h2 className="text-2xl font-extrabold text-foreground sm:text-3xl">Retrieval Analytics</h2>
         <p className="mt-1 max-w-xl text-sm text-muted-foreground">
@@ -147,6 +146,5 @@ function RetrievalAnalyticsPage() {
           </tbody>
         </table>
       </div>
-    </DashboardLayout>
   );
 }

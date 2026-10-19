@@ -67,7 +67,6 @@ function KnowledgeHealthPage() {
 
   return (
     <AdminOnly>
-      <DashboardLayout title="Knowledge Health">
         <div>
           <h2 className="text-2xl font-extrabold text-foreground sm:text-3xl">Knowledge Health</h2>
           <p className="mt-1 max-w-xl text-sm text-muted-foreground">
@@ -159,7 +158,6 @@ function KnowledgeHealthPage() {
         {isLoading ? (
           <p className="mt-6 text-sm text-muted-foreground">Loading live metrics…</p>
         ) : null}
-      </DashboardLayout>
     </AdminOnly>
   );
 }

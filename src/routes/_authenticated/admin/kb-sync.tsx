@@ -71,13 +71,11 @@ function KbSyncPage() {
   }
   if (!isAdmin) {
     return (
-      <DashboardLayout title="Knowledge Base Sync">
         <div className="rounded-2xl border border-border bg-card p-10 text-center">
           <p className="text-sm text-muted-foreground">
             You need admin access to view the Knowledge Base Sync Engine.
           </p>
         </div>
-      </DashboardLayout>
     );
   }
 

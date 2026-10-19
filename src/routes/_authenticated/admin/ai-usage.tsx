@@ -82,11 +82,9 @@ function AiUsagePage() {
   }
   if (!isAdmin) {
     return (
-      <DashboardLayout title="AI Usage">
         <div className="rounded-2xl border border-border bg-card p-10 text-center">
           <p className="text-sm text-muted-foreground">Admin access required.</p>
         </div>
-      </DashboardLayout>
     );
   }
 

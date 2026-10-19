@@ -50,7 +50,6 @@ function NotificationsPage() {
   const notifications = data?.notifications ?? [];
 
   return (
-    <DashboardLayout title="Notifications">
       <div>
         <h2 className="text-2xl font-extrabold text-foreground sm:text-3xl">Notification Center</h2>
         <p className="mt-1 max-w-xl text-sm text-muted-foreground">
@@ -107,6 +106,5 @@ function NotificationsPage() {
       <p className="mt-6 flex items-center gap-1.5 text-xs text-muted-foreground">
         <BellRing className="h-3.5 w-3.5" /> Alerts refresh automatically from live system metrics.
       </p>
-    </DashboardLayout>
   );
 }

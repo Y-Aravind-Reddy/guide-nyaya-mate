@@ -53,7 +53,6 @@ function ContentHealthPage() {
   ] as const;
 
   return (
-    <DashboardLayout title="Content Health">
       <div>
         <h2 className="text-2xl font-extrabold text-foreground sm:text-3xl">Content Health</h2>
         <p className="mt-1 max-w-xl text-sm text-muted-foreground">
@@ -131,6 +130,5 @@ function ContentHealthPage() {
           </GlassCard>
         ))}
       </div>
-    </DashboardLayout>
   );
 }

@@ -41,7 +41,6 @@ function LaunchReadinessPage() {
   }
 
   return (
-    <DashboardLayout title="Launch Readiness">
       <div>
         <h2 className="text-2xl font-extrabold text-foreground sm:text-3xl">Launch Readiness</h2>
         <p className="mt-1 max-w-xl text-sm text-muted-foreground">
@@ -99,6 +98,5 @@ function LaunchReadinessPage() {
           </GlassCard>
         ))}
       </div>
-    </DashboardLayout>
   );
 }
