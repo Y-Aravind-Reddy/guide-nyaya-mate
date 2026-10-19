@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Compass, Eye, Flag, Heart, Rocket, ShieldCheck, Target } from "lucide-react";
-import { PageShell } from "@/components/layouts/PageShell";
+import { PublicLayout } from "@/components/layouts/PublicLayout";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/about")({
@@ -35,7 +35,7 @@ const ROADMAP = [
 
 function AboutPage() {
   return (
-    <PageShell>
+    <PublicLayout>
       <section className="bg-navy py-20 text-white">
         <div className="mx-auto max-w-4xl px-4 text-center sm:px-6">
           <p className="text-sm font-semibold uppercase tracking-wider text-secondary">About Us</p>
@@ -113,6 +113,6 @@ function AboutPage() {
           </Button>
         </div>
       </section>
-    </PageShell>
+    </PublicLayout>
   );
 }

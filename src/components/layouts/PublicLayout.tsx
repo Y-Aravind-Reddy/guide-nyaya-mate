@@ -4,7 +4,7 @@ import { Footer } from "@/components/landing/Footer";
 import { SkipToContent } from "@/components/a11y/SkipToContent";
 import { TrustBanner } from "@/components/trust/TrustBanner";
 
-export function PageShell({ children }: { children: ReactNode }) {
+export function PublicLayout({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen bg-background">
       <SkipToContent />

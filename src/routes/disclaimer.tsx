@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AlertTriangle, ExternalLink } from "lucide-react";
-import { PageShell } from "@/components/layouts/PageShell";
+import { PublicLayout } from "@/components/layouts/PublicLayout";
 import { Breadcrumbs } from "@/components/nav/Breadcrumbs";
 
 export const Route = createFileRoute("/disclaimer")({
@@ -23,7 +23,7 @@ export const Route = createFileRoute("/disclaimer")({
 
 function DisclaimerPage() {
   return (
-    <PageShell>
+    <PublicLayout>
       <div className="mx-auto max-w-3xl px-4 py-14 sm:px-6">
         <Breadcrumbs items={[{ label: "Home", to: "/" }, { label: "Disclaimer" }]} />
         <h1 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">Disclaimer</h1>
@@ -72,6 +72,6 @@ function DisclaimerPage() {
           </Link>
         </section>
       </div>
-    </PageShell>
+    </PublicLayout>
   );
 }

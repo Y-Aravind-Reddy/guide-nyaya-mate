@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { ArrowRight } from "lucide-react";
 import * as Icons from "lucide-react";
-import { PageShell } from "@/components/layouts/PageShell";
+import { PublicLayout } from "@/components/layouts/PublicLayout";
 import { legalTopicsQuery } from "@/lib/queries";
 
 export const Route = createFileRoute("/legal-rights/")({
@@ -35,7 +35,7 @@ function LegalRightsPage() {
   const filtered = topics.filter((t) => cat === "All" || t.category === cat);
 
   return (
-    <PageShell>
+    <PublicLayout>
       <section className="bg-navy py-16 text-white">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <p className="text-sm font-semibold uppercase tracking-wider text-secondary">Know Your Rights</p>
@@ -83,6 +83,6 @@ function LegalRightsPage() {
           ))}
         </div>
       </section>
-    </PageShell>
+    </PublicLayout>
   );
 }

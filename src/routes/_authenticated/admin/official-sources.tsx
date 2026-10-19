@@ -4,7 +4,6 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
 import { BadgeCheck, ExternalLink, Pencil, Plus, Search, ShieldAlert, Trash2 } from "lucide-react";
-import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -108,7 +107,6 @@ function OfficialSourcesPage() {
 
   if (!adminLoading && !isAdmin) {
     return (
-      <DashboardLayout title="Official Sources">
         <div className="grid place-items-center rounded-[20px] border border-border bg-card p-16 text-center shadow-card">
           <ShieldAlert className="h-10 w-10 text-muted-foreground" />
           <h2 className="mt-4 text-lg font-bold text-foreground">Admin access required</h2>
@@ -116,7 +114,6 @@ function OfficialSourcesPage() {
             Back to Dashboard
           </Button>
         </div>
-      </DashboardLayout>
     );
   }
 
@@ -192,7 +189,6 @@ function OfficialSourcesPage() {
   );
 
   return (
-    <DashboardLayout title="Official Sources">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h2 className="text-2xl font-extrabold text-foreground sm:text-3xl">Official Sources</h2>
@@ -459,6 +455,5 @@ function OfficialSourcesPage() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </DashboardLayout>
   );
 }

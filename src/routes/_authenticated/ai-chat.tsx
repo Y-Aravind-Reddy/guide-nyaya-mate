@@ -4,7 +4,6 @@ import { useMemo } from "react";
 import type { UIMessage } from "ai";
 import { MessageSquarePlus, MessageSquare, Star, Trash2 } from "lucide-react";
 import { z } from "zod";
-import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { ChatPanel } from "@/components/ai/ChatPanel";
 import {
   getConversation,
@@ -90,7 +89,6 @@ function AiChatPage() {
   const panelKey = activeId ?? "new";
 
   return (
-    <DashboardLayout title="AI Chat">
       <div className="grid h-[calc(100vh-9rem)] gap-5 lg:grid-cols-[280px_1fr]">
         <aside className="hidden flex-col rounded-[20px] border border-border bg-card p-3 lg:flex">
           <button
@@ -155,6 +153,5 @@ function AiChatPage() {
           />
         </div>
       </div>
-    </DashboardLayout>
   );
 }

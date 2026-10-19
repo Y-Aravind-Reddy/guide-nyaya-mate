@@ -3,7 +3,7 @@ import { useState } from "react";
 import { z } from "zod";
 import { Clock, Loader2, Mail, MapPin, Phone, Send } from "lucide-react";
 import { toast } from "sonner";
-import { PageShell } from "@/components/layouts/PageShell";
+import { PublicLayout } from "@/components/layouts/PublicLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -52,7 +52,7 @@ function ContactPage() {
   };
 
   return (
-    <PageShell>
+    <PublicLayout>
       <section className="bg-navy py-16 text-white">
         <div className="mx-auto max-w-4xl px-4 text-center sm:px-6">
           <p className="text-sm font-semibold uppercase tracking-wider text-secondary">Contact</p>
@@ -115,6 +115,6 @@ function ContactPage() {
           </form>
         </div>
       </section>
-    </PageShell>
+    </PublicLayout>
   );
 }

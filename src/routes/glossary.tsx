@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { BookA, Search } from "lucide-react";
-import { PageShell } from "@/components/layouts/PageShell";
+import { PublicLayout } from "@/components/layouts/PublicLayout";
 import { glossaryQuery } from "@/lib/queries";
 
 export const Route = createFileRoute("/glossary")({
@@ -48,7 +48,7 @@ function GlossaryPage() {
   }, [filtered]);
 
   return (
-    <PageShell>
+    <PublicLayout>
       <section className="bg-navy py-16 text-white">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
           <p className="text-sm font-semibold uppercase tracking-wider text-secondary">Glossary</p>
@@ -102,6 +102,6 @@ function GlossaryPage() {
           </div>
         )}
       </section>
-    </PageShell>
+    </PublicLayout>
   );
 }

@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Accessibility, Keyboard, Eye, Mail, MonitorSmartphone } from "lucide-react";
-import { PageShell } from "@/components/layouts/PageShell";
+import { PublicLayout } from "@/components/layouts/PublicLayout";
 import { Breadcrumbs } from "@/components/nav/Breadcrumbs";
 import { TrustBadges } from "@/components/trust/TrustBadges";
 
@@ -34,7 +34,7 @@ const KEYBOARD = [
 
 function AccessibilityPage() {
   return (
-    <PageShell>
+    <PublicLayout>
       <div className="mx-auto max-w-3xl px-4 py-14 sm:px-6">
         <Breadcrumbs items={[{ label: "Home", to: "/" }, { label: "Accessibility" }]} />
         <span className="inline-flex items-center gap-2 rounded-full bg-primary-light px-3.5 py-1.5 text-xs font-semibold text-primary">
@@ -128,6 +128,6 @@ function AccessibilityPage() {
           </p>
         </section>
       </div>
-    </PageShell>
+    </PublicLayout>
   );
 }

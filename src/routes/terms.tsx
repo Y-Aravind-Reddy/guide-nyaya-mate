@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { PageShell } from "@/components/layouts/PageShell";
+import { PublicLayout } from "@/components/layouts/PublicLayout";
 import { Breadcrumbs } from "@/components/nav/Breadcrumbs";
 
 export const Route = createFileRoute("/terms")({
@@ -73,7 +73,7 @@ const SECTIONS: { title: string; body: string[] }[] = [
 
 function TermsPage() {
   return (
-    <PageShell>
+    <PublicLayout>
       <div className="mx-auto max-w-3xl px-4 py-14 sm:px-6">
         <Breadcrumbs items={[{ label: "Home", to: "/" }, { label: "Terms & Conditions" }]} />
         <h1 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">Terms & Conditions</h1>
@@ -89,6 +89,6 @@ function TermsPage() {
           </section>
         ))}
       </div>
-    </PageShell>
+    </PublicLayout>
   );
 }

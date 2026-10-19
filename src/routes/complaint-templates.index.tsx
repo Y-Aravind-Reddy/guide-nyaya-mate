@@ -2,7 +2,7 @@ import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { ArrowRight, FileText, Search } from "lucide-react";
-import { PageShell } from "@/components/layouts/PageShell";
+import { PublicLayout } from "@/components/layouts/PublicLayout";
 import { Breadcrumbs } from "@/components/nav/Breadcrumbs";
 import { complaintTemplatesQuery } from "@/lib/queries";
 import { breadcrumbSchema, jsonLdScript } from "@/lib/structured-data";
@@ -56,7 +56,7 @@ function TemplatesPage() {
   );
 
   return (
-    <PageShell>
+    <PublicLayout>
       <section className="bg-navy py-16 text-white">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <p className="text-sm font-semibold uppercase tracking-wider text-secondary">
@@ -147,6 +147,6 @@ function TemplatesPage() {
           the wording, add your own facts, and consult a lawyer for serious matters.
         </p>
       </section>
-    </PageShell>
+    </PublicLayout>
   );
 }

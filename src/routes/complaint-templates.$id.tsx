@@ -3,7 +3,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Check, Copy, Download, FileText } from "lucide-react";
 import { toast } from "sonner";
-import { PageShell } from "@/components/layouts/PageShell";
+import { PublicLayout } from "@/components/layouts/PublicLayout";
 import { Breadcrumbs } from "@/components/nav/Breadcrumbs";
 import { Button } from "@/components/ui/button";
 import { HelpfulFeedback } from "@/components/feedback/HelpfulFeedback";
@@ -79,7 +79,7 @@ function TemplateDetail() {
   };
 
   return (
-    <PageShell>
+    <PublicLayout>
       <section className="bg-navy py-14 text-white">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <span className="inline-flex rounded-full bg-white/10 px-3 py-1 text-xs font-semibold capitalize">
@@ -173,6 +173,6 @@ function TemplateDetail() {
           />
         </div>
       </section>
-    </PageShell>
+    </PublicLayout>
   );
 }

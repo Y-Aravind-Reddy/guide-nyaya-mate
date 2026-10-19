@@ -2,7 +2,6 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { Gauge, BellRing, AlertOctagon, AlertTriangle, Info, CheckCircle2 } from "lucide-react";
-import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
 import { Button } from "@/components/ui/button";
 import { adminNotifications } from "@/lib/admin-health.functions";
@@ -38,7 +37,6 @@ function NotificationsPage() {
 
   if (!adminLoading && !isAdmin) {
     return (
-      <DashboardLayout title="Notifications">
         <div className="grid place-items-center rounded-[20px] border border-border bg-card p-16 text-center shadow-card">
           <Gauge className="h-10 w-10 text-muted-foreground" />
           <h2 className="mt-4 text-lg font-bold text-foreground">Admin access required</h2>
@@ -46,14 +44,12 @@ function NotificationsPage() {
             Back to Dashboard
           </Button>
         </div>
-      </DashboardLayout>
     );
   }
 
   const notifications = data?.notifications ?? [];
 
   return (
-    <DashboardLayout title="Notifications">
       <div>
         <h2 className="text-2xl font-extrabold text-foreground sm:text-3xl">Notification Center</h2>
         <p className="mt-1 max-w-xl text-sm text-muted-foreground">
@@ -110,6 +106,5 @@ function NotificationsPage() {
       <p className="mt-6 flex items-center gap-1.5 text-xs text-muted-foreground">
         <BellRing className="h-3.5 w-3.5" /> Alerts refresh automatically from live system metrics.
       </p>
-    </DashboardLayout>
   );
 }

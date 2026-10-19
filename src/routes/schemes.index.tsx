@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { ArrowRight, Landmark, Search } from "lucide-react";
-import { PageShell } from "@/components/layouts/PageShell";
+import { PublicLayout } from "@/components/layouts/PublicLayout";
 import { schemesQuery } from "@/lib/queries";
 
 export const Route = createFileRoute("/schemes/")({
@@ -46,7 +46,7 @@ function SchemesPage() {
   );
 
   return (
-    <PageShell>
+    <PublicLayout>
       <section className="bg-navy py-16 text-white">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <p className="text-sm font-semibold uppercase tracking-wider text-secondary">Welfare Schemes</p>
@@ -110,6 +110,6 @@ function SchemesPage() {
           </div>
         )}
       </section>
-    </PageShell>
+    </PublicLayout>
   );
 }

@@ -3,7 +3,7 @@ import { useMemo, useState } from "react";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { ArrowRight, BookOpen, Landmark, Scale, Search, ShieldCheck } from "lucide-react";
 import * as Icons from "lucide-react";
-import { PageShell } from "@/components/layouts/PageShell";
+import { PublicLayout } from "@/components/layouts/PublicLayout";
 import { Breadcrumbs } from "@/components/nav/Breadcrumbs";
 import { legalTopicsQuery, lawsQuery } from "@/lib/queries";
 import { breadcrumbSchema, jsonLdScript } from "@/lib/structured-data";
@@ -77,7 +77,7 @@ function LegalKnowledgeCenter() {
   );
 
   return (
-    <PageShell>
+    <PublicLayout>
       <section className="bg-navy py-16 text-white">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <p className="text-sm font-semibold uppercase tracking-wider text-secondary">
@@ -221,6 +221,6 @@ function LegalKnowledgeCenter() {
           </div>
         )}
       </section>
-    </PageShell>
+    </PublicLayout>
   );
 }

@@ -3,7 +3,6 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { MessageSquare, Search, Star, Trash2, Pencil } from "lucide-react";
 import { toast } from "sonner";
-import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import {
   listConversations,
   deleteConversation,
@@ -56,7 +55,6 @@ function ChatHistoryPage() {
   };
 
   return (
-    <DashboardLayout title="Chat History">
       <div className="mb-5 flex items-center gap-2 rounded-xl border border-border bg-card px-3 py-2">
         <Search className="h-4 w-4 text-muted-foreground" />
         <input
@@ -109,6 +107,5 @@ function ChatHistoryPage() {
           </div>
         ))}
       </div>
-    </DashboardLayout>
   );
 }

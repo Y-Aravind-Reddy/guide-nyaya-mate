@@ -21,7 +21,6 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
-import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
 import { supabase } from "@/integrations/supabase/client";
 import { StatusBadge } from "@/components/kb/StatusBadge";
@@ -285,7 +284,6 @@ function KnowledgeBasePage() {
 
   if (!adminLoading && !isAdmin) {
     return (
-      <DashboardLayout title="Knowledge Base">
         <div className="grid place-items-center rounded-[20px] border border-border bg-card p-16 text-center shadow-card">
           <Database className="h-10 w-10 text-muted-foreground" />
           <h2 className="mt-4 text-lg font-bold text-foreground">Admin access required</h2>
@@ -296,7 +294,6 @@ function KnowledgeBasePage() {
             Back to Dashboard
           </Button>
         </div>
-      </DashboardLayout>
     );
   }
 
@@ -318,7 +315,6 @@ function KnowledgeBasePage() {
   ];
 
   return (
-    <DashboardLayout title="Knowledge Base">
       {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div>
@@ -550,7 +546,6 @@ function KnowledgeBasePage() {
         onSubmit={(form) => saveMeta.mutate(form)}
       />
       <DocumentPreviewDialog doc={previewDoc} open={previewOpen} onOpenChange={setPreviewOpen} />
-    </DashboardLayout>
   );
 }
 

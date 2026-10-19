@@ -15,7 +15,6 @@ import {
   ChevronDown,
   Loader2,
 } from "lucide-react";
-import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -65,22 +64,18 @@ function KbSyncPage() {
 
   if (isLoading) {
     return (
-      <DashboardLayout title="Knowledge Base Sync">
         <div className="grid place-items-center py-24">
           <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
         </div>
-      </DashboardLayout>
     );
   }
   if (!isAdmin) {
     return (
-      <DashboardLayout title="Knowledge Base Sync">
         <div className="rounded-2xl border border-border bg-card p-10 text-center">
           <p className="text-sm text-muted-foreground">
             You need admin access to view the Knowledge Base Sync Engine.
           </p>
         </div>
-      </DashboardLayout>
     );
   }
 

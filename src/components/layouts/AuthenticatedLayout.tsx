@@ -63,19 +63,14 @@ const ADMIN_NAV = [
   { icon: Activity, label: "Retrieval Analytics", to: "/retrieval-analytics" },
 ] as const;
 
-export function DashboardLayout({
-  children,
-  title,
-}: {
-  children: ReactNode;
-  title?: string;
-}) {
+export function AuthenticatedLayout({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
   const { user, signOut } = useAuth();
   const { isAdmin } = useIsAdmin();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const title = [...NAV, ...ADMIN_NAV].find((item) => item.to === pathname)?.label;
 
   const initial =
     (user?.user_metadata?.full_name as string | undefined)?.[0]?.toUpperCase() ??

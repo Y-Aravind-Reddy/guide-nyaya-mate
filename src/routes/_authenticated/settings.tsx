@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { Bell, Lock, Loader2, Palette, ShieldAlert, Trash2 } from "lucide-react";
 import { toast } from "sonner";
-import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -63,7 +62,6 @@ function SettingsPage() {
   };
 
   return (
-    <DashboardLayout title="Settings">
       <div className="mx-auto max-w-2xl space-y-6">
         <div>
           <h2 className="text-2xl font-extrabold text-foreground">Settings</h2>
@@ -141,6 +139,5 @@ function SettingsPage() {
           </div>
         </Section>
       </div>
-    </DashboardLayout>
   );
 }

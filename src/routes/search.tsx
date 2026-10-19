@@ -13,7 +13,7 @@ import {
   Clock,
   X,
 } from "lucide-react";
-import { PageShell } from "@/components/layouts/PageShell";
+import { PublicLayout } from "@/components/layouts/PublicLayout";
 import { globalSearch, type SearchResult } from "@/lib/search.functions";
 import { cn } from "@/lib/utils";
 
@@ -144,7 +144,7 @@ function SearchPage() {
   const showRecent = useMemo(() => !debounced.trim() && recent.length > 0, [debounced, recent]);
 
   return (
-    <PageShell>
+    <PublicLayout>
       <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6">
         <h1 className="text-3xl font-bold text-foreground">Search NyayaMate</h1>
         <p className="mt-1 text-sm text-muted-foreground">
@@ -325,6 +325,6 @@ function SearchPage() {
           )}
         </div>
       </div>
-    </PageShell>
+    </PublicLayout>
   );
 }

@@ -1,7 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { ArrowLeft, CalendarClock, ExternalLink, Landmark, Link2 } from "lucide-react";
-import { PageShell } from "@/components/layouts/PageShell";
+import { PublicLayout } from "@/components/layouts/PublicLayout";
 import { Breadcrumbs } from "@/components/nav/Breadcrumbs";
 import { HelpfulFeedback } from "@/components/feedback/HelpfulFeedback";
 import { lawDetailQuery } from "@/lib/queries";
@@ -34,14 +34,14 @@ export const Route = createFileRoute("/laws/$slug")({
   }),
   component: LawDetail,
   notFoundComponent: () => (
-    <PageShell>
+    <PublicLayout>
       <div className="mx-auto max-w-2xl px-4 py-24 text-center">
         <h1 className="text-2xl font-bold">Law not found</h1>
         <Link to="/laws" className="mt-4 inline-block text-primary hover:underline">
           Back to Law Explorer
         </Link>
       </div>
-    </PageShell>
+    </PublicLayout>
   ),
 });
 
@@ -51,7 +51,7 @@ function LawDetail() {
   const { law, sections } = data!;
 
   return (
-    <PageShell>
+    <PublicLayout>
       <section className="bg-navy py-14 text-white">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
           <Link
@@ -159,6 +159,6 @@ function LawDetail() {
 
         <HelpfulFeedback contentType="legal_topic" contentSlug={slug} contentTitle={law.title} />
       </section>
-    </PageShell>
+    </PublicLayout>
   );
 }
