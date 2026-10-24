@@ -35,20 +35,16 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   return (
-    <div className="min-h-screen bg-background">
-      <Navbar />
-      <main>
-        <Hero />
-        <Features />
-        <ServicesGrid />
-        <Services />
-        <HowItWorks />
-        <WhyNyayaMate />
-        <SocialProof />
-        <FAQ />
-        <CTA />
-      </main>
-      <Footer />
-    </div>
+    <PublicLayout>
+      <Hero />
+      <Features />
+      <ServicesGrid />
+      <Services />
+      <HowItWorks />
+      <WhyNyayaMate />
+      <SocialProof />
+      <FAQ />
+      <CTA />
+    </PublicLayout>
   );
 }
