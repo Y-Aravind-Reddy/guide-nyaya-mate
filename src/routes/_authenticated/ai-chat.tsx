@@ -89,6 +89,7 @@ function AiChatPage() {
   const panelKey = activeId ?? "new";
 
   return (
+    <>
       <div className="grid h-[calc(100vh-9rem)] gap-5 lg:grid-cols-[280px_1fr]">
         <aside className="hidden flex-col rounded-[20px] border border-border bg-card p-3 lg:flex">
           <button
@@ -153,5 +154,6 @@ function AiChatPage() {
           />
         </div>
       </div>
+    </>
   );
 }

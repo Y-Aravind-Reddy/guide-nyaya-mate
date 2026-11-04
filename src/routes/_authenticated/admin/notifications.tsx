@@ -37,6 +37,7 @@ function NotificationsPage() {
 
   if (!adminLoading && !isAdmin) {
     return (
+      <>
         <div className="grid place-items-center rounded-[20px] border border-border bg-card p-16 text-center shadow-card">
           <Gauge className="h-10 w-10 text-muted-foreground" />
           <h2 className="mt-4 text-lg font-bold text-foreground">Admin access required</h2>
@@ -44,12 +45,14 @@ function NotificationsPage() {
             Back to Dashboard
           </Button>
         </div>
+      </>
     );
   }
 
   const notifications = data?.notifications ?? [];
 
   return (
+    <>
       <div>
         <h2 className="text-2xl font-extrabold text-foreground sm:text-3xl">Notification Center</h2>
         <p className="mt-1 max-w-xl text-sm text-muted-foreground">
@@ -106,5 +109,6 @@ function NotificationsPage() {
       <p className="mt-6 flex items-center gap-1.5 text-xs text-muted-foreground">
         <BellRing className="h-3.5 w-3.5" /> Alerts refresh automatically from live system metrics.
       </p>
+    </>
   );
 }

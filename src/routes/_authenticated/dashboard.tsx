@@ -56,6 +56,7 @@ function DashboardPage() {
   ];
 
   return (
+    <>
       <div className="relative overflow-hidden rounded-[24px] bg-navy p-7 text-white shadow-premium sm:p-9">
         <div className="pointer-events-none absolute -right-10 -top-10 h-48 w-48 rounded-full bg-secondary/20 blur-3xl" />
         <div className="relative">
@@ -152,5 +153,6 @@ function DashboardPage() {
         </div>
       </div>
       {isAdmin ? <AdminWidgets /> : null}
+    </>
   );
 }

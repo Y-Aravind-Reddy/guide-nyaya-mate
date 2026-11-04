@@ -55,6 +55,7 @@ function ChatHistoryPage() {
   };
 
   return (
+    <>
       <div className="mb-5 flex items-center gap-2 rounded-xl border border-border bg-card px-3 py-2">
         <Search className="h-4 w-4 text-muted-foreground" />
         <input
@@ -107,5 +108,6 @@ function ChatHistoryPage() {
           </div>
         ))}
       </div>
+    </>
   );
 }

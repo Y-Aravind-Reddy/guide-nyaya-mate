@@ -43,6 +43,7 @@ function ReviewQueuePage() {
 
   if (!adminLoading && !isAdmin) {
     return (
+      <>
         <div className="grid place-items-center rounded-[20px] border border-border bg-card p-16 text-center shadow-card">
           <Gauge className="h-10 w-10 text-muted-foreground" />
           <h2 className="mt-4 text-lg font-bold text-foreground">Admin access required</h2>
@@ -50,12 +51,14 @@ function ReviewQueuePage() {
             Back to Dashboard
           </Button>
         </div>
+      </>
     );
   }
 
   const s = data?.summary;
 
   return (
+    <>
       <div>
         <h2 className="text-2xl font-extrabold text-foreground sm:text-3xl">AI Review Queue</h2>
         <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
@@ -143,5 +146,6 @@ function ReviewQueuePage() {
           </GlassCard>
         </div>
       </div>
+    </>
   );
 }

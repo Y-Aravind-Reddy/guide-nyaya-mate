@@ -64,18 +64,22 @@ function KbSyncPage() {
 
   if (isLoading) {
     return (
+      <>
         <div className="grid place-items-center py-24">
           <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
         </div>
+      </>
     );
   }
   if (!isAdmin) {
     return (
+      <>
         <div className="rounded-2xl border border-border bg-card p-10 text-center">
           <p className="text-sm text-muted-foreground">
             You need admin access to view the Knowledge Base Sync Engine.
           </p>
         </div>
+      </>
     );
   }
 
@@ -174,7 +178,7 @@ function SyncEngine() {
   };
 
   return (
-    <DashboardLayout title="Knowledge Base Sync">
+    <>
       <div className="space-y-6">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
@@ -275,7 +279,7 @@ function SyncEngine() {
           </div>
         )}
       </div>
-    </DashboardLayout>
+    </>
   );
 }
 

@@ -74,6 +74,7 @@ function ProfilePage() {
   };
 
   return (
+    <>
       <div className="mx-auto max-w-2xl">
         <h2 className="text-2xl font-extrabold text-foreground">Your Profile</h2>
         <p className="mt-1 text-sm text-muted-foreground">Manage your personal details.</p>
@@ -145,5 +146,6 @@ function ProfilePage() {
           </Button>
         </div>
       </div>
+    </>
   );
 }
