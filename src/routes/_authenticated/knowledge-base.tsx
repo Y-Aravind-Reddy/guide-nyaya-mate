@@ -284,6 +284,7 @@ function KnowledgeBasePage() {
 
   if (!adminLoading && !isAdmin) {
     return (
+      <>
         <div className="grid place-items-center rounded-[20px] border border-border bg-card p-16 text-center shadow-card">
           <Database className="h-10 w-10 text-muted-foreground" />
           <h2 className="mt-4 text-lg font-bold text-foreground">Admin access required</h2>
@@ -294,6 +295,7 @@ function KnowledgeBasePage() {
             Back to Dashboard
           </Button>
         </div>
+      </>
     );
   }
 
@@ -315,6 +317,7 @@ function KnowledgeBasePage() {
   ];
 
   return (
+    <>
       {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div>
@@ -546,6 +549,7 @@ function KnowledgeBasePage() {
         onSubmit={(form) => saveMeta.mutate(form)}
       />
       <DocumentPreviewDialog doc={previewDoc} open={previewOpen} onOpenChange={setPreviewOpen} />
+    </>
   );
 }
 

@@ -75,23 +75,27 @@ function AiUsagePage() {
 
   if (isLoading) {
     return (
+      <>
         <div className="grid place-items-center py-24">
           <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
         </div>
+      </>
     );
   }
   if (!isAdmin) {
     return (
+      <>
         <div className="rounded-2xl border border-border bg-card p-10 text-center">
           <p className="text-sm text-muted-foreground">Admin access required.</p>
         </div>
+      </>
     );
   }
 
   const s = data?.summary;
 
   return (
-    <DashboardLayout title="AI Usage">
+    <>
       <div className="space-y-6">
         <div>
           <h2 className="flex items-center gap-2 text-2xl font-bold text-foreground">
@@ -234,7 +238,7 @@ function AiUsagePage() {
           </>
         )}
       </div>
-    </DashboardLayout>
+    </>
   );
 }
 
