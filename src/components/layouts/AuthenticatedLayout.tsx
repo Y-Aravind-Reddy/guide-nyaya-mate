@@ -163,7 +163,7 @@ export function AuthenticatedLayout({ children }: { children: ReactNode }) {
               N
             </span>
           </Link>
-          <button className="lg:hidden" onClick={() => setOpen(false)} aria-label="Close menu">
+          <button className="md:hidden" onClick={() => setOpen(false)} aria-label="Close menu">
             <X className="h-5 w-5 text-muted-foreground" />
           </button>
         </div>
