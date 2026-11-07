@@ -3,8 +3,20 @@ import { Navbar } from "@/components/landing/Navbar";
 import { Footer } from "@/components/landing/Footer";
 import { SkipToContent } from "@/components/a11y/SkipToContent";
 import { TrustBanner } from "@/components/trust/TrustBanner";
+import { AuthenticatedLayout } from "@/components/layouts/AuthenticatedLayout";
+import { useAuth } from "@/hooks/useAuth";
 
 export function PublicLayout({ children }: { children: ReactNode }) {
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return <div className="min-h-screen bg-background">{children}</div>;
+  }
+
+  if (user) {
+    return <AuthenticatedLayout>{children}</AuthenticatedLayout>;
+  }
+
   return (
     <div className="min-h-screen bg-background">
       <SkipToContent />
