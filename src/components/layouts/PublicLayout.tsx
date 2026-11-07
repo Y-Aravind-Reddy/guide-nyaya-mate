@@ -10,7 +10,13 @@ export function PublicLayout({ children }: { children: ReactNode }) {
   const { user, loading } = useAuth();
 
   if (loading) {
-    return <div className="min-h-screen bg-background">{children}</div>;
+    return (
+      <div className="grid min-h-screen place-items-center bg-background" aria-busy="true">
+        <span role="status" className="text-sm text-muted-foreground">
+          Loading NyayaMate AI…
+        </span>
+      </div>
+    );
   }
 
   if (user) {
