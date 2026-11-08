@@ -140,14 +140,14 @@ export function AuthenticatedLayout({ children }: { children: ReactNode }) {
           className={itemClass(active)}
         >
           <item.icon className="h-5 w-5 shrink-0" aria-hidden="true" />
-          <span className="hidden truncate lg:inline">{item.label}</span>
-          <span className="sr-only lg:hidden">{item.label}</span>
+          <span className="inline truncate md:hidden lg:inline">{item.label}</span>
+          <span className="sr-only md:inline lg:hidden">{item.label}</span>
         </Link>
       );
     });
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen overflow-x-clip bg-background">
       <aside
         aria-label="Dashboard navigation"
         className={`fixed inset-y-0 left-0 z-50 flex w-64 transform flex-col border-r border-border bg-card transition-transform duration-300 md:w-16 md:translate-x-0 lg:w-64 ${
