@@ -1,50 +1,49 @@
 /**
  * Government service & legal category colour system.
  *
- * Single source of truth for the Indian-inspired category palette.
+ * Single source of truth for the Indian tricolour category palette.
  * Apply to icons, small borders, tags and subtle card backgrounds —
  * never to entire page backgrounds.
  */
 export const CATEGORY_COLORS: Record<string, string> = {
-  // Service-specific (as specified)
-  aadhaar: "#DC2626", // Red
-  pan: "#7C3AED", // Violet
-  passport: "#0F766E", // Teal
-  "driving licence": "#F97316", // Orange
-  "driving license": "#F97316",
-  "birth certificate": "#16A34A", // Green
-  "death certificate": "#475569", // Slate
-  "voter id": "#6366F1", // Indigo
-  "ration card": "#D97706", // Amber
-  "property & land": "#92400E", // Brown
-  "banking & financial fraud": "#0D9488", // Teal
-  "consumer rights": "#CA8A04", // Golden yellow
-  "labour rights": "#EA580C", // Orange
-  "women's rights": "#DB2777", // Pink
-  rti: "#0284C7", // Cyan
-  "court & legal procedures": "#7C3AED", // Violet
-  "schemes & benefits": "#059669", // Green
+  // Service-specific categories use only saffron and India Green.
+  aadhaar: "#FF9933",
+  pan: "#FF9933",
+  passport: "#FF9933",
+  "driving licence": "#FF9933",
+  "driving license": "#FF9933",
+  "birth certificate": "#138808",
+  "death certificate": "#138808",
+  "voter id": "#FF9933",
+  "ration card": "#138808",
+  "property & land": "#138808",
+  "banking & financial fraud": "#138808",
+  "consumer rights": "#138808",
+  "labour rights": "#138808",
+  "women's rights": "#138808",
+  rti: "#138808",
+  "court & legal procedures": "#138808",
+  "schemes & benefits": "#138808",
 
   // Broad content categories (database values)
-  identity: "#DC2626",
-  welfare: "#16A34A",
-  revenue: "#92400E",
-  finance: "#0D9488",
-  property: "#92400E",
-  employment: "#EA580C",
-  civic: "#6366F1",
-  transport: "#F97316",
-  legal: "#7C3AED",
-  // Common extras
-  documents: "#0F766E",
-  complaints: "#6366F1",
-  "cyber crime": "#0284C7",
-  schemes: "#059669",
-  education: "#7C3AED",
-  health: "#16A34A",
+  identity: "#FF9933",
+  welfare: "#138808",
+  revenue: "#138808",
+  finance: "#138808",
+  property: "#138808",
+  employment: "#138808",
+  civic: "#138808",
+  transport: "#FF9933",
+  legal: "#138808",
+  documents: "#FF9933",
+  complaints: "#138808",
+  "cyber crime": "#138808",
+  schemes: "#138808",
+  education: "#138808",
+  health: "#138808",
 };
 
-export const CATEGORY_FALLBACK = "#2563EB";
+export const CATEGORY_FALLBACK = "#138808";
 
 /** Resolve a category name to its accent hex, with substring matching. */
 export function getCategoryColor(category?: string | null): string {

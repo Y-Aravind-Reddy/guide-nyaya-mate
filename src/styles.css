@@ -45,60 +45,61 @@
   --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
 
-  --shadow-soft: 0 1px 2px rgba(15, 23, 42, 0.04), 0 8px 24px -8px rgba(15, 23, 42, 0.08);
-  --shadow-card: 0 1px 3px rgba(15, 23, 42, 0.06), 0 12px 32px -12px rgba(15, 23, 42, 0.12);
-  --shadow-premium: 0 24px 60px -20px rgba(11, 61, 145, 0.28);
+  --shadow-soft: 0 1px 2px rgba(33, 33, 33, 0.04), 0 8px 24px -8px rgba(33, 33, 33, 0.08);
+  --shadow-card: 0 1px 3px rgba(33, 33, 33, 0.06), 0 12px 32px -12px rgba(33, 33, 33, 0.12);
+  --shadow-premium: 0 24px 60px -20px rgba(33, 33, 33, 0.18);
 }
 
 :root {
   --radius: 0.875rem;
 
-  /* Charcoal text on soft white — premium citizen-first identity */
-  --background: #f8fafc;
-  --foreground: #111827;
+  /* Indian tricolour palette: saffron actions, green links and verified states. */
+  --background: #f8f9f6;
+  --foreground: #212121;
 
   --card: #ffffff;
-  --card-foreground: #111827;
+  --card-foreground: #212121;
 
   --popover: #ffffff;
-  --popover-foreground: #111827;
+  --popover-foreground: #212121;
 
-  /* Bright blue reserved for primary links, CTAs and information states */
-  --primary: #2563eb;
+  /* India Green is used for readable links and selected controls. */
+  --primary: #138808;
   --primary-foreground: #ffffff;
-  --primary-light: #eff6ff;
+  --primary-light: color-mix(in srgb, #138808 10%, #ffffff);
+  --action: #ff9933;
+  --action-foreground: #212121;
 
-  /* Emerald — AI accent, success, verified */
-  --secondary: #10b981;
+  /* India Green — verified states, active navigation and AI identity. */
+  --secondary: #138808;
   --secondary-foreground: #ffffff;
-  --secondary-strong: #059669;
+  --secondary-strong: #138808;
 
-  /* Saffron — highlights and warnings */
-  --accent: #f59e0b;
-  --accent-foreground: #ffffff;
+  /* Saffron highlights always use charcoal text for contrast. */
+  --accent: #ff9933;
+  --accent-foreground: #212121;
 
-  /* Charcoal — deep surfaces (was deep blue) */
-  --navy: #111827;
+  --navy: #212121;
 
-  --muted: #f1f5f9;
-  --muted-foreground: #64748b;
+  --muted: #f8f9f6;
+  --muted-foreground: #212121;
 
-  --destructive: #dc2626;
+  /* Errors use charcoal with explicit text and icon labels. */
+  --destructive: #212121;
   --destructive-foreground: #ffffff;
 
   --border: #e5e7eb;
   --input: #e5e7eb;
-  --ring: #2563eb;
+  --ring: #138808;
 
-  /* Legal content accent (violet) */
-  --legal: #7c3aed;
+  --legal: #138808;
 
   /* Verification & status colours */
-  --status-verified: #059669;
-  --status-review: #d97706;
-  --status-broken: #dc2626;
-  --status-draft: #64748b;
-  --status-info: #2563eb;
+  --status-verified: #138808;
+  --status-review: #ff9933;
+  --status-broken: #212121;
+  --status-draft: #212121;
+  --status-info: #138808;
 }
 
 @layer base {
@@ -121,10 +122,7 @@
 
 /* ---------- Gradients & utilities ---------- */
 @utility text-gradient-primary {
-  background: linear-gradient(90deg, #1d4ed8, #2563eb);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: var(--color-primary);
 }
 
 @utility glass-card {
