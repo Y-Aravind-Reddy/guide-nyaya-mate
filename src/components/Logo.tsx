@@ -10,7 +10,7 @@ export function Logo({ className, light = false }: { className?: string; light?:
       </div>
       <div className="flex flex-col leading-none">
         <span className={cn("text-lg font-extrabold tracking-tight", light ? "text-white" : "text-foreground")}>
-          NyayaMate <span className="text-secondary">AI</span>
+          NyayaMate <span className={light ? "text-accent" : "text-secondary"}>AI</span>
         </span>
         <span className={cn("text-[10px] font-medium tracking-wide", light ? "text-white/60" : "text-muted-foreground")}>
           Legal & Govt Guidance
